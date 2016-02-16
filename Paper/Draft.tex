@@ -46,8 +46,8 @@ All of this is possible, if the softbot can access all of the information reliab
  \subsection{Current merging strategies}
  Many different merging strategies have already been developed. All strategies follow the same two-step approach. The two steps are independent and as such different methods can be used interchangeably. The first step is to generate an initial correspondence set, where correspondences between nodes are found based on just their labels and meta-data. The second step is to use this initial set and the structure of the ontology to find more correspondences. These steps are called the terminological and the structural steps. Some strategies also use extra steps like the extensional and semantic steps, which use vector space models and inference, respectively. https://hal.inria.fr/hal-00917910/document
  
- Popular terminological strategies are WordNet comparison and edit distance. The former uses the popular WordNet hierarchy as a distance measure between to concepts, e.g. the number of edges between the concepts and their least general common superconcept. http://disi.unitn.it/~p2p/RelatedWork/Matching/Lin_WordNet_OM.pdf
- Edit distance is a purely string-based similarity measure. The similarity is a (weighted) count of edits required to transform one word into another, where common edits are insertion, deletion and replacement. Similar methods include substring matching and n-gram matching, which compare parts of the strings to find similarities. http://disi.unitn.it/~p2p/RelatedWork/Matching/6614ijdms01.pdf
+ Popular terminological strategies are WordNet comparison and edit distance. The former uses the popular WordNet hierarchy as a distance measure between to concepts, e.g. the number of edges between the concepts and their least general common superconcept. % http://disi.unitn.it/~p2p/RelatedWork/Matching/Lin_WordNet_OM.pdf
+ Edit distance is a purely string-based similarity measure. The similarity is a (weighted) count of edits required to transform one word into another, where common edits are insertion, deletion and replacement. Similar methods include substring matching and n-gram matching, which compare parts of the strings to find similarities. %http://disi.unitn.it/~p2p/RelatedWork/Matching/6614ijdms01.pdf
  \subsection{Other related research}
  \subsubsection{Word sense representation}
  Skip-gram models have been widely used to represent words as vectors. This is useful as it is easy to calculate the distance between two vectors, which is a useful property for ontology matching. This vector distance has been shown to be correlated with the semantic distance between words.
@@ -59,10 +59,10 @@ All of this is possible, if the softbot can access all of the information reliab
  \subsection{Used technology}
  \subsubsection{Ontology constructor}
  \subsubsection{AgreementMaker}
- AgreementMaker is an ontology matching system which obtained the highest F-measure in 6 of the 7 ontology matching tracks of OAEI 2015 http://disi.unitn.it/~pavel/om2015/papers/oaei15_paper1.pdf. The system has also been updated the most recent at the time of writing.
+ AgreementMaker is an ontology matching system which obtained the highest F-measure in 6 of the 7 ontology matching tracks of OAEI 2015 %http://disi.unitn.it/~pavel/om2015/papers/oaei15_paper1.pdf. The system has also been updated the most recent at the time of writing.
  
  The system uses an extensible framework which allows its users to add new modules to the system. This is very useful for research as it allows the researcher to compare different modules by swapping in just those modules in the framework. The module-swapping technique will also be used in this work, but more of that will be discussed in $Evaluation methods$.
- http://disi.unitn.it/~p2p/RelatedWork/Matching/vldb2009-revised.pdf
+ %http://disi.unitn.it/~p2p/RelatedWork/Matching/vldb2009-revised.pdf
  \subsubsection{MapReduce}
  
  \section{Method}
