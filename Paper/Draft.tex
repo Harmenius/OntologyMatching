@@ -1,7 +1,7 @@
  \documentclass{article}
  \usepackage[utf8]{inputenc}
  \usepackage[titletoc]{appendix}
- \title{Ontology Matching with Word2Vec}
+ \title{Ontology Matching with word2vec}
  \author{Harmen Prins}
  
  \begin{document}
@@ -43,19 +43,22 @@ All of this is possible, if the softbot can access all of the information reliab
  \subsection{Ontologies}
  \subsubsection{OWL}
  \subsubsection{Role}
- \subsection{Current merging strategies}
- Many different merging strategies have already been developed. All strategies follow the same two-step approach. The two steps are independent and as such different methods can be used interchangeably. The first step is to generate an initial correspondence set, where correspondences between nodes are found based on just their labels and meta-data. The second step is to use this initial set and the structure of the ontology to find more correspondences. These steps are called the terminological and the structural steps. Some strategies also use extra steps like the extensional and semantic steps, which use vector space models and inference, respectively. https://hal.inria.fr/hal-00917910/document
+ \subsection{Current alignment strategies}
+ Many different alignment strategies have already been developed. All strategies follow the same two-step approach. The two steps are independent and as such different methods can be used interchangeably. The first step is to generate an initial correspondence set, where correspondences between nodes are found based on just their labels and meta-data. The second step is to use this initial set and the structure of the ontology to find more correspondences. These steps are called the terminological and the structural steps. Some strategies also use extra steps like the extensional and semantic steps, which use vector space models and inference, respectively. https://hal.inria.fr/hal-00917910/document
  
  Popular terminological strategies are WordNet comparison and edit distance. The former uses the popular WordNet hierarchy as a distance measure between to concepts, e.g. the number of edges between the concepts and their least general common superconcept. % http://disi.unitn.it/~p2p/RelatedWork/Matching/Lin_WordNet_OM.pdf
  Edit distance is a purely string-based similarity measure. The similarity is a (weighted) count of edits required to transform one word into another, where common edits are insertion, deletion and replacement. Similar methods include substring matching and n-gram matching, which compare parts of the strings to find similarities. %http://disi.unitn.it/~p2p/RelatedWork/Matching/6614ijdms01.pdf
+ \subsection{Problems with ontology alignment}
  \subsection{Other related research}
  \subsubsection{Word sense representation}
- Skip-gram models have been widely used to represent words as vectors. This is useful as it is easy to calculate the distance between two vectors, which is a useful property for ontology matching. This vector distance has been shown to be correlated with the semantic distance between words.
- Recently, an effective and efficient skip-gram model has been developed. It is called word2vec, and uses a number of extensions over previous methods that enable it to efficiently learn an effective representation.
+ Skip-gram models have been widely used to represent words as vectors. This is useful as it is easy to calculate the distance between two vectors, which is a useful property for ontology matching. This vector distance has been shown to be related to the semantic similarity between words. This semantic similarity is very useful for ontology alignment, as parts of one ontology have to be aligned with parts of another ontology depending on their semantic relation.
  
- Word2vec learns this representation by trying to predict a context matrix. First a one-hot encoding is made for the vocabulary. Then the model learns to predict a context matrix of C one-hot vectors based on the given one-hot input vector. The model is a neural network with one hidden layer and multiple output layers. Since the words are one-hot encoded the input to the hidden layer is equal to the row of the weight matrix that corresponds to the word. This row is the vector representation of the word.
+ Recently, an effective and efficient skip-gram model has been developed. It is called word2vec, and uses a number of extensions over previous methods that enable it to efficiently learn an effective representation.
+  Word2vec learns this representation by trying to predict a context matrix. First a one-hot encoding is made for the vocabulary. Then the model learns to predict a context matrix of C one-hot vectors based on the given one-hot input vector. The model is a neural network with one hidden layer and multiple output layers. Since the words are one-hot encoded the input to the hidden layer is equal to the row of the weight matrix that corresponds to the word. This row is the vector representation of the word.
  
  % Continue with better w2v
+ Word2vec has been expanded in a number of different ways. For example, word order can be preserved, leading to a similarity measure that is closer to syntax, as syntax defines which words go where in a sentence. This research shows that the input does not have to be a bag-of-words representation, which will be useful later on. % Reference
+ Another interesting development is the multi-sense word2vec, which has multiple vector representations per word, depending on the number of different definitions a word has. For example, the word bank represents both the monetary institute and the riverside, which would both have a different representation in this extension. It can differentiate between two different meanings based on the context. This will help with resolving ambiguity, a very important factor in ontology alignment.
  \subsection{Used technology}
  \subsubsection{Ontology constructor}
  \subsubsection{AgreementMaker}
@@ -63,10 +66,49 @@ All of this is possible, if the softbot can access all of the information reliab
  
  The system uses an extensible framework which allows its users to add new modules to the system. This is very useful for research as it allows the researcher to compare different modules by swapping in just those modules in the framework. The module-swapping technique will also be used in this work, but more of that will be discussed in $Evaluation methods$.
  %http://disi.unitn.it/~p2p/RelatedWork/Matching/vldb2009-revised.pdf
- \subsubsection{MapReduce}
- 
  \section{Method}
+ In this section, I will describe the method that I developed. Firstly, I will describe the general idea. In the second section, I will give a theoretical justification for why this method should work and how it works conceptually. After that I will describe the different ways that the input graphs can be used to train the word2vec model and create the alignment. 
+ \subsection{Idea}
+ As explained earlier, word2vec is a model that learns two things: implicitly it learns the semantic vector representation of words, and explicitly it learns to predict words from their context or vice versa. I will use both of these pieces of information in our alignment algorithm.
+ The semantic representation will be used for finding nodes in the two ontology graphs that are similar, i.e. close in the vector space. This step is relatively straightforward if proper vector representations are found. However, this may be hard due to a number of problems which I have listed below.
+
+ \begin{itemize}
+  \item The problem I am trying to solve is the problem of differently labelled nodes referring to the same concept. For example \emph{writer} and \emph{author} will not be matched by a string matcher, but should be matched. The two concepts may also have different labels in their context even though their contexts refer to the same concepts.
+  \item The size of the training corpus should be large enough for proper representation to be learned for every concept. It should also be relevant to the labels that are in the ontologies. This is a problem since the ontologies may be relatively small, so they need to be extended while keeping relevance.
+  \item Some labels may be ambiguous, for example homonyms, which are concepts that have the same label but represent a different context.
+ \end{itemize}
+ 
+ To solve these problems I will adapt word2vec to graphs and extend it with multi-sense embeddings. Also hot-starting is considered as an improvement.
+ 
+ \subsection{Theory}
+ \subsection{Possibilities} % Rename please
+  \subsubsection{Training corpus}
+  Word embedding models need to be trained on a large corpus. These corpora need to cover the concepts that are contained in the ontology, but also need to be large enough to build good embeddings. Since the ontologies themselves do not necessarily contain enough examples to embed the concepts properly, I need to use ontologies that are likely to contain the concepts I want to align.
+  As a benchmark, I will use the WordNet and NELL ontologies. To check if adding the ontologies that are to be aligned helps, I will also train a model on an ontology consisting of WordNet, NELL and the two alignment candidates.
+  \subsubsection{Node vectorisation}
+  The most basic node2vec model converts a node to a vector purely based on its own label. This method has one advantage over simple string matching: if no node is found in the other ontology that matches exactly, we can still find a node that is similar since it is close in the vector space. Therefore, this method should already be an improvement over the most basic string matching algorithms. It may even be competitive with more advanced string matchers (that look at substrings of labels). For example, \emph{ear lobe} and \emph{ear} will be matched by a substring matcher, but are also semantically similar since they will often be mentioned in the same context.
+  \subsubsection{Combine with neighbours}
+  To improve the model, we can add context information from the neighbours of a node. The most basic context adaptation would be to create a vector as the average of the context vectors. The resulting vector should be combined with the node vector of the node that is being investigated. This can be done by averaging or weighted averaging where the context is weighed more if there are more neighbours, though not necessarily linearly. These possibilities were also investigated.
+  \subsubsection{Select from senses}
+  Another way to take into account the influence of neighbouring nodes is to train a multi-sense node embedding model as described in {appropriate section}, and selecting from the different node senses based on which is closest to the context average.
+  \subsubsection{Adding edge labels}
+  To add more information to the model, edge labels can also be added to the context of a node. This method effectively doubles the training data and context size when creating the context average. This should make the model more robust, although edge labels may be duplicate (one has many unique family members) and less informative in general, so a lower weight may be appropriate. Another problem with this method is that the relation between a neighbour node and its corresponding edge is lost, since they are just treated as independent contexts.
+  \subsubsection{Select from senses}
+  This method is exactly the same as the selecting from node senses with just the neighbour nodes except that you now also take into account the edge labels.
+  \subsubsection{Combining edges with nodes}
+  As can be read in {appropriate section}, 
+  \subsubsection{Hot start}
+ \subsection{Discarded possibilities} % Rename
+  \subsubsection{Training on text}
+  \subsubsection{Just words}
+  \subsubsection{Just edges}
+  \subsubsection{Context matrix representation}
+ \subsection{Implementation}
+ 
+ 
+ \section{Evaluation}
  \subsection{Evaluation methods}
+ 
  \subsection{Data}
  
  \section{Algorithm}

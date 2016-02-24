@@ -1,43 +1,61 @@
-\contentsline {section}{\numberline {1}Introduction}{2}
-\contentsline {section}{\numberline {2}Problem}{2}
-\contentsline {subsection}{\numberline {2.1}Short Context}{2}
-\contentsline {subsection}{\numberline {2.2}Problem}{2}
-\contentsline {subsection}{\numberline {2.3}Research questions}{2}
-\contentsline {subsection}{\numberline {2.4}Hypotheses}{2}
-\contentsline {subsection}{\numberline {2.5}Justification}{2}
+\contentsline {section}{\numberline {1}Introduction}{3}
+\contentsline {section}{\numberline {2}Problem}{3}
+\contentsline {subsection}{\numberline {2.1}Short Context}{3}
+\contentsline {subsection}{\numberline {2.2}Problem}{3}
+\contentsline {subsection}{\numberline {2.3}Research questions}{3}
+\contentsline {subsection}{\numberline {2.4}Hypotheses}{3}
+\contentsline {subsection}{\numberline {2.5}Justification}{3}
 \contentsline {section}{\numberline {3}Context}{3}
 \contentsline {subsection}{\numberline {3.1}The Semantic Web}{3}
-\contentsline {subsubsection}{\numberline {3.1.1}Goal}{3}
+\contentsline {subsubsection}{\numberline {3.1.1}Goal}{4}
 \contentsline {subsubsection}{\numberline {3.1.2}Current state}{4}
 \contentsline {subsubsection}{\numberline {3.1.3}Technologies}{4}
 \contentsline {subsection}{\numberline {3.2}Ontologies}{4}
 \contentsline {subsubsection}{\numberline {3.2.1}OWL}{4}
 \contentsline {subsubsection}{\numberline {3.2.2}Role}{4}
-\contentsline {subsection}{\numberline {3.3}Current merging strategies}{4}
-\contentsline {subsection}{\numberline {3.4}Other related research}{4}
-\contentsline {subsubsection}{\numberline {3.4.1}Word sense representation}{4}
-\contentsline {subsection}{\numberline {3.5}Used technology}{5}
-\contentsline {subsubsection}{\numberline {3.5.1}Ontology constructor}{5}
-\contentsline {subsubsection}{\numberline {3.5.2}AgreementMaker}{5}
-\contentsline {subsubsection}{\numberline {3.5.3}MapReduce}{6}
+\contentsline {subsection}{\numberline {3.3}Current alignment strategies}{4}
+\contentsline {subsection}{\numberline {3.4}Problems with ontology alignment}{5}
+\contentsline {subsection}{\numberline {3.5}Other related research}{5}
+\contentsline {subsubsection}{\numberline {3.5.1}Word sense representation}{5}
+\contentsline {subsection}{\numberline {3.6}Used technology}{5}
+\contentsline {subsubsection}{\numberline {3.6.1}Ontology constructor}{5}
+\contentsline {subsubsection}{\numberline {3.6.2}AgreementMaker}{5}
 \contentsline {section}{\numberline {4}Method}{6}
-\contentsline {subsection}{\numberline {4.1}Evaluation methods}{6}
-\contentsline {subsection}{\numberline {4.2}Data}{6}
-\contentsline {section}{\numberline {5}Algorithm}{6}
-\contentsline {subsection}{\numberline {5.1}Idea}{6}
-\contentsline {subsection}{\numberline {5.2}Theory}{6}
-\contentsline {subsection}{\numberline {5.3}Product}{6}
-\contentsline {section}{\numberline {6}Results}{6}
-\contentsline {section}{\numberline {7}Conclusions}{6}
-\contentsline {subsection}{\numberline {7.1}Recap research questions}{6}
-\contentsline {subsection}{\numberline {7.2}Recap hypotheses}{6}
-\contentsline {subsection}{\numberline {7.3}Conclusion per hypothesis}{6}
-\contentsline {subsection}{\numberline {7.4}Overview of results}{6}
-\contentsline {subsection}{\numberline {7.5}Final conclusion}{6}
-\contentsline {section}{\numberline {8}Discussion}{6}
-\contentsline {subsection}{\numberline {8.1}Interpretation}{6}
-\contentsline {subsection}{\numberline {8.2}Unexpected results}{6}
-\contentsline {subsection}{\numberline {8.3}Expected results}{6}
-\contentsline {subsection}{\numberline {8.4}Future research}{6}
-\contentsline {section}{Appendix \numberline {A}Appendix 1}{6}
-\contentsline {section}{Appendix \numberline {B}Appendix 2}{6}
+\contentsline {subsection}{\numberline {4.1}Idea}{6}
+\contentsline {subsection}{\numberline {4.2}Theory}{7}
+\contentsline {subsection}{\numberline {4.3}Possibilities}{7}
+\contentsline {subsubsection}{\numberline {4.3.1}Training corpus}{7}
+\contentsline {subsubsection}{\numberline {4.3.2}Node vectorisation}{7}
+\contentsline {subsubsection}{\numberline {4.3.3}Combine with neighbours}{7}
+\contentsline {subsubsection}{\numberline {4.3.4}Select from senses}{7}
+\contentsline {subsubsection}{\numberline {4.3.5}Adding edge labels}{7}
+\contentsline {subsubsection}{\numberline {4.3.6}Select from senses}{8}
+\contentsline {subsubsection}{\numberline {4.3.7}Combining edges with nodes}{8}
+\contentsline {subsubsection}{\numberline {4.3.8}Hot start}{9}
+\contentsline {subsection}{\numberline {4.4}Discarded possibilities}{9}
+\contentsline {subsubsection}{\numberline {4.4.1}Training on text}{9}
+\contentsline {subsubsection}{\numberline {4.4.2}Just words}{9}
+\contentsline {subsubsection}{\numberline {4.4.3}Just edges}{9}
+\contentsline {subsubsection}{\numberline {4.4.4}Context matrix representation}{9}
+\contentsline {subsection}{\numberline {4.5}Implementation}{9}
+\contentsline {section}{\numberline {5}Evaluation}{9}
+\contentsline {subsection}{\numberline {5.1}Evaluation methods}{9}
+\contentsline {subsection}{\numberline {5.2}Data}{9}
+\contentsline {section}{\numberline {6}Algorithm}{9}
+\contentsline {subsection}{\numberline {6.1}Idea}{9}
+\contentsline {subsection}{\numberline {6.2}Theory}{9}
+\contentsline {subsection}{\numberline {6.3}Product}{9}
+\contentsline {section}{\numberline {7}Results}{9}
+\contentsline {section}{\numberline {8}Conclusions}{9}
+\contentsline {subsection}{\numberline {8.1}Recap research questions}{9}
+\contentsline {subsection}{\numberline {8.2}Recap hypotheses}{9}
+\contentsline {subsection}{\numberline {8.3}Conclusion per hypothesis}{9}
+\contentsline {subsection}{\numberline {8.4}Overview of results}{9}
+\contentsline {subsection}{\numberline {8.5}Final conclusion}{9}
+\contentsline {section}{\numberline {9}Discussion}{9}
+\contentsline {subsection}{\numberline {9.1}Interpretation}{9}
+\contentsline {subsection}{\numberline {9.2}Unexpected results}{9}
+\contentsline {subsection}{\numberline {9.3}Expected results}{9}
+\contentsline {subsection}{\numberline {9.4}Future research}{9}
+\contentsline {section}{Appendix \numberline {A}Appendix 1}{9}
+\contentsline {section}{Appendix \numberline {B}Appendix 2}{9}
