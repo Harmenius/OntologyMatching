@@ -1,7 +1,6 @@
  \documentclass{article}
  \usepackage[utf8]{inputenc}
  \usepackage[titletoc]{appendix}
- \usepackage{comments}
  \title{Ontology Matching with word2vec}
  \author{Harmen Prins}
  
@@ -97,24 +96,55 @@ All of this is possible, if the softbot can access all of the information reliab
   \subsubsection{Select from senses}
   This method is exactly the same as the selecting from node senses with just the neighbour nodes except that you now also take into account the edge labels.
   \subsubsection{Combining edges with nodes}
-  As can be read in {appropriate section}, it is possible to drop the bag-of-words assumption that the context is sequence invariant. \begin{comment}maybe ref too\end{comment} This means we can for example have the context be (previous word, next word) and those words will be treated differently. Similarly we can separate the edge and node labels and treat them differently. This ensures that the model will find any relationship between the edge and the node if it exists and will take this into account. For example, the system might use just the information 'isMarriedTo' to infer that someone is a human, but may infer that 'isMarriedTo' in combination with a man usually refers to a woman. \begin{comment} Ja doe maar een ander voorbeeld ivm gelijkheid e.d.\end{comment}
+  As can be read in {appropriate section}, it is possible to drop the bag-of-words assumption that the context is sequence invariant. 
+  % maybe ref too\endcomment
+  This means we can for example have the context be (previous word, next word) and those words will be treated differently. Similarly we can separate the edge and node labels and treat them differently. This ensures that the model will find any relationship between the edge and the node if it exists and will take this into account. For example, the system might use just the information 'isMarriedTo' to infer that someone is a human, but may infer that 'isMarriedTo' in combination with a man usually refers to a woman.
+  %  Ja doe maar een ander voorbeeld ivm gelijkheid e.d.\endcomment
   \subsubsection{Hot start}
-  It is hard to classify the algorithm in terms of the normal ontology alignment methods. It is not purely string matching, since it takes into account information from the context. However, it is also not structural, as it can work without a seed alignment and uses information other than the structure as well. It is not logical \begin{comment} Goeie woord?\end{comment} since it does not use inference. Nor is it terminological, which looks at dictionaries or other ontologies to find matches. However, it does use other ontologies (or text corpi\begin{comment}Check spelling\end{comment}) implicitly, so if it must be grouped it would be terminological. \begin{comment}Moet voorafgaand stukje op een andere plek?\end{comment}
-  The algorithm can find matches based purely on the given node and edge labels. However the algorithm might benefit from a hot start. Such a seed alignment might allow the algorithm to train with certain words that are known synonyms as if they were the same word, thus increasing the number of training samples per word (on known relevant words) and decreasing sparsity. This may help the model, improving performance. However, since some information from other algorithms is now used, it would not be fair to compare the results to the cold start algorithm results. For example, it may just add the results from the generic string matcher to its own results, improving performance, without learning any new relationships. A new testing method had to be designed for this algorithm. This method would have to compare it to the string matchers, to see if it improved over their results, rather than compare it to the cold start algorithm. However, if we compare the cold and hot algorithms with the generic string matchers, we may be able to compare them indirectly. \begin{comment}Dit moet weg als het bs blijkt te zijn\end{comment}
+  It is hard to classify the algorithm in terms of the normal ontology alignment methods. It is not purely string matching, since it takes into account information from the context. However, it is also not structural, as it can work without a seed alignment and uses information other than the structure as well. It is not logical 
+  %  Goeie woord?\endcomment
+  since it does not use inference. Nor is it terminological, which looks at dictionaries or other ontologies to find matches. However, it does use other ontologies (or text corpi
+  % Check spelling\endcomment
+  ) implicitly, so if it must be grouped it would be terminological.
+  % Moet voorafgaand stukje op een andere plek?\endcomment
+  The algorithm can find matches based purely on the given node and edge labels. However the algorithm might benefit from a hot start. Such a seed alignment might allow the algorithm to train with certain words that are known synonyms as if they were the same word, thus increasing the number of training samples per word (on known relevant words) and decreasing sparsity. This may help the model, improving performance. However, since some information from other algorithms is now used, it would not be fair to compare the results to the cold start algorithm results. For example, it may just add the results from the generic string matcher to its own results, improving performance, without learning any new relationships. A new testing method had to be designed for this algorithm. This method would have to compare it to the string matchers, to see if it improved over their results, rather than compare it to the cold start algorithm. However, if we compare the cold and hot algorithms with the generic string matchers, we may be able to compare them indirectly. 
+  % Dit moet weg als het bs blijkt te zijn\endcomment
  \subsection{Discarded possibilities} % Rename
   \subsubsection{Training on text}
-  Rather than training on ontologies, it would be possible to train the model on text. Since there is more text available than ontologies when counting the number of training samples, it would make sense to use a purely text-trained model. However, this method has downsides which made me decide not to use it. Namely, the context of a word in a text corpus is very different from a node in an ontology. A word is surrounded by the words directly around it, or the sentence it is in, or the paragraph or entire document. However all these contexts are just words, usually represented as a bag of words to ensure enough data for the model. In an ontology, the context is a combination of a node with an edge, which have a very different relation than merely co-occurring. The relation may be inferred from one sentence, or many different documents. \begin{comment}Herschrijf dit aub want het is niet goed\end{comment}
-  \subsubsection{Just words}
+  Rather than training on ontologies, it would be possible to train the model on text. Since there is more text available than ontologies when counting the number of training samples, it would make sense to use a purely text-trained model. However, this method has downsides which made me decide not to use it. Namely, the context of a word in a text corpus is very different from a node in an ontology. A word is surrounded by the words directly around it, or the sentence it is in, or the paragraph or entire document. However all these contexts are just words, usually represented as a bag of words to ensure enough data for the model. In an ontology, the context is a combination of a node with an edge, which have a very different relation than merely co-occurring. The relation may be inferred from one sentence, or many different documents.
+  % Herschrijf dit aub want het is niet goed\endcomment
+  \subsubsection{Just context nodes}
+  
   \subsubsection{Just edges}
+  
   \subsubsection{Context matrix representation}
+  
  \subsection{Implementation}
  
  
  \section{Evaluation}
+ The goal of the research is to find an ontology alignment algorithm $A$ and proof that it performs better than current techniques. However, as current techniques may combine many different algorithms and sources of information, maybe such a comparison is not fair, nor is a comparison with individual algorithms as they may be optimised for being combined. So, instead we may want to see if performance is improved when adding $A$ to an ensemble of algorithms $E=(A_1,..,A_n)$.
  \subsection{Evaluation methods}
+ The evaluation should be done using a performance measure $P(Al,T)$ that takes the alignment an algorithm produces given an ontology and the ground truth. If both the alignment and truth are considered sets of alignments, i.e. $Al=\{a_1,..,a_n\}$ and $T=\{a'_1,..,a'_m\}$, then the True Positives $TP=\{a|a\in Al, a\in T\}$, False Positives $FP=\{a|a\in Al, a\notin T\}$ and False Negatives $FN=\{a|a\in T, a\notin Al\}$ determine the performance of the alignment. The True Negatives do not matter, as there are extremely many, and the goal of ontology matching is to find True Positives. Therefore the Jaccard similarity should be used as a performance measure.
  
+ The Jaccard similarity is calculated as follows
+ \[
+ J = \frac{TP}{TP + FP + FN}
+ \]
+ i.e. the fraction of the true positives over the sum of the true positives and mistakes.
+ 
+ The Jaccard similarity is a number between 0 and 1, with a higher number being better. Therefore if we compare two alignments, the one which is most similar to the truth, i.e. has a higher Jaccard similarity, is the better one.
+ 
+ However, if we want to find out if an algorithm improves an ensemble, we calculate the improvement as follows:
+ \[
+ I = J_{E\cup \{A\}} - J_E
+ \]
+ where $J_E$ is the Jaccard coefficient of an ensemble $E$.
+ To see if an algorithm is useful to an ensemble, the improvement score $I$ has to be \emph{significantly} higher than zero. To check if a score is significant, a statistical significance test will have to be carried out. The test works as follows: generate $N$ solutions randomly and score them. Then score the method you want to investigate. If the score is in the top p\%, it is significant, otherwise it is not. In this case the solutions are $E\cup \{R\}$, where $R$ is an algorithm that generates random alignments.
  \subsection{Data}
- 
+ The data used comes from a list of data sets that the OAEI provides. % Zoek paper, misschien http://www.sciencedirect.com/science/article/pii/S1570826813000188
+ %Hoeveel preprocessing moest ik doen
+ Every data set contains two ontologies that need to be aligned and a ground truth alignment. The goal is straightforward: find the alignment given only the ontologies and whatever outside resources are needed.
  \section{Algorithm}
  \subsection{Idea}
  \subsection{Theory}
