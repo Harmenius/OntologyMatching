@@ -2,6 +2,7 @@
 import scala.io.Source
 import cc.factorie.la.DenseTensor1
 import scala.collection.mutable.PriorityQueue
+import cc.factorie.app.nlp.embeddings.TensorUtils
 
 object EmbeddingDistance {
 

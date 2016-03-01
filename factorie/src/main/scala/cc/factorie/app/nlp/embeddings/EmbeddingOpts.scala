@@ -50,7 +50,7 @@ class EmbeddingOpts extends CmdOptions {
   //
   val vocabSize               = new CmdOption("max-vocab-size", 2e6.toInt, "INT", "Max Vocabulary Size. Default Value is 2M . Reduce to 200k or 500k is you learn embeddings on small-data-set")
   val vocabHashSize           = new CmdOption("vocab-hash-size", 14.3e6.toInt, "INT", "Vocabulary hash size")
-  //val samplingTableSize       = new CmdOption("sampling-table-size", 1e8.toInt, "INT", "Sampling Table size")
+  val samplingTableSize       = new CmdOption("sampling-table-size", 1e8.toInt, "INT", "Sampling Table size")
 
   //
   // Graph related

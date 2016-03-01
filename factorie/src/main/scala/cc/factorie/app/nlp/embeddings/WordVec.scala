@@ -1,4 +1,4 @@
-// package cc.factorie.app.nlp.embeddings
+package cc.factorie.app.nlp.embeddings
 import java.nio.charset.Charset
 
 object WordVec {

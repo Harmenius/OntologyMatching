@@ -32,7 +32,7 @@ class FastWordReader(file: String, encoding: String = "ISO-8859-15") extends Ite
     }
   }
 
-  def hasNext(): Boolean = sb.length() > 0
+  def hasNext(): Boolean = sb.length > 0
   def next(): String = { moveToNext; sb.toString }
 
 }
@@ -101,7 +101,7 @@ class FastLineBinaryReader(file: String, skipBytes: Long = 0, encoding: String =
   }
 
   def hasNext(): Boolean = {
-    return sb.length() > 0
+    return sb.length > 0
    
   }
   def next(): String = { val line = sb.toString(); moveToNext; line }
