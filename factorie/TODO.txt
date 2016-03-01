@@ -1,0 +1,243 @@
+WithinDocCoref1 => ForwardCoref
+
+MorphologicalAnalyzer1 => BasicMorphologicalAnalyzer
+
+POS1 => ForwardPOSTagger
+POS2 => ChainPOSTagger
+
+NER1 => BasicConllNER
+NER2 => BasicOntonotesNER
+NER3 => StackedConllNER
+
+DepParser1 => TransitionParser, (or ForwardParser, TransitionBasedParser)
+=> GraphProjectiveParser
+
+Tokenizer1 => BasicTokenizer 
+
+POSNounPhraser
+PronounNounPhraser
+ChainNounPhraser (doesn't yet exist)
+
+
+For October 4 Sprint:
+
+Main:
+* use Assignments in more places [Alex, Andrew, Thursday?]
+* settle serialization [Luke, Alex, Andrew,..]
+ - serialize out of order
+ - serialize optional
+ - version number on binary serializer itself, and each cubbie
+ - faster tensor serialization by writing batches of byte arrays
+ - JSONSerializer? (low-priority)
+* app.nlp clean-up and TAC import [Friday: Andrew, Alex, Ari, David, Sam,..]
+* nlp-resources sub-projects [Soergel]
+* settle app.classify
+* left multiplication switch [Alex]
+
+Tools:
+* finish app.chain.Chain [Jack]
+* fast SVMLight data parser, avoid nextLine [Luke]
+* finish app.classify.Classify [Jack]
+* finish moving TAC/KBP attribute extraction [Sam, Ari]
+
+Tests:
+* test every variable, factor, template,... [Lakshmi]
+* tests for la and optimize [Arvind]
+* tests for NLP non-learning components [Caiti]
+* tests for NLP training and usage [Emma, David]
+
+Cleaning:
+* clean demos, perhaps make more [Andrew, _]
+* ...
+
+Documentation:
+* Scaladoc everything
+* overview of inference and learning [Alex]
+* overview of nlp [Andrew]
+* write about related packages [Alex, Andrew]
+* get scaladoc online
+* better tools for getting markdown documentation online
+* better web site design; delete googlecode.
+
+Publicity
+* FACTORIE twitter account
+* NIPS 1-page OSS submission
+
+
+
+
+For September 27 Sprint:
+
+Span, SpanList, Phrase, Mention, Entity [Andrew]
+Clean up app.nlp [Andrew]
+ Remove ClearTokenizer
+*Settle serialization [Luke, Alex]
+Consider making not all PosLabels "Labeled" [Andrew, Alex]
+Write app.nlp overview in User Guide [Andrew]
+Make app.Chain command line [Jack?]
+Write app.chain command-line tool overview in User Guide [Jack?]
+Consider Classifier -> ValueClassifier? [Andrew]
+Finish app.Classify command line. [?]
+Write app.classify command-line tool overview in User Guide [?]
+*Use Assignments in more places [Andrew, Alex]
+Write installation instructions in User Guide [Emma, Arvind]
+Write about related packages in User Guide [Alex,_]
+Move TAC/KBP attribute extraction into app.nlp.mention.attribute [Ari]
+Clean up examples, and make more demos [Ari]
+Move ConllCorefLoader to app.nlp.LoadConll2011 [David]
+Hcoref clean-up [Mike, Ari]
+Split factorie-nlp-resources.jar into parts [Belanger?, Luke?, Emma?]
+More Scaladoc, more JUnit tests [Mike, Belanger, Arvind, Lakshmi, Caiti,...]
+Web site structure & design, get documentation onto web site, get online demos working [?]
+Discuss "package structure that hides many identifiers from top level" [Andrew, Luke, Alex]  cc.factorie.{var,model,infer}
+New FACTORIE logo and artwork [Andrew,...]
+Make random forest awesome [Luke]
+Binary classifier infrastructure [Luke]
+
+Move to infer package: MaximizeDiscrete
+Move to model package: HammingLoss, DecisionTree?, Boosting?
+Remove util.Index
+Move to app.classify: Classifier
+
+Pre 1.0 release:
+
+Implement sparse iteration through values for BP [McCallum, Singh]
+Redesign app.classify for better access to underlying optimize goodness. [McCallum, Passos]
+In BP, for factors that have the same set of varying neighbors, cache the marginal distribution
+Improve LDA speed and multi-threading [Vineet]
+
+Finish app.classify.Classifier command-line tool [McCallum, Vilnis]
+Finish app.chain.Chain command-line tool [McCallum, Vilnis]
+Consider changes to generative.Collapse infrastructure  [McCallum]
+Implement generative.CollapsedVariationalBayes and make sure it works for LDA  [McCallum]
+Look at app.nlp.relation  [McCallum]
+Make reasonable command-line tools for MALLET functionality, and document  [McCallum and others]
+Sanity-check pass through all code [All]
+Package documentation  [All]
+Fix copyright year [McCallum]
+
+More examples:
+Tutorial examples [McCallum]
+Clean up old examples
+Basic models [All]
+Implement TopicsOverTime (needs Beta distribution) [Bakalov]
+Make an HMM example and show that BP inference and EM training work on it [Belanger]
+Fixed HACKING.txt Eclipse set up
+
+Tutorial coverage:
+000 Introduction: Motivation, overview, first quick examples for feel, comparison with similar tools
+010 Variables, Domains, Assignments, Proportions
+020 Tensors and la package
+030 Factors, Families, Templates, Models
+040 Infer, Summary, Marginal, BP, Sampling, GibbsSampler, MHSampler, MeanField, MLPL, DualDecomposition 
+050 Optimize package 
+060 Learning
+070 Directed package
+080 Standard ML models: HMM, Mixture of Gaussians,
+090 Parallelism, Hyperparameter optimization [DONE]
+100 Classify package
+110 Chain package
+120 NLP package, Document, Section, Token, TokenSpan, Sentence, attr, DocumentAnnotator, pos, ner, mention, parse, lexicon, wordnet, coref
+130 Topic modeling package
+140 Serialization and Cubbies and Mongo
+
+Missing?
+Regression, Matrix Factorization,
+
+
+ADMM
+
+
+
+DONE:
+Clean up within-doc coref? [David]
+Move app.nlp.Load* to app.nlp.load.Load* [Andrew]
+Wrap-up and clean up Parser, NER and POS  [Belanger]
+Make DocumentAnnotator take lazy values [Andrew]
+Standardize NER2 [Andrew]
+Packaged POS, NER, DepParser, Coref [Andrew]
+Write JUnit tests for cc.factorie.la [Vilnis?]
+ Consider which println's should be transformed into Logging statements
+Finish lexicon data loading management. [McCallum]
+In BP, when running on chains, verify that we don't need to walk to create a tree.
+Verify ChainModel actually works [Passos?,Martin]
+Code review BP.  Make it fast!  [Passos]
+Implement dual decomposition. [Passos]
+Learning-supporting Sampler extends Infer [Passos]
+No holes in Tensor dot products [Passos]
+Make Tensor.foreachActiveElement faster with a macro.  After 1.0 or perhaps never. [Luke]
+Strongly consider removing type argument from Domain.  It isn't needed for anything.  Decided against for now. [McCallum]
+Add something like Passage to Document, indexed by char offsets [McCallum]
+Remove VarAndValueGenericDomain [McCallum]
+Remove unused classes from cc.factorie.util [Luke]
+Reconsider naming DiscreteDimensionTensorVar and DiscreteDimensionCategoricalVar to something shorter? [McCallum]
+Make Assignment inherit from Summary [Passos]  (No, just make a wrapper class.)
+Substitute alternative lapack library [Alex] (Not done.)
+Look at Model, Tensor, Domain serialization [Vilnis?]
+Liblinear-like L1 SVM... [Martin]
+Polish Piece and OptimizationDriver (Renamed Example and Trainer) [Passos, Vilnis, McCallum]
+Consider Model[Context].  (Decided on ModelWithContext[Context] instead.) [McCallum]
+HashDomain [Martin]
+Consider renaming LabelVariable to LabeledCategoricalVariable, and having LabeledDiscreteVariable, LabeledBooleanVariable [McCallum]
+DomainFromClass or make it the default?  No.  [McCallum]
+Re-consider type arguments in Sampler and descendants?  No.  [McCallum]
+Consider property-like facilities and its interaction with command line [McCallum, Vilnis]
+ No, use scala interpreter itself for configuration as recommended online.
+Consider Statistics -> Statistic, and then also having Statistic1, Statistic2, etc.
+Make app.regress  [McCallum, Passos]
+Make DotFamily can depend on just TensorVar, not DiscreteTensorVar.
+Remove er package altogether for now [McCallum]
+Remove statisticsDomain and let DotFamily.weights be abstract  [McCallum]  
+Make BooleanValue be a class rather than (as it is currently) a type alias for CategoricalValue[Boolean] [McCallum]
+Use _1, _2 again for the variables in AbstractAssignment2, etc.  Use value1, value2 for values. [McCallum]
+Rename all "Stat" to "Statistics". [McCallum]
+Finish/fix DecisionTree implementation, and make example
+Remove Factor.Values
+Make RealVar inherit from TensorVar (with DoubleVar replacing current one)
+Make a Family.score(Tensor) method for use in higher efficiency situations (e.g. BP)
+Consider moving generative.GibbsSampler up to cc.factorie?
+Consider making no variable inherit from Iterable.  (Seq would come from value instead.)  Remove SeqEqualsEq and friends.
+ Consider making any current Variable that *could* have more than one different value type be not a Variable.  
+ Then allow Model.factors and Infer and Maximize to have apply(Iterable[Variable]) and Apply(Variable).
+ Then, e.g. change "for (token <- document)" to "for (token <- document.tokens)". [done]
+Re-consider if variable.value should always make an immutable copy.  [no]
+Look at Gaussian.logpr, Beta.logpr, etc, and ensure these scores are correct.  [yes]
+Get rid of Seq[Double] everywhere, including cc.factorie.maths.  Get rid of IndexedSeqOps completely.
+Get rid of la.Vector and use la.Tensor instead.  Make corresponding changes in Factors/Templates, etc.
+Make VectorFamily require "def statisticsDomain"
+Consider making cc.factorie.optimize take DoubleSeq instead of Array[Double]
+Get AROW Perceptron training working, and look at SampleRank interaction
+Get rid of dependency on Java bibtex parser library
+Implement parameter averaging
+
+Future:
+Implement beam search for BP.
+Make LDA faster and multi-threaded [Bakalov]
+Look at other BUGS-like tools, and see what we can reproduce easily [Bakalov, Duckworth]
+Sebastian: Make new kinds of Templates; current one: factors(Variable neighbor); new: factors(arbitrary context)
+ Consider naming the current Template something more specific, e.g. "NeighborTemplate"
+ Template[C] { def factors(context:C): Iterable[Factors] }
+ NeighborTemplate extends Template[Variable] { def unroll1(v:Variable): Iterable[Factors] }
+
+
+
+
+Low Priority Coding:
+Reimplement AROW and CW
+Replace cc.factorie.er with something better that uses Scala 2.10 macros.
+-Implement Forany2 in er
+-Fix IntTerm in er
+-Support inference over relations in er
+Create simple infrastructure for non-relational generative Bayes nets
+
+Testing:
+Create more unit tests!
+Profile everything, especially BP and LDA.
+
+Documentation:
+Clean up all examples
+Put in ACE coref example
+Put in final spanner example
+Write manual in package.html
+Document how to get a FACTORIE interpreter prompt
+

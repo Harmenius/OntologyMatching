@@ -1,0 +1,76 @@
+Downloading and compiling
+=========================
+
+Factorie's source code is kept on Github, on a git repository. To
+download it you need git. If you don't already have it installed, find
+it in
+http://git-scm.com/
+
+If you don't already have maven, version 3, install it.
+http://maven.apache.org/download.html
+
+Check out source code:
+$ git clone https://github.com/factorie/factorie.git
+
+$ cd factorie
+$ mvn compile
+$ mvn test
+
+
+Contributing
+===============================
+
+The standard form of contributing to factorie is via Github pull
+requests. To create one, make your own fork of factorie (by signing up
+for a github account and clicking the "fork" button on factorie's
+page), commit your changes to that fork, and use github's
+functionality to create a pull request.
+
+Development
+===========
+
+For Eclipse
+
+Increase Eclipse available memory:
+ See--http://help.eclipse.org/galileo/index.jsp?topic=/org.eclipse.platform.doc.user/tasks/running_eclipse.htm
+ On Mac:
+  Close Eclipse if open
+  Right click on application icon, select "Show Package Contents"
+  Open Contents/MacOS/eclipse.ini
+  Change -Xmx256m to -Xmx1024m or higher, save file and open Eclipse
+
+As of June 2013 FACTORIE uses Scala 2.10.2
+Install Eclipse Maven plugin:
+ Within Eclipse, select menu "Help" -> "Install New Software"
+ Enter this URL:  http://m2eclipse.sonatype.org/sites/m2e
+ Click check box and install
+ Relaunch Eclipse
+Also similarly install http://alchim31.free.fr/m2e-scala/update-site
+
+Install Eclipse Scala plugin:
+ Within Eclipse, select menu "Help" -> "Install New Software"
+ For Eclipse Indigo enter this URL: http://download.scala-ide.org/sdk/e37/scala210/dev/site 
+ Click top check box and install
+ Relaunch Eclipse
+
+Import Factorie, (assuming that it has already been checked out to "~/workspace/factorie"):
+ Within Eclipse, select menu "File" -> "Import..." -> "Existing Maven Project"
+ Browse to enter your factorie directory (e.g. "~/workspace/factorie")
+ Click "Finish"
+ Wait for it to compile.
+
+
+For IntelliJ IDEA
+
+Works with IntelliJ "community edition" out of the box, if it has the
+scala plugin installed. Increasing the amount of memory available to
+IntelliJ is recommended.
+
+
+
+Coding standards
+================
+
+Two spaces indentation.  No tabs!
+Generally following coding standards at 
+http://davetron5000.github.com/scala-style/index.html
