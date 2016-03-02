@@ -1,4 +1,4 @@
-package cc.factorie.app.nlp.embeddings
+//package cc.factorie.app.nlp.embeddings
 import cc.factorie.util.Threading
 import cc.factorie.app._
 import scala.collection.mutable.ArrayBuffer

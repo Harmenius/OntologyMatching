@@ -1,4 +1,3 @@
-package cc.factorie.app.nlp.embeddings
 import cc.factorie.app.nlp.segment.DeterministicTokenizer
 import cc.factorie.app.nlp.segment.DeterministicSentenceSegmenter
 import cc.factorie.app.nlp.Document

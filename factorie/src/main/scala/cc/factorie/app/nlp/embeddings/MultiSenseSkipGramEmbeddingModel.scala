@@ -1,9 +1,7 @@
-package cc.factorie.app.nlp.embeddings
 import cc.factorie.util.DoubleAccumulator
 import cc.factorie.la.{DenseTensor1, WeightsMapAccumulator}
 import cc.factorie.optimize.Example
 import scala.collection.mutable
-import cc.factorie.app.nlp.embeddings.TensorUtils
 
 class MultiSenseSkipGramEmbeddingModel(override val opts: EmbeddingOpts) extends MultiSenseWordEmbeddingModel(opts) {
   val negative = opts.negative.value

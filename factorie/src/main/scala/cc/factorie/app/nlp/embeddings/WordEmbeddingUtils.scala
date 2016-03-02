@@ -1,4 +1,4 @@
-package cc.factorie.app.nlp.embeddings
+//package cc.factorie.app.nlp.embeddings
 import cc.factorie.la._
 import scala.util.Random
 import java.io.{FileReader, RandomAccessFile}
@@ -32,7 +32,7 @@ class FastWordReader(file: String, encoding: String = "ISO-8859-15") extends Ite
     }
   }
 
-  def hasNext(): Boolean = sb.length > 0
+  def hasNext(): Boolean = sb.length() > 0
   def next(): String = { moveToNext; sb.toString }
 
 }
@@ -101,7 +101,7 @@ class FastLineBinaryReader(file: String, skipBytes: Long = 0, encoding: String =
   }
 
   def hasNext(): Boolean = {
-    return sb.length > 0
+    return sb.length() > 0
    
   }
   def next(): String = { val line = sb.toString(); moveToNext; line }
