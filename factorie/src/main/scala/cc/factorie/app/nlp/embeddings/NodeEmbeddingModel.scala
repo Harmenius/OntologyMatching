@@ -114,7 +114,7 @@ abstract class NodeEmbeddingModel(val opts: EmbeddingOpts) extends Parameters {
 
 
   protected def workerThread(id: Int, fileLen: Long, printAfterNDoc: Long = 100): Unit = {
-    val skipBytes: Long = fileLen / threads * id // fileLen now pre-computed before pasing to all threads. skip bytes. skipped bytes is done by other workers
+    val skipBytes: Long = fileLen / threads * id // fileLen now pre-computed before passing to all threads. skip bytes. skipped bytes is done by other workers
     val lineItr = new FastLineReader(corpus, skipBytes, encoding)
     var word_count: Long = 0
     var work = true
@@ -126,7 +126,7 @@ abstract class NodeEmbeddingModel(val opts: EmbeddingOpts) extends Parameters {
       if (id == 1 && ndoc % printAfterNDoc == 0) {  // print the process after processing 100 docs in 1st thread. It approx reflects the total progress
         println("Progress : " + word_count / total_words_per_thread.toDouble * 100 + " %")
       }
-      if (word_count > total_words_per_thread) work = false // Once, word_count reaches this limit, ask worker to end
+      work = word_count <= total_words_per_thread // Once, word_count reaches this limit, ask worker to end
     }
     // println("thread :" + id + " word count : " + word_count)
   }
