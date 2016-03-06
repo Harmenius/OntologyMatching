@@ -53,5 +53,9 @@ class EmbeddingOpts extends CmdOptions {
   val samplingTableSize       = new CmdOption("sampling-table-size", 1e8.toInt, "INT", "Sampling Table size")
 
   val includeEdgeLabels       = new CmdOption("include-edge-labels", false, "BOOLEAN", "Should edges be taken into account when generating vocabulary?")
+  val bidirectional           = new CmdOption("bidirectional", false, "BOOLEAN", "Train both ends of edge with context (other, edge)")
+  val invertedEdges           = new CmdOption("inverted-edges", false, "BOOLEAN", "If not bidirectional, train concepts with (parent, 'inv'+edge)")
+
+  val combineContext          = new CmdOption("combined-context", false, "BOOLEAN", "Give edge and neighbour to trainer together")
 
 }

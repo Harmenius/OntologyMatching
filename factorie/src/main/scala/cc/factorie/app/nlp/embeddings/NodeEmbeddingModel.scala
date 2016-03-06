@@ -8,39 +8,24 @@ import java.io.{File, PrintWriter, OutputStreamWriter, FileOutputStream, FileInp
 import java.util.zip.{GZIPOutputStream, GZIPInputStream}
 
 
-abstract class NodeEmbeddingModel(val opts: EmbeddingOpts) extends Parameters {
+abstract class NodeEmbeddingModel(override val opts: EmbeddingOpts) extends WordEmbeddingModel(opts) {
   implicit def bool2int(b:Boolean): Int = if (b) 1 else 0 // Converts booleans to ints when needed
   // Algo related
-  val D = opts.dimension.value // default value is 200
-  var V: Int = 0 // vocab size. Will computed in buildVocab() section
-  protected val threads = opts.threads.value //  default value is 12
-  protected val adaGradDelta = opts.delta.value // default value is 0.1
-  protected val adaGradRate = opts.rate.value //  default value is 0.025
-  protected val minCount = opts.minCount.value // default value is 5
-  protected val ignoreStopWords = opts.ignoreStopWords.value // default value is 0
-  protected val vocabHashSize = opts.vocabHashSize.value // default value is 20 M. load factor is 0.7. So, Vocab size = 0.7 * 20M = 14M vocab supported which is sufficient enough for large amounts of data
-  protected val samplingTableSize = opts.samplingTableSize.value // default value is 100 M
-  protected val maxVocabSize = opts.vocabSize.value
+  protected val includeEdges = opts.includeEdgeLabels.value // Add edges to context
+  protected val bidirectional = opts.bidirectional.value // Add both concepts with context (other concept, edge)
+  protected val addInvertedEdges = !bidirectional && opts.invertedEdges.value // If not bidirectional, add concept with context (parent, "inv"+edge)
+  protected val combineContext = opts.combineContext.value // Process edge and node value combined, not separately
 
   // IO Related
-  val corpus = opts.corpus.value // corpus input filename. Code takes cares of .gz extension
-  protected val outputFilename = opts.output.value // embeddings output filename
   private val storeInBinary = opts.binary.value // binary=1 will make both vocab file (optional) and embeddings in .gz file
   private val loadVocabFilename = opts.loadVocabFile.value // load the vocab file. Very useful for large corpus should you run multiple times
   private val saveVocabFilename = opts.saveVocabFile.value // save the vocab into a file. Next time for the same corpus, load it . Saves lot of time on large corpus
   private val encoding = opts.encoding.value // Default is ISO-8859-15. Note: Blake server follows iso-5589-1 (david's GoogleEmbeddingcode has this. shouldn;t be ISO-8859-15) or  iso-5589-15 encoding (I see this) ??
   private val includeEdgeLabels = opts.includeEdgeLabels.value
 
-  // data structures
-  protected var vocab: VocabBuilder = null
-  protected var trainer: HogWildTrainer = null // modified version of factorie's hogwild trainer for speed by removing logging and other unimportant things. Expose processExample() instead of processExamples()
-  protected var optimizer: AdaGradRDA = null
-
-  var weights: Seq[Weights] = null // EMBEDDINGS . Will be initialized in learnEmbeddings() after buildVocab() is called first
   private var train_nodes: Long = 0 // total # of nodes in the corpus. Needed to calculate the distribution of the work among threads and seek points of corpus file
-  var topic_weights: Seq[Weights] = null
   // Component-1
-  def buildVocab(): Unit = {
+  override def buildVocab(): Unit = {
     vocab = new VocabBuilder(vocabHashSize, samplingTableSize, 0.7) // 0.7 is the load factor
     println("Building Vocab")
     if (loadVocabFilename.isEmpty) {
@@ -50,7 +35,7 @@ abstract class NodeEmbeddingModel(val opts: EmbeddingOpts) extends Parameters {
       }
       while (corpusLineItr.hasNext) {
         val line = corpusLineItr.next
-        if (opts.includeEdgeLabels.value){
+        if (opts.includeEdgeLabels.value){ //TODO: implement edges
           println("Edge labels no implemented yet")
           System.exit(1)
         }
@@ -76,7 +61,7 @@ abstract class NodeEmbeddingModel(val opts: EmbeddingOpts) extends Parameters {
   }
 
   // Component-2
-  def learnEmbeddings(): Unit = {
+  override def learnEmbeddings(): Unit = {
     println("Learning Embeddings")
     optimizer = new AdaGradRDA(delta = adaGradDelta, rate = adaGradRate)
     weights = (0 until V).map(i => Weights(TensorUtils.setToRandom1(new DenseTensor1(D, 0)))) // initialized using wordvec random
@@ -90,7 +75,7 @@ abstract class NodeEmbeddingModel(val opts: EmbeddingOpts) extends Parameters {
   }
 
   // Component-3
-  def store(): Unit = {
+  override def store(): Unit = {
     println("Now, storing the embeddings .... ")
     val out = storeInBinary match {
       case 0 => new java.io.PrintWriter(outputFilename, encoding)
@@ -113,7 +98,7 @@ abstract class NodeEmbeddingModel(val opts: EmbeddingOpts) extends Parameters {
   }
 
 
-  protected def workerThread(id: Int, fileLen: Long, printAfterNDoc: Long = 100): Unit = {
+  override protected def workerThread(id: Int, fileLen: Long, printAfterNDoc: Long = 100): Unit = {
     val skipBytes: Long = fileLen / threads * id // fileLen now pre-computed before passing to all threads. skip bytes. skipped bytes is done by other workers
     val lineItr = new FastLineReader(corpus, skipBytes, encoding)
     var word_count: Long = 0
