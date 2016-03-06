@@ -9,7 +9,7 @@ import java.util.zip.{GZIPOutputStream, GZIPInputStream}
 
 
 abstract class NodeEmbeddingModel(val opts: EmbeddingOpts) extends Parameters {
-  implicit def bool2int(b:Boolean) = if (b) 1 else 0 // Converts booleans to ints when needed
+  implicit def bool2int(b:Boolean): Int = if (b) 1 else 0 // Converts booleans to ints when needed
   // Algo related
   val D = opts.dimension.value // default value is 200
   var V: Int = 0 // vocab size. Will computed in buildVocab() section
@@ -43,16 +43,19 @@ abstract class NodeEmbeddingModel(val opts: EmbeddingOpts) extends Parameters {
   def buildVocab(): Unit = {
     vocab = new VocabBuilder(vocabHashSize, samplingTableSize, 0.7) // 0.7 is the load factor
     println("Building Vocab")
-    if (loadVocabFilename.size == 0) {
+    if (loadVocabFilename.isEmpty) {
       val corpusLineItr = corpus.endsWith(".gz") match {
         case true => io.Source.fromInputStream(new GZIPInputStream(new FileInputStream(corpus)), encoding).getLines
         case false => io.Source.fromInputStream(new FileInputStream(corpus), encoding).getLines
       }
       while (corpusLineItr.hasNext) {
         val line = corpusLineItr.next
-        if (opts.includeEdgeLabels.value)
-          line.stripLineEnd.split(' ').foreach(word => vocab.addWordToVocab(word.toLowerCase())) // addWordToVocab() will incr by count. TODO : make this also parallel ? but it is an one time process, next time use load-vocab option
-
+        if (opts.includeEdgeLabels.value){
+          println("Edge labels no implemented yet")
+          System.exit(1)
+        }
+        var words = line.stripLineEnd.split(' ')
+        Array(0,2).foreach(i => vocab.addWordToVocab(words(i).toLowerCase)) // Only first and third labels are nodes/conceps
       }
     }
     else vocab.loadVocab(loadVocabFilename, encoding)
@@ -64,7 +67,7 @@ abstract class NodeEmbeddingModel(val opts: EmbeddingOpts) extends Parameters {
     train_nodes = vocab.trainWords()
     println("Corpus Stat - Vocab Size :" + V + " Total words (effective) in corpus : " + train_nodes)
     // save the vocab if the user provides the filename save-vocab
-    if (saveVocabFilename.size != 0) {
+    if (saveVocabFilename.nonEmpty) {
       println("Saving Vocab into " + saveVocabFilename)
       vocab.saveVocab(saveVocabFilename, storeInBinary, encoding) // for every word, <word><space><count><newline>
       println("Done Saving Vocab")
