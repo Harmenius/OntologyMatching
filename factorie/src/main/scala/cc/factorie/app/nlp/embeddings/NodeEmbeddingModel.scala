@@ -57,7 +57,7 @@ abstract class NodeEmbeddingModel(val opts: EmbeddingOpts) extends Parameters {
     }
     else vocab.loadVocab(loadVocabFilename, encoding)
 
-    vocab.sortVocab(minCount, if(ignoreStopWords) 1 else 0, maxVocabSize) // removes words whose count is less than minCount and sorts by frequency
+    vocab.sortVocab(minCount, ignoreStopWords, maxVocabSize) // removes words whose count is less than minCount and sorts by frequency
     vocab.buildSamplingTable() // for getting random word from vocab in O(1) otherwise would O(log |V|)
     vocab.buildSubSamplingTable(opts.sample.value) // precompute subsampling table
     V = vocab.size()
