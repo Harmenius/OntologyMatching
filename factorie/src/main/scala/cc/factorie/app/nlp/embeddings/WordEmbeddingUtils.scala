@@ -1,4 +1,4 @@
-//package cc.factorie.app.nlp.embeddings
+package cc.factorie.app.nlp.embeddings
 import cc.factorie.la._
 import scala.util.Random
 import java.io.{FileReader, RandomAccessFile}

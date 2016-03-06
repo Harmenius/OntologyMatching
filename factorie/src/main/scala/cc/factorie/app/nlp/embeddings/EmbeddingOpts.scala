@@ -1,4 +1,4 @@
-//package cc.factorie.app.nlp.embeddings
+package cc.factorie.app.nlp.embeddings
 import cc.factorie.util.CmdOptions
 
 class EmbeddingOpts extends CmdOptions {
@@ -52,5 +52,6 @@ class EmbeddingOpts extends CmdOptions {
   val vocabHashSize           = new CmdOption("vocab-hash-size", 14.3e6.toInt, "INT", "Vocabulary hash size")
   val samplingTableSize       = new CmdOption("sampling-table-size", 1e8.toInt, "INT", "Sampling Table size")
 
-  
+  val includeEdgeLabels       = new CmdOption("include-edge-labels", false, "BOOLEAN", "Should edges be taken into account when generating vocabulary?")
+
 }

@@ -1,4 +1,4 @@
-
+package cc.factorie.app.nlp.embeddings
 import cc.factorie.optimize.{ GradientOptimizer, Trainer, Example }
 import cc.factorie.la.SmartGradientAccumulator
 import cc.factorie.util.{ LocalDoubleAccumulator, Threading }

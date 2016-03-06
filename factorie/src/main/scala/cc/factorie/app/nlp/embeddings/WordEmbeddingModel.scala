@@ -1,4 +1,4 @@
-//package cc.factorie.app.nlp.embeddings
+package cc.factorie.app.nlp.embeddings
 import cc.factorie.model.{Parameters, Weights}
 import cc.factorie.optimize.{Trainer, AdaGradRDA}
 import cc.factorie.la.DenseTensor1

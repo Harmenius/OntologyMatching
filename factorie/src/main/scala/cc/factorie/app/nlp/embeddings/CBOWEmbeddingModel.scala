@@ -1,4 +1,4 @@
-// package cc.factorie.app.nlp.embeddings 
+package cc.factorie.app.nlp.embeddings
 import cc.factorie.util.DoubleAccumulator
 import cc.factorie.la.{DenseTensor1, WeightsMapAccumulator}
 import cc.factorie.optimize.Example
