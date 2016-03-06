@@ -14,3 +14,8 @@ hs_err_pid*
 # IDE Files
 .idea/
 *.skeleton
+
+# Binaries
+factorie/bin/*
+
+factorie/build.sbt
