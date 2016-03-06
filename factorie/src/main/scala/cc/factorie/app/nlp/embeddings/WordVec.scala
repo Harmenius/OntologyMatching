@@ -5,13 +5,13 @@ object WordVec {
   def main(args: Array[String]) {
     val opts = new EmbeddingOpts
     opts.parse(args)
-    println("Default Charset of this JVM =" + Charset.defaultCharset());
+    println("Default Charset of this JVM =" + Charset.defaultCharset())
     println("User Provided Charset for this project=" + opts.encoding.value)
     
     val is_valid_model = opts.model.value.equals("MSSG-KMeans") || opts.model.value.equals("MSSG-MaxOut") || opts.model.value.equals("NP-MSSG")
     if (is_valid_model) { 
       println("Leanring Multiple Embeddings using " + opts.model.value)
-      val wordEmbedding = new MultiSenseSkipGramEmbeddingModel(opts)
+      val wordEmbedding = new SkipGramNodeEmbedding(opts)
       val st1 = System.currentTimeMillis()
       wordEmbedding.buildVocab()
       val st = System.currentTimeMillis()
