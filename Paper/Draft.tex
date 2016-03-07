@@ -12,15 +12,29 @@
  \tableofcontents
  
  \section{Introduction}
-
+ % Voorbeeld van semantisch web
+ 
  \section{Problem}
  \subsection{Short Context}
- On the Semantic Web, ontologies are used to define and share knowledge.
+ On the Semantic Web, ontologies are used to define and share knowledge. The term ontology will be properly defined later on, but for now it suffices to know that an ontology is a set of rules that determine what relations are allowed and required. On the semantic web, ontologies are the foundation for communication between agents.
+ 
+ However, on the Semantic Web it is infeasible to use one single ontology, since the number of concepts it would have to contain is incredibly large. The larger an ontology the longer it takes to perform inference and searches on it, and thus to longer it takes to use it for communication. Therefore the semantic web will have separate ontologies for every domain. The downside of this approach is that when communication requires rules on multiple domains, which it often does, multiple ontologies need to be aligned or merged.
  \subsection{Problem}
- When knowledge bases are combined, their ontologies need to be merged.
+ We have seen that when information from multiple domains need to be integrated so that it is possible to reason over them together, the ontologies of those domains need to be aligned or merged. Those ontologies contain rules about concepts and concept classes in the shape of triplets, with two concepts and a relation. For example, the rule{\tt Professors are humans} contains the concepts \emph{Professor} and \emph{human} and relationship \emph{being}.
+ 
+ If we want to merge two ontologies, we need to find the concepts from the different ontologies that are related by an 'is-same-as' or other rule. 
+ 
+ However, since the ontologies are made for different domains, the same concept can be represented by different labels in the two ontologies. This problem is called the synonymy problem, as synonyms are two words that refer to the same concepts.
+ 
+ The opposite problem is called the homonymy problem, in which two concepts are represented by the same label. Since they have the same label, naive algorithms might align the concepts as being the same, when they are not.
+ 
+ Then there is the problem of ambiguity, which encompasses many other problems. It encompasses the fact that some concepts are used wrongly by humans, but also the fact that some concepts are extremely similar, and may occur in the same context, but are still slightly different.
+ 
+ Lastly, there is the problem of 
  \subsection{Research questions}
  
  \subsection{Hypotheses}
+ 
  
  \subsection{Justification}
  Reliable, error proof ontology matching will be key for the distributed Semantic Web.
@@ -99,20 +113,20 @@ All of this is possible, if the softbot can access all of the information reliab
   As can be read in {appropriate section}, it is possible to drop the bag-of-words assumption that the context is sequence invariant. 
   % maybe ref too\endcomment
   This means we can for example have the context be (previous word, next word) and those words will be treated differently. Similarly we can separate the edge and node labels and treat them differently. This ensures that the model will find any relationship between the edge and the node if it exists and will take this into account. For example, the system might use just the information 'isMarriedTo' to infer that someone is a human, but may infer that 'isMarriedTo' in combination with a man usually refers to a woman.
-  %  Ja doe maar een ander voorbeeld ivm gelijkheid e.d.\endcomment
+  %  Ja doe maar een ander voorbeeld ivm gelijkheid e.d.
   \subsubsection{Hot start}
   It is hard to classify the algorithm in terms of the normal ontology alignment methods. It is not purely string matching, since it takes into account information from the context. However, it is also not structural, as it can work without a seed alignment and uses information other than the structure as well. It is not logical 
-  %  Goeie woord?\endcomment
+  %  Goeie woord?
   since it does not use inference. Nor is it terminological, which looks at dictionaries or other ontologies to find matches. However, it does use other ontologies (or text corpi
-  % Check spelling\endcomment
+  % Check spelling
   ) implicitly, so if it must be grouped it would be terminological.
-  % Moet voorafgaand stukje op een andere plek?\endcomment
+  % Moet voorafgaand stukje op een andere plek?
   The algorithm can find matches based purely on the given node and edge labels. However the algorithm might benefit from a hot start. Such a seed alignment might allow the algorithm to train with certain words that are known synonyms as if they were the same word, thus increasing the number of training samples per word (on known relevant words) and decreasing sparsity. This may help the model, improving performance. However, since some information from other algorithms is now used, it would not be fair to compare the results to the cold start algorithm results. For example, it may just add the results from the generic string matcher to its own results, improving performance, without learning any new relationships. A new testing method had to be designed for this algorithm. This method would have to compare it to the string matchers, to see if it improved over their results, rather than compare it to the cold start algorithm. However, if we compare the cold and hot algorithms with the generic string matchers, we may be able to compare them indirectly. 
-  % Dit moet weg als het bs blijkt te zijn\endcomment
+  % Dit moet weg als het bs blijkt te zijn
  \subsection{Discarded possibilities} % Rename
   \subsubsection{Training on text}
   Rather than training on ontologies, it would be possible to train the model on text. Since there is more text available than ontologies when counting the number of training samples, it would make sense to use a purely text-trained model. However, this method has downsides which made me decide not to use it. Namely, the context of a word in a text corpus is very different from a node in an ontology. A word is surrounded by the words directly around it, or the sentence it is in, or the paragraph or entire document. However all these contexts are just words, usually represented as a bag of words to ensure enough data for the model. In an ontology, the context is a combination of a node with an edge, which have a very different relation than merely co-occurring. The relation may be inferred from one sentence, or many different documents.
-  % Herschrijf dit aub want het is niet goed\endcomment
+  % Herschrijf dit aub want het is niet goed
   \subsubsection{Just context nodes}
   
   \subsubsection{Just edges}
