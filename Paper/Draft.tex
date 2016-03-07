@@ -13,33 +13,14 @@
  
  \section{Introduction}
  % Voorbeeld van semantisch web
- 
- \section{Problem}
+
  \subsection{Short Context}
  On the Semantic Web, ontologies are used to define and share knowledge. The term ontology will be properly defined later on, but for now it suffices to know that an ontology is a set of rules that determine what relations are allowed and required. On the semantic web, ontologies are the foundation for communication between agents.
  
- However, on the Semantic Web it is infeasible to use one single ontology, since the number of concepts it would have to contain is incredibly large. The larger an ontology the longer it takes to perform inference and searches on it, and thus to longer it takes to use it for communication. Therefore the semantic web will have separate ontologies for every domain. The downside of this approach is that when communication requires rules on multiple domains, which it often does, multiple ontologies need to be aligned or merged.
- \subsection{Problem}
- We have seen that when information from multiple domains need to be integrated so that it is possible to reason over them together, the ontologies of those domains need to be aligned or merged. Those ontologies contain rules about concepts and concept classes in the shape of triplets, with two concepts and a relation. For example, the rule{\tt Professors are humans} contains the concepts \emph{Professor} and \emph{human} and relationship \emph{being}.
- 
- If we want to merge two ontologies, we need to find the concepts from the different ontologies that are related by an 'is-same-as' or other rule. 
- 
- However, since the ontologies are made for different domains, the same concept can be represented by different labels in the two ontologies. This problem is called the synonymy problem, as synonyms are two words that refer to the same concepts.
- 
- The opposite problem is called the homonymy problem, in which two concepts are represented by the same label. Since they have the same label, naive algorithms might align the concepts as being the same, when they are not.
- 
- Then there is the problem of ambiguity, which encompasses many other problems. It encompasses the fact that some concepts are used wrongly by humans, but also the fact that some concepts are extremely similar, and may occur in the same context, but are still slightly different.
- 
- Lastly, there is the problem of 
- \subsection{Research questions}
- 
- \subsection{Hypotheses}
+ However, on the Semantic Web it is infeasible to use one single ontology, since the number of concepts it would have to contain is incredibly large. The larger an ontology the longer it takes to perform inference and searches on it, and thus to longer it takes to use it for communication. Therefore the semantic web will have separate ontologies for every domain. The downside of this approach is that when communication requires rules on multiple domains, which it often does, multiple ontologies need to be aligned or merged. 
  
  
- \subsection{Justification}
- Reliable, error proof ontology matching will be key for the distributed Semantic Web.
- 
- \section{Context}
+\section{Context}
  In this section I will discuss all concepts that are required to understand the study.
  \subsection{The Semantic Web}
  The Semantic Web, or Web 3.0, is a concept of a Web that enhances the User Experience in ways that the current Web can not provide. Web 2.0, the current Web, models the internet as \textit{hubs} (or sites) with a specific purpose and barely any interconnectivity. For example, Facebook is a hub for sharing content with people you consider friends, but if you want to share that content with more people you will have to go to another hub, like imgur or Pinterest.
@@ -79,7 +60,32 @@ All of this is possible, if the softbot can access all of the information reliab
  AgreementMaker is an ontology matching system which obtained the highest F-measure in 6 of the 7 ontology matching tracks of OAEI 2015 %http://disi.unitn.it/~pavel/om2015/papers/oaei15_paper1.pdf. The system has also been updated the most recent at the time of writing.
  
  The system uses an extensible framework which allows its users to add new modules to the system. This is very useful for research as it allows the researcher to compare different modules by swapping in just those modules in the framework. The module-swapping technique will also be used in this work, but more of that will be discussed in $Evaluation methods$.
- %http://disi.unitn.it/~p2p/RelatedWork/Matching/vldb2009-revised.pdf
+ %http://disi.unitn.it/~p2p/RelatedWork/Matching/vldb2009-revised.pdf 
+ 
+ \section{Problem}
+
+ \subsection{Problem}
+ We have seen that when information from multiple domains need to be integrated so that it is possible to reason over them together, the ontologies of those domains need to be aligned or merged. Those ontologies contain rules about concepts and concept classes in the shape of triplets, with two concepts and a relation. For example, the rule{\tt Professors are humans} contains the concepts \emph{Professor} and \emph{human} and relationship \emph{being}.
+ 
+ If we want to merge two ontologies, we need to find the concepts from the different ontologies that are related by an 'is-same-as' or other rule. 
+ 
+ However, since the ontologies are made for different domains, the same concept can be represented by different labels in the two ontologies. This problem is called the synonymy problem, as synonyms are two words that refer to the same concepts.
+ 
+ The opposite problem is called the homonymy problem, in which two concepts are represented by the same label. Since they have the same label, naive algorithms might align the concepts as being the same, when they are not.
+ 
+ Then there is the problem of ambiguity, which encompasses many other problems. It encompasses the fact that some concepts are used wrongly by humans, but also the fact that some concepts are extremely similar, and may occur in the same context, but are still slightly different.
+ 
+ Lastly, there is the problem of different types of alignment relations. For example, one concept can be a \emph{part of} another concept, or an example of one. These different relations all require a different approach and come with their own sets of problems.
+ 
+ In summary, ontology aligning is required for multi-domain communication but poses a number of problems that make it difficult for concepts, the building blocks of ontologies, to be matched.
+ \subsection{Research questions}
+ 
+ \subsection{Hypotheses}
+ 
+ 
+ \subsection{Justification}
+ Reliable, error proof ontology matching will be key for the distributed Semantic Web.
+ 
  \section{Method}
  In this section, I will describe the method that I developed. Firstly, I will describe the general idea. In the second section, I will give a theoretical justification for why this method should work and how it works conceptually. After that I will describe the different ways that the input graphs can be used to train the word2vec model and create the alignment. 
  \subsection{Idea}
