@@ -19,3 +19,4 @@ hs_err_pid*
 factorie/bin/*
 
 factorie/build.sbt
+factorie/Data
