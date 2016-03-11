@@ -14,7 +14,7 @@ class EmbeddingOpts extends CmdOptions {
   val window                  = new CmdOption("window", 5, "INT", "use <int> skip length between words")
   val threads                 = new CmdOption("threads", 12, "INT", "use <int> threads")
   val negative                = new CmdOption("negative", 1, "INT", "use <int> number of negative examples")
-  val minCount                = new CmdOption("min-count", 5, "INT", "This will discard words that appear less than <int> times; default is 5")
+  val minCount                = new CmdOption("min-count", 3, "INT", "This will discard words that appear less than <int> times; default is 5")
   val ignoreStopWords         = new CmdOption("ignore-stopwords", 0, "INT", "use <int> to include or discard stopwords. Use 1 for discarding stopwords")
   val cbow                    = new CmdOption("cbow", 2, "INT", "user cbow=1 for cbow and cbow=0 for skip-gram")
   val sample                  = new CmdOption("sample", 0.001, "DOUBLE", "use <double> subsampling")
