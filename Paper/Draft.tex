@@ -14,6 +14,29 @@
  
  \section{Introduction}
  % Voorbeeld van semantisch web?
+ It is a Friday afternoon and you realise you want to watch a movie with some friends. So, what do you do? To achieve this goal you must take 4 steps.
+ 
+ Firstly, you must open up an internet Movie Database, search for movies that you like that are also playing this weekend. To do this you must either manually go through the list of movies playing this weekend or movies the Database recommends for you and check if any movies on that list match your full criteria.
+ 
+ Once you have found one or more movies that match your search criteria, you have to select a time at which you can see the candidate movies, so you check for every movie every available time slot at every cinema near you. The number of time slots is equal to the number of movies you chose in the previous step, times the number of cinemas near you times the number of times every movie is shown at one cinema.
+ 
+ The next step is to filter the number of time slots based on your agenda, so you cross-reference the available movie times with the times you are available during the weekend.
+ 
+ Then onto the last step, getting friends to go with you. In this step you do not want to burden your friends to much by having them pick both the movie and the time, so you will have to decide which movie to watch or when, even though you do not know if your friends will like this movie or are available at that time. Once you contact your friends, most of them do not respond as they are not online at that time or they do not feel like filling in a poll about availability or movie choices.
+ 
+ What would happen if this process was automated? The first step, finding movies that match two criteria would be considered trivial with modern technology. One finds the two lists of movies that are recommended for you and movies that are playing this weekend and intersect them. A ranking can be added based on how expensive the tickets are, how certain it is that you may like the movie, and other factors.
+ 
+ The second step, cross-referencing the list of movies with cinema play times, would already be harder. Most of the time the cinema play times are written in a human-readable format, something that is often hard to incorporate for a computer. Either the play times have to be made in a computer-readable format or a computer has to interpret them and convert them into computer-readable. However, errors might occur because the local cinema labelled a sequel as "Movie II" whereas the list we have has it labelled as "Movie 2".
+ 
+ Checking an agenda to find an appropriate time would be easy if the times from the cinemas can be transformed to the same format as your agenda. If we are automating the process, we may be able to add more features, like changing standing appointments (of course incurring a penalty to the score of that time spot) and such.
+ 
+ The last step, contacting friends can be done in one click. Let us call the program that automated the first three steps a \emph{softbot} and assume they are universal, i.e. everyone has one. Rather than bothering your friends with scheduling, your softbot can contact those of your friends and find the movie and time slot that optimize a cost function, taking into account which friends you like the most, which movie everybody likes the most and at which time the fewest dinners with wives need to be moved. Once this best time is chosen, everyone gets an invite to see the movie and once it is known who will go, a car pooling route is calculated and you can sit back an enjoy your Friday afternoon with no planning or scheduling required.
+ 
+ The most amazing thing about this story, is that it is already possible with the current technology. The algorithms to convert for example cinema website text to computer-readable format exist. Many open databases already contain a lot of structured data that can be used to reason about data.
+ 
+ Three things are required before this web of computers who communicate and understand, this Semantic Web, will come into existence. The first thing is ???. 
+ Secondly, it needs to be adopted by humans. They must see the value of these personal assistants that can schedule things for you, that take into account your personal context when searching the web, that understand questions and can ask you for more information that can improve the search. People have to realise that the current search engines are not good enough, and that having to read through many papers to find the one nugget of information or the one connection that you are looking for is not acceptable or necessary.
+ Lastly, the different knowledge bases and unstructured texts need to be aligned. This means that softbots should be able to reason about facts that are contained in different domains and documents. This last problem is the one that I will work on in this thesis. Once we can combine the information from different databases and unstructured text, the Semantic Web is technically possible and only needs to be socially accepted before it will become the norm.
 
  \subsection{Short Context}
  On the Semantic Web, ontologies are used to define and share knowledge. The term ontology will be properly defined later on, but for now it suffices to know that an ontology is a set of rules that determine what relations are allowed and required. On the semantic web, ontologies are the foundation for communication between agents.
