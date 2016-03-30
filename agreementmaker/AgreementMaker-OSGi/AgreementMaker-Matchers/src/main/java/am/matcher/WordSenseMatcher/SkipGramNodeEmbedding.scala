@@ -1,4 +1,5 @@
-package factorie.app.nlp.embeddings
+package am.matcher.WordSenseMatcher
+
 import scala.util.control.Breaks.break
 
 class SkipGramNodeEmbedding(override val opts: EmbeddingOpts) extends NodeEmbeddingModel(opts){
