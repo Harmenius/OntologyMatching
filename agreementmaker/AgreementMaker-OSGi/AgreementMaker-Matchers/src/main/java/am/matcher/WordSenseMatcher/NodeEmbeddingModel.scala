@@ -10,9 +10,9 @@ import java.util.zip.{GZIPOutputStream, GZIPInputStream}
 
 import cc.factorie.app.nlp.embeddings.{EmbeddingOpts, WordEmbeddingModel, VocabBuilder, TensorUtils, FastLineReader}
 
-
 abstract class NodeEmbeddingModel(override val opts: EmbeddingOpts) extends WordEmbeddingModel(opts) {
-  implicit def bool2int(b:Boolean): Int = if (b) 1 else 0 // Converts booleans to ints when needed
+  //implicit def bool2int(b:Boolean): Int = if (b) 1 else 0 // Converts booleans to ints when needed
+  //implicit def int2bool(i:Int): Boolean = if(i==0) false else true // Convert ints to booleans when needed
   // Algo related
   // TODO: Make EmbeddingNodeOpts
   //protected val bidirectional = opts.bidirectional.value // Add both concepts with context (other concept, edge)
@@ -39,7 +39,7 @@ abstract class NodeEmbeddingModel(override val opts: EmbeddingOpts) extends Word
       while (corpusLineItr.hasNext) {
         val line = corpusLineItr.next
         if (true){//opts.includeEdgeLabels.value){ //TODO: implement edges
-          println("Edge labels no implemented yet")
+          println("Edge labels not implemented yet")
           System.exit(1)
         }
         var words = line.stripLineEnd.split(' ')
@@ -57,7 +57,7 @@ abstract class NodeEmbeddingModel(override val opts: EmbeddingOpts) extends Word
     // save the vocab if the user provides the filename save-vocab
     if (saveVocabFilename.nonEmpty) {
       println("Saving Vocab into " + saveVocabFilename)
-      vocab.saveVocab(saveVocabFilename, storeInBinary, encoding) // for every word, <word><space><count><newline>
+      vocab.saveVocab(saveVocabFilename, if (storeInBinary) 1 else 0, encoding) // for every word, <word><space><count><newline>
       println("Done Saving Vocab")
     }
 
@@ -81,8 +81,8 @@ abstract class NodeEmbeddingModel(override val opts: EmbeddingOpts) extends Word
   override def store(): Unit = {
     println("Now, storing the embeddings .... ")
     val out = storeInBinary match {
-      case 0 => new java.io.PrintWriter(outputFilename, encoding)
-      case 1 => new OutputStreamWriter(new GZIPOutputStream(new BufferedOutputStream(new FileOutputStream(outputFilename))), encoding)
+      case true => new java.io.PrintWriter(outputFilename, encoding)
+      case false => new OutputStreamWriter(new GZIPOutputStream(new BufferedOutputStream(new FileOutputStream(outputFilename))), encoding)
     }
     // format :
     // <vocabsize><space><dim-size><newline>

@@ -1,6 +1,7 @@
 package am.matcher.WordSenseMatcher
 
 import scala.util.control.Breaks.break
+import cc.factorie.app.nlp.embeddings.{SkipGramNegSamplingExample, EmbeddingOpts}
 
 class SkipGramNodeEmbedding(override val opts: EmbeddingOpts) extends NodeEmbeddingModel(opts){
   val negative = opts.negative.value
@@ -16,15 +17,15 @@ class SkipGramNodeEmbedding(override val opts: EmbeddingOpts) extends NodeEmbedd
       if (concepts(i) != -1) {
         var context = new collection.mutable.ArrayBuffer[Int]
         context += concepts(1 - i) // Add the other concept
-        if (bidirectional)
+        if (false)//bidirectional)
           println("Bidirectionality not implemented yet") //TODO: implement bidirectionality
-        else if (addInvertedEdges)
+        else if (false)//addInvertedEdges)
           println("Inverted edges not implemented yet") //TODO: implement inverted edges
         else if (i == 1) // Otherwise parents are not in context so no training required
           break
 
         context = context.filter(v => v != -1)
-        if (combineContext)
+        if (false)//combineContext)
           println("Combined context not implemented yet") //TODO: implement context combining
         else
           context.foreach(context => {
@@ -34,6 +35,13 @@ class SkipGramNodeEmbedding(override val opts: EmbeddingOpts) extends NodeEmbedd
       }
     }
     return conceptCount
+  }
+
+  def getVector(index: Int) : Array[Double] = {
+    val weight = weights(index)
+    val output = Array[Double](weight.value.size)
+    for (i <- weight.value.size) output(i) = weight.value(i)
+    return output
   }
 
 }

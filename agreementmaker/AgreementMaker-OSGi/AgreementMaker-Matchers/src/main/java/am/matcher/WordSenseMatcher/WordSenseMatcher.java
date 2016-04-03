@@ -11,6 +11,9 @@ import java.util.List;
  */
 public class WordSenseMatcher extends AbstractMatcher {
 
+    SkipGramNodeEmbedding model = new SkipGramNodeEmbedding(null);
+    double threshold = 100.0;
+
     public WordSenseMatcher() {
         super();
         setName("WordSenseMatcher");
@@ -25,7 +28,10 @@ public class WordSenseMatcher extends AbstractMatcher {
 
     @Override
     protected SimilarityMatrix alignNodesOneByOne( List<Node> sourceList, List<Node> targetList, alignType typeOfNodes) throws Exception {
-
+        SkipGramNodeEmbedding model = new SkipGramNodeEmbedding(null);
+        model.opts().corpus().setValue("Data/corpus.csv");
+        model.buildVocab();
+        model.learnEmbeddings();
         // Run source and target through w2v
         return super.alignNodesOneByOne(sourceList, targetList, typeOfNodes);
     }
@@ -40,7 +46,18 @@ public class WordSenseMatcher extends AbstractMatcher {
      */
     @Override
     protected Mapping alignTwoNodes(Node source, Node target, alignType typeOfNodes, SimilarityMatrix matrix ) throws Exception {
-        return null;
+        String source_label = source.getLabel();              String target_label = target.getLabel();
+        int source_index = model.vocab().getId(source_label); int target_index = model.vocab().getId(target_label);
+        double[] source_vec = model.getVector(source_index);  double[] target_vec = model.getVector(target_index);
+        double d = 0;
+        for (int i = 0; i<= source_vec.length; i++) {
+            d += Math.pow((source_vec[i] - target_vec[i]), 2);
+        }
+        d = Math.sqrt(d);
+        if (d>threshold)
+            return null;
+        else
+            return new Mapping(source, target);
     }
 
 
