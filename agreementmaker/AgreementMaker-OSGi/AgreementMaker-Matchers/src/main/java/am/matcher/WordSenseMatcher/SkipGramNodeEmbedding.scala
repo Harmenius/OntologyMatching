@@ -40,7 +40,7 @@ class SkipGramNodeEmbedding(override val opts: EmbeddingOpts) extends NodeEmbedd
   def getVector(index: Int) : Array[Double] = {
     val weight = weights(index)
     val output = Array[Double](weight.value.size)
-    for (i <- weight.value.size) output(i) = weight.value(i)
+    for (i <- 0 until weight.value.size) output(i) = weight.value(i)
     return output
   }
 
