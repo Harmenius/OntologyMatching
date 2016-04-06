@@ -46,7 +46,7 @@ public class OSGiRegistry extends MatcherRegistry {
 		matcherList.add(new BasicStructuralSelectorMatcher());
 		matcherList.add(new CopyMatcher());
 		matcherList.add(new EqualsMatcher());
-		
+
 		//start the service tracker
 		startMatcherTracker();
 		

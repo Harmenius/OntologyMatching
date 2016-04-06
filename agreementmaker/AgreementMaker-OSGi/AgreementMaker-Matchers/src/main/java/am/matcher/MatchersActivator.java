@@ -17,6 +17,7 @@ import am.matcher.dsi.DescendantsSimilarityInheritanceMatcher;
 import am.matcher.groupFinder.GroupFinderMatcher;
 import am.matcher.multiWords.MultiWordsMatcher;
 import am.matcher.parametricStringMatcher.ParametricStringMatcher;
+import am.matcher.WordSenseMatcher.WordSenseMatcher;
 
 public class MatchersActivator implements BundleActivator {
 
@@ -34,6 +35,7 @@ public class MatchersActivator implements BundleActivator {
 	private ServiceRegistration<AbstractMatcher> regIism;
 	private ServiceRegistration<AbstractMatcher> regFilterMatcher;
 	private ServiceRegistration<AbstractMatcher> regGroupFinderMatcher;
+	private ServiceRegistration<AbstractMatcher> regWordSenseMatcher;
 	/*
 	 * (non-Javadoc)
 	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
@@ -51,6 +53,7 @@ public class MatchersActivator implements BundleActivator {
 		regIism = context.registerService(AbstractMatcher.class, new IterativeInstanceStructuralMatcher(), new Hashtable<String,String>());
 		regFilterMatcher = context.registerService(AbstractMatcher.class, new FilterMatcher(), null);
 		regGroupFinderMatcher = context.registerService(AbstractMatcher.class, new GroupFinderMatcher(), null);
+		regWordSenseMatcher = context.registerService(AbstractMatcher.class, new WordSenseMatcher(), null);
 	}
 
 	/*
@@ -69,6 +72,7 @@ public class MatchersActivator implements BundleActivator {
 		regIism.unregister();
 		regFilterMatcher.unregister();
 		regGroupFinderMatcher.unregister();
+		regWordSenseMatcher.unregister();
 	}
 
 }

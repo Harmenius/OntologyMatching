@@ -30,6 +30,7 @@ import am.matcher.pra.PRAMatcher.OldPRAMatcher;
 import am.matcher.pra.PRAMatcher.PRAMatcher;
 import am.matcher.pra.PRAMatcher.PRAMatcher2;
 import am.matcher.pra.PRAintegration.PRAintegrationMatcher;
+import am.matcher.WordSenseMatcher;
 
 public class ManualMatcherRegistry extends MatcherRegistry {
 
@@ -52,6 +53,7 @@ public class ManualMatcherRegistry extends MatcherRegistry {
 		matchers.add(new LexicalSynonymMatcherWeighted());
 		matchers.add(new DescendantsSimilarityInheritanceMatcher());
 		matchers.add(new IterativeInstanceStructuralMatcher());
+		matchers.add(new WordSenseMatcher());
 		
 		// Matcher-AdvancedSimilarity
 		matchers.add(new AdvancedSimilarityMatcher());
