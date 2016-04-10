@@ -41,7 +41,7 @@
  Lastly, the different knowledge bases and unstructured texts need to be aligned. This means that softbots should be able to reason about facts that are contained in different domains and documents. This last problem is the one that I will work on in this thesis. Once we can combine the information from different databases and unstructured text, the Semantic Web is technically possible and only needs to be socially accepted before it will become the norm.
 
  \subsection{Short Context}
- On the Semantic Web, ontologies are used to define and share knowledge. The term ontology will be properly defined later on, but for now it suffices to know that an ontology is a set of rules that determine what relations are allowed and required. On the semantic web, ontologies are the foundation for communication between agents.
+ On the Semantic Web, ontologies are used to define and share knowledge. The term ontology will be properly defined later on, but for now it suffices to know that an ontology is a set of rules that determine what relations are allowed and required in a given domain of discourse. On the semantic web, ontologies are the foundation for communication between agents.
  
  However, on the Semantic Web it is infeasible to use one single ontology, since the number of concepts it would have to contain is incredibly large. The larger an ontology the longer it takes to perform inference and searches on it, and thus the longer it takes to use it for communication. Therefore the semantic web will have separate ontologies for every domain. The downside of this approach is that when communication requires rules on multiple domains, which it often does, multiple ontologies need to be aligned or merged.
  
@@ -91,8 +91,15 @@ All of this is possible, if the softbot can access all of the information reliab
  Overall it is clear that % Samenvatten/enumerate, gevolg voor deze thesis (dus ik moet... mijn bijdrage is belangrijk...)
  \subsubsection{Technologies}
  \subsection{Ontologies}
+ Earlier, ontologies were referred to as 'a set of rules that determine what relations are allowed and required.' Now, the term will be defined more extensively, the standard format will be describe and the uses of ontologies will be discussed.
+ 
+ An ontology describes concepts as their relationships to other concepts. The concepts that are described determine the domain the ontology covers, and the relationships determine the rules the ontology imposes on the domain. For example, a hierarchy is an ontology that describes concepts that are subclasses of other concepts. Therefore the relationships are 'part-of' relationships: birds are part-of the animals concept class.
+ Concepts can be instantiated, which is done in a Knowledge Base (KB). KBs and Ontologies are often confused, and are indeed very similar in structure. The Knowledge Base in our example can contain actually existing birds or fictional birds, and refers to the Ontology concept of bird to embed the instantiations with meaning.
  \subsubsection{OWL}
+ 
  \subsubsection{Role}
+ 
+ \subsubsection{Aristotle and Plato} 
  \subsection{Current alignment strategies}
  Many different alignment strategies have already been developed. All strategies follow the same two-step approach. The two steps are independent and as such different methods can be used interchangeably. The first step is to generate an initial correspondence set, where correspondences between nodes are found based on just their labels and meta-data. The second step is to use this initial set and the structure of the ontology to find more correspondences. These steps are called the terminological and the structural steps. Some strategies also use extra steps like the extensional and semantic steps, which use vector space models and inference, respectively. https://hal.inria.fr/hal-00917910/document
  
