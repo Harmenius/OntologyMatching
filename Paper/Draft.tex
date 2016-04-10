@@ -91,15 +91,36 @@ All of this is possible, if the softbot can access all of the information reliab
  Overall it is clear that % Samenvatten/enumerate, gevolg voor deze thesis (dus ik moet... mijn bijdrage is belangrijk...)
  \subsubsection{Technologies}
  \subsection{Ontologies}
- Earlier, ontologies were referred to as 'a set of rules that determine what relations are allowed and required.' Now, the term will be defined more extensively, the standard format will be describe and the uses of ontologies will be discussed.
+ Earlier, ontologies were referred to as 'a set of rules that determine what relations are allowed and required.' Now, the term will be defined more extensively, the standard format will be described and the uses of ontologies will be discussed.
  
  An ontology describes concepts as their relationships to other concepts. The concepts that are described determine the domain the ontology covers, and the relationships determine the rules the ontology imposes on the domain. For example, a hierarchy is an ontology that describes concepts that are subclasses of other concepts. Therefore the relationships are 'part-of' relationships: birds are part-of the animals concept class.
  Concepts can be instantiated, which is done in a Knowledge Base (KB). KBs and Ontologies are often confused, and are indeed very similar in structure. The Knowledge Base in our example can contain actually existing birds or fictional birds, and refers to the Ontology concept of bird to embed the instantiations with meaning.
  \subsubsection{OWL}
- 
+ OWL is a family of languages and syntaxes that can be used to create an ontology. The different languages are designed around requirements of possible relationships and concept definitions, and thus may differ a lot between them. The W3C has defined three variants which are the bases for all other adaptations. The variants trade off levels of expressiveness versus computability.
+ \subsubsection{SPARQL}
+ SPARQL is the query language for knowledge bases and ontologies. It allows a user to select nodes whose context match the query, similar to how rows are selected in SQL based on the row contents.
  \subsubsection{Role}
+ The reason ontologies are used in databases consists of multiple parts. Firstly, it allows querying languages to optimize the search process. Secondly, it allows expansion of information on a node. Thirdly, it allows for consistency checking a Knowledge Base. Lastly, it allows merging of knowledge bases.
  
- \subsubsection{Aristotle and Plato} 
+ Search can be optimized by taking into account constraints the ontology provides. For example, no professor is a student, therefore no professor can be connected to a course with 'follows' predicate. This allows a search algorithm to skip all professors when looking for people that might follow a certain course.
+ 
+ Expanding the available information of a certain node can be done by taking into account \textit{positive} constraints of a concept. For example, since all birds have beaks, it would be inefficient to store this fact for every instance of bird in the knowledge base. However, if this is a constraint given in the ontology, it can be accessed for all instantiations of the bird concept with less space required. Superclassing enables ontologies to store these types of information even more efficiently, allowing for enormous amounts of information to be extracted for every node without the need to store it all explicitly for that node.
+ 
+ One important aspect of data bases is consistency. Manipulations on a data base such as a knowledge base must not result in a knowledge base that does not adhere to the data base constraints. In a knowledge base, these constraints are defined in the ontology.
+ 
+ When two knowledge bases need to be merged, aligned or matched, instantiations that refer to the same thing need to be merged. For example, if two person databases both contain references to the same person, all information on that person needs to be linked to the same object, such that information of that person from both knowledge bases can be combined. Merging the ontologies of the two knowledge bases vastly improves the alignment between the two knowledge bases. However, ontology and knowledge base merging is not a trivial problem and actually the problem that this thesis addresses. Therefore it will be explained more in-depth later on.
+ \subsubsection{Aristotle and Plato}
+ All ontologies lie on a spectrum of formality. On the one end of the spectrum are the Platonic ontologies, which should only contain concepts that are perfectly defined and constraints which are completely binding. The name refers to the Platonic philosophy that all concepts are existing entities and can thus be perfectly captured in a definition.
+ 
+ On the other end of the spectrum are the Aristotelian ontologies, which do not necessarily contain perfectly defined concepts, but rather concepts as we observe them. Aristotle disagreed with Plato's theory that concepts are existing things, and thus these ontologies are named after him.
+ 
+ Aristotelian ontologies have the advantage of being easier to create. One could use statistical methods given a sample of all possible observations or crowd sourcing to create concepts and constraints. This would enable enormous ontologies and knowledge bases with the amount of data currently available and cheap mental labour with services like Amazon's Mechanical Turk.
+ 
+ The advantage of a Platonic ontology would be the fact that every query would result in a fact, since the ontology itself is perfect. The disadvantage is that creating such an ontology is much more costly than an Aristotelian ontology, since every concept and constraint needs to be correct in all cases.
+ 
+ Another way to represent this spectrum is the precision-recall trade-off. A Platonic ontology has maximum precision but its recall is limited since it can only represent very little if creation budget is limited, or paradoxes exist. The Aristotelian ontology on the other hand, can theoretically reach perfect recall given enough storage size and observations for its statistical methods. Again, in reality this is limited by a budget. All ontologies fall between these two extremes. Often, a combination of statistical methods with expert confirmation is used.
+ 
+ Platonic ontologies are often used in areas where precision is important, like medicine, where lives depend on the information contained in the ontology and its knowledge base. Aristotelian ontologies are more common on the Semantic Web, where massive amounts of data need to be represented and queried.
  \subsection{Current alignment strategies}
  Many different alignment strategies have already been developed. All strategies follow the same two-step approach. The two steps are independent and as such different methods can be used interchangeably. The first step is to generate an initial correspondence set, where correspondences between nodes are found based on just their labels and meta-data. The second step is to use this initial set and the structure of the ontology to find more correspondences. These steps are called the terminological and the structural steps. Some strategies also use extra steps like the extensional and semantic steps, which use vector space models and inference, respectively. https://hal.inria.fr/hal-00917910/document
  
