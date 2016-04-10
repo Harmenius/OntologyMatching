@@ -72,24 +72,25 @@ All of this is possible, if the softbot can access all of the information reliab
  \subsubsection{Current state}
  The Semantic Web is currently divided into two groups: the people who need high accuracy and the people who need high recall. The first group consist of scientists that work on specific fields that require exact knowledge, whereas the second group are data scientists that want big amounts of data available.
  
- The group that requires high recall use hand-crafted knowledge bases, created by experts, containing only facts that are accurate, verified and relevant. This method of creating a knowledge base does not scale very well and usually consists of fewer than ten thousand facts. Because of this, the knowledge bases are restricted to small domains, including parts of medicine and cultural heritage. %TODO CITE en vind meer
+ The group that requires high recall use hand-crafted knowledge bases, created by experts, containing only facts that are accurate, verified and relevant. This method of creating a knowledge base does not scale very well and usually consists of fewer than ten thousand facts. Because of this, the knowledge bases are restricted to small domains, including some parts of medicine and cultural heritage. \cite{byrne, le2002}
  
- The group that requires a high recall, i.e. requires a huge amount of data, automated methods are required. These methods work fast, parsing thousands of websites a minute, but are inclined to make mistakes. Often, these methods use crowd-sourcing to improve accuracy, using experts or the general public to suggest or check facts. %TODO CITE
+ The group that requires a high recall, i.e. requires a huge amount of data, automated methods are required. These methods work fast, parsing thousands of websites a minute, but are inclined to make mistakes. Often, these methods use crowd-sourcing to improve accuracy, using experts or the general public to suggest or check facts. \cite{zhou2007}
  
- Beside these knowledge bases, many other pieces of the Semantic Web are already in use. For example, the W3C %TODO OWL/RDF stats, 
+ Beside these knowledge bases, many other pieces of the Semantic Web are already in use. For example, the W3C \cite{rdf, owl}
+ %TODO: stats?
  
- Large ontologies already exist, with the largest, DBPedia, boasting almost two billion triples and the three hundred combined Large Open Data databases contain over thirty billion. %http://semantic-web-journal.net/system/files/swj499.pdf and http://lod-cloud.net/state/
+ Large ontologies already exist, with the largest, DBPedia, boasting almost two billion triples and the three hundred combined Large Open Data databases contain over thirty billion. \cite{dbpedia, lod} The LOD is simply one huge alignment of hundreds of knowledge bases... %Doorschrijven
  
- Leading scientists suggest that more research should be focused on 
+% Leading scientists suggest that more research should be focused on creating 
  
- %https://www.researchgate.net/profile/Hai_Dong/publication/260329617_Semantic_Web_Service_matchmakers_State_of_the_art_and_challenges/links/0a85e531190b602215000000.pdf
+ Applications include improved web searching, question answering, product comparison, context merging, data integration, decision support, translation, all the way up to the intelligent softbot mentioned earlier.
  
- 
- Applications include
- %TODO vind meer en https://googleblog.blogspot.nl/2012/05/introducing-knowledge-graph-things-not.html
+ % Elke behandelen
  
  Overall it is clear that % Samenvatten/enumerate, gevolg voor deze thesis (dus ik moet... mijn bijdrage is belangrijk...)
  \subsubsection{Technologies}
+ 
+ 
  \subsection{Ontologies}
  Earlier, ontologies were referred to as 'a set of rules that determine what relations are allowed and required.' Now, the term will be defined more extensively, the standard format will be described and the uses of ontologies will be discussed.
  
@@ -124,8 +125,8 @@ All of this is possible, if the softbot can access all of the information reliab
  \subsection{Current alignment strategies}
  Many different alignment strategies have already been developed. All strategies follow the same two-step approach. The two steps are independent and as such different methods can be used interchangeably. The first step is to generate an initial correspondence set, where correspondences between nodes are found based on just their labels and meta-data. The second step is to use this initial set and the structure of the ontology to find more correspondences. These steps are called the terminological and the structural steps. Some strategies also use extra steps like the extensional and semantic steps, which use vector space models and inference, respectively. https://hal.inria.fr/hal-00917910/document
  
- Popular terminological strategies are WordNet comparison and edit distance. The former uses the popular WordNet hierarchy as a distance measure between to concepts, e.g. the number of edges between the concepts and their least general common superconcept. % http://disi.unitn.it/~p2p/RelatedWork/Matching/Lin_WordNet_OM.pdf
- Edit distance is a purely string-based similarity measure. The similarity is a (weighted) count of edits required to transform one word into another, where common edits are insertion, deletion and replacement. Similar methods include substring matching and n-gram matching, which compare parts of the strings to find similarities. %http://disi.unitn.it/~p2p/RelatedWork/Matching/6614ijdms01.pdf
+ Popular terminological strategies are WordNet comparison and edit distance. The former uses the popular WordNet hierarchy as a distance measure between to concepts, e.g. the number of edges between the concepts and their least general common superconcept. \cite{lin2008}
+ Edit distance is a purely string-based similarity measure. The similarity is a (weighted) count of edits required to transform one word into another, where common edits are insertion, deletion and replacement. Similar methods include substring matching and n-gram matching, which compare parts of the strings to find similarities.\cite{singh2014, levenshtein}
  \subsection{Problems in ontology alignment}
  \subsection{Other related research}
  \subsubsection{Word sense representation}
