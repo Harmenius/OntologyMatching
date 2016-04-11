@@ -13,3 +13,6 @@ hs_err_pid*
 
 # IDE Files
 .idea/
+
+# Log files
+*.log
