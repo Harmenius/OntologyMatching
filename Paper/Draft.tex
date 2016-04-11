@@ -192,7 +192,8 @@ All of this is possible, if the softbot can access all of the information reliab
  \end{itemize}
  
  To solve these problems I will adapt word2vec to graphs and extend it with multi-sense embeddings. Also hot-starting is considered as an improvement.
- \subsection{Possibilities} % Rename please
+ \subsection{Considered implementations}
+ In this section, I will discuss the different implementations that were made of the algorithm. All implementations use the same basic algorithm in different ways by taking into account the context in different ways. All of these implementations were tested and the results can be found in \ref{results}. Some implementations are extensions of other implementations, but all implementations are mentioned for completeness and to enable explanation of the source of improvements.
   \subsubsection{Training corpus}
   Word embedding models need to be trained on a large corpus. These corpora need to cover the concepts that are contained in the ontology, but also need to be large enough to build good embeddings. Since the ontologies themselves do not necessarily contain enough examples to embed the concepts properly, I need to use ontologies that are likely to contain the concepts I want to align.
   As a benchmark, I will use the WordNet and NELL ontologies. To check if adding the ontologies that are to be aligned helps, I will also train a model on an ontology consisting of WordNet, NELL and the two alignment candidates.
@@ -258,7 +259,7 @@ All of this is possible, if the softbot can access all of the information reliab
  \subsection{Data}
  The data used comes from a list of data sets that the OAEI provides. % Zoek paper, misschien http://www.sciencedirect.com/science/article/pii/S1570826813000188
  %Hoeveel preprocessing moest ik doen
- Every data set contains two ontologies that need to be aligned and a ground truth alignment. The goal is straightforward: find the alignment given only the ontologies and whatever outside resources are needed.
+ Every data set contains two ontologies that need to be aligned and a ground truth alignment. The goal is straightforward: find the alignment given only the ontologies and whichever outside resources are needed.
 
  A reference alignment can be made by experts or be created by bipartitioning an existing ontology. %expand this.
  \subsubsection{Parts of OWL ignored} 
@@ -277,7 +278,7 @@ All of this is possible, if the softbot can access all of the information reliab
  
  \subsection{Product}
  
- \section{Results}
+ \section{Results} \label{results}
  
  \section{Conclusions}
  \subsection{Recap research questions}
