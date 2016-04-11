@@ -157,9 +157,9 @@ All of this is possible, if the softbot can access all of the information reliab
  \section{Problem}
 
  \subsection{Problem}
- We have seen that when information from multiple domains need to be integrated so that it is possible to reason over them together, the ontologies of those domains need to be aligned or merged. Those ontologies contain rules about concepts and concept classes in the shape of triplets, with two concepts and a relation. For example, the rule{\tt Professors are humans} contains the concepts \emph{Professor} and \emph{human} and relationship \emph{being}.
+ We have seen that when information from multiple domains needs to be integrated so that it is possible to reason over them together, the ontologies of those domains need to be aligned or merged. Those ontologies contain rules about concepts and concept classes in the shape of triplets, with two concepts and a relation. For example, the rule{\tt Professors are humans} contains the concepts \emph{Professor} and \emph{human} and relationship \emph{being}.
  
- If we want to merge two ontologies, we need to find the concepts from the different ontologies that are related by an 'is-same-as' or other rule. 
+ If we want to merge two ontologies, we need to find the concepts from the different ontologies that are related by an 'is-same-as' or other rule.
  
  However, since the ontologies are made for different domains, the same concept can be represented by different labels in the two ontologies. This problem is called the synonymy problem, as synonyms are two words that refer to the same concepts.
  
@@ -171,10 +171,28 @@ All of this is possible, if the softbot can access all of the information reliab
  
  In summary, ontology aligning is required for multi-domain communication but poses a number of problems that make it difficult for concepts, the building blocks of ontologies, to be matched.
  \subsection{Research questions}
+ Can distributed representations of concepts be used to find relationships between concepts in ontologies better than existing terminological matchers?
  
+ Can distributed representations use the context of a concept to find relationships between concepts in ontologies better than existing structural matchers?
+ 
+ Can distributed representations perform well in a domain it was not designed for?
  
  \subsection{Hypotheses}
+ Since multiple implementations of the algorithm are considered, every hypothesis that follows is considered for every implementation.
  
+ \textit{The distributed representations of concepts matcher can find relationships between concepts in ontologies better than existing terminological matchers.}
+ 
+ \textit{The distributed representations matcher can use the context of a concept to find relationships between concepts in ontologies better than existing structural matchers.}
+ 
+ \textit{The distributed representations matcher can perform well in a domain it was not designed for.}
+ 
+ The following hypotheses are true if for at least one implementation the corresponding hypothesis is true.
+ 
+ \textit{A distributed representations of concepts matcher can find relationships between concepts in ontologies better than existing terminological matchers.}
+ 
+ \textit{A distributed representations matcher can use the context of a concept to find relationships between concepts in ontologies better than existing structural matchers.}
+ 
+ \textit{A distributed representations matcher can perform well in a domain it was not designed for.}
  
  \subsection{Justification}
  Reliable, error proof ontology matching will be key for the distributed Semantic Web.
