@@ -253,15 +253,26 @@ All of this is possible, if the softbot can access all of the information reliab
  \]
  where $J_E$ is the Jaccard coefficient of an ensemble $E$.
  To see if an algorithm is useful to an ensemble, the improvement score $I$ has to be \emph{significantly} higher than zero. To check if a score is significant, a statistical significance test will have to be carried out. The test works as follows: generate $N$ solutions randomly and score them. Then score the method you want to investigate. If the score is in the top p\%, it is significant, otherwise it is not. In this case the solutions are $E\cup \{R\}$, where $R$ is an algorithm that generates random alignments.
+ 
+ It is in principle possible to weigh False Positives and False Negatives differently, but this is not done in practice. To make the results of this study easily comparable to others, equal weights will be used.
  \subsection{Data}
  The data used comes from a list of data sets that the OAEI provides. % Zoek paper, misschien http://www.sciencedirect.com/science/article/pii/S1570826813000188
  %Hoeveel preprocessing moest ik doen
  Every data set contains two ontologies that need to be aligned and a ground truth alignment. The goal is straightforward: find the alignment given only the ontologies and whatever outside resources are needed.
 
+ A reference alignment can be made by experts or be created by bipartitioning an existing ontology. %expand this.
  \subsubsection{Parts of OWL ignored} 
  
  \section{Algorithm}
  \subsection{Idea}
+ The goal of any ontology matcher is to find an alignment between two ontologies that is as similar as possible to the true alignment. Such an alignment consists of node pairs where the two nodes in each pair come from the two different ontologies. Sometimes a label is added to each pair, indicating the relationship the two nodes have. For example, 'part-of', 'similar-to', and such. However, we only consider equality relationships and thus the label can be omitted.
+ 
+ Then the question becomes: \textit{how do we measure similarity of concepts between ontologies?} As shown in \ref{strategies}, attempts have been made to model similarity of nodes as the string similarity of their labels. Also, WordNet is used to find similar nodes. The string similarity assumes that similar labels refer to similar concepts. While this is true to a certain degree, homonyms, synonyms, and other phenomena make this assumption very weak. WordNet-based similarity measures are better since WordNet links concepts semantically, and thus similar concepts will be close in WordNet. The major problem with WordNet is that it is constructed by hand, and thus does not scale very well to new domains.
+ 
+ The idea behind the algorithm introduced in this study is to find an alternative to WordNet that is at least as good in modelling semantic distance but scales to new domains. It should be trainable on this new domain through existing ontologies and texts in an unsupervised way so that it does not require the interference of experts. This will allow it to overcome the weakness of WordNet. This is only relevant, though, if the performance is equal to WordNet-based matchers.
+ 
+ Word2vec is an unsupervised method that maps words to a vector space that has been shown to contain semantic properties %cite.
+ It can be trained on large corpora quickly and the resulting vectors can easily be used to measure the distance between words. All these properties make it an excellent candidate for a concept distance measure to use for ontology matching. As an added benefit, it can also take into account the context of a concept, which may be able to improve its performance over a matcher that only uses the label of a concept.
  \subsection{Theory}
  
  \subsection{Product}
