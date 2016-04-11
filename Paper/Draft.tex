@@ -52,7 +52,7 @@
  
 \section{Context}
 % Give an overview of the section
- In this section I will discuss all concepts that are required to understand the study.
+ In this section I will discuss all concepts that are required to understand the study. Firstly, the Semantic Web, the key technology that depends very strongly on ontology matching, will be discussed. Then the concept of the Ontology itself will be addressed. Lastly, current alignment strategies, their problems and other research and technologies will be discussed.
  \subsection{The Semantic Web}
  The Semantic Web, or Web 3.0, is a concept of a Web that enhances the User Experience in ways that the current Web can not provide. Web 2.0, the current Web, models the internet as \textit{hubs} (or sites) with a specific purpose and barely any interconnectivity. For example, Facebook is a hub for sharing content with people you consider friends, but if you want to share that content with more people you will have to go to another hub, like imgur or Pinterest.
 The Semantic Web, on the other hand, sees web pages as sources of \textit{information} that can be combined whenever the user needs it. This allows not only humans to browse the internet, but also Artificial Intelligences, which will use this information to aid their users.
@@ -157,7 +157,8 @@ All of this is possible, if the softbot can access all of the information reliab
  \section{Problem}
 
  \subsection{Problem}
- We have seen that when information from multiple domains needs to be integrated so that it is possible to reason over them together, the ontologies of those domains need to be aligned or merged. Those ontologies contain rules about concepts and concept classes in the shape of triplets, with two concepts and a relation. For example, the rule{\tt Professors are humans} contains the concepts \emph{Professor} and \emph{human} and relationship \emph{being}.
+ We have seen that when information from multiple domains needs to be integrated so that it is possible to reason over them together, the ontologies of those domains need to be aligned or merged. % Waar?
+  Those ontologies contain rules about concepts and concept classes in the shape of triplets, with two concepts and a relation. For example, the rule{\tt Professors are humans} contains the concepts \emph{Professor} and \emph{human} and relationship \emph{being}.
  
  If we want to merge two ontologies, we need to find the concepts from the different ontologies that are related by an 'is-same-as' or other rule.
  
@@ -195,8 +196,15 @@ All of this is possible, if the softbot can access all of the information reliab
  \textit{A distributed representations matcher can perform well in a domain it was not designed for.}
  
  \subsection{Justification}
- Reliable, error proof ontology matching will be key for the distributed Semantic Web.
+ On the Semantic Web, many relatively small knowledge bases will be combined temporarily so that it is possible to reason over the combined knowledge of those knowledge bases. To combine these knowledge bases, their ontologies first need to be aligned. This is an act that will happen very often on the Semantic Web, since every interaction with the Semantic Web will usually require information from multiple domains. Large domains may be stored over multiple devices, which can be viewed as different knowledge bases which also need to be aligned. Therefore, it is save to say that efficient ontology matching will be very valuable.
  
+ Since most of the Semantic Web will consist of Aristotelian ontologies, some of the information it contains can be unreliable and even wrong. Therefore, ontology matching that is capable of handling this uncertain data is required.
+ 
+ Calculating the distance between vectors can be done very efficiently, therefore ontology matching with distributed concept representations fits that efficiency criteria. Since these representations can use the context of a concept, they are also most robust than methods that do not take the context into account.
+ 
+ Since distributed representation algorithms can be trained unsupervised on new domains, they can be applied to those new domains without effort from humans, unlike current matching algorithms. This is also an improvement for the semantic web.
+ 
+ However, ontology matching is also used outside of the semantic web. It is already in use for companies that want to merge knowledge from other companies, for example. If the proposed matching algorithm is better than the current algorithms, or at least improves the performance when used in ensemble with the current algorithms, it will be useful in any situation, not just on the Semantic Web.
  \section{Method}
  In this section, I will describe the method that I developed. Firstly, I will describe the general idea. In the second section, I will give a theoretical justification for why this method should work and how it works conceptually. After that I will describe the different ways that the input graphs can be used to train the word2vec model and create the alignment. 
  \subsection{Idea}
