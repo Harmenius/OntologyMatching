@@ -1,48 +1,50 @@
 This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: Draft.aux
-I found no \citation commands---while reading file Draft.aux
-I found no \bibdata command---while reading file Draft.aux
-I found no \bibstyle command---while reading file Draft.aux
-You've used 0 entries,
-            0 wiz_defined-function locations,
-            83 strings with 484 characters,
-and the built_in function-call counts, 0 in all, are:
-= -- 0
-> -- 0
-< -- 0
-+ -- 0
-- -- 0
-* -- 0
-:= -- 0
-add.period$ -- 0
-call.type$ -- 0
-change.case$ -- 0
+The style file: plain.bst
+Database file #1: bibliography.bib
+Warning--I didn't find a database entry for "ling"
+Warning--empty journal in byrne
+Warning--can't use both volume and number fields in levenshtein
+You've used 11 entries,
+            2118 wiz_defined-function locations,
+            564 strings with 5889 characters,
+and the built_in function-call counts, 4009 in all, are:
+= -- 384
+> -- 220
+< -- 4
++ -- 88
+- -- 76
+* -- 291
+:= -- 680
+add.period$ -- 35
+call.type$ -- 11
+change.case$ -- 68
 chr.to.int$ -- 0
-cite$ -- 0
-duplicate$ -- 0
-empty$ -- 0
-format.name$ -- 0
-if$ -- 0
+cite$ -- 13
+duplicate$ -- 153
+empty$ -- 286
+format.name$ -- 76
+if$ -- 830
 int.to.chr$ -- 0
-int.to.str$ -- 0
-missing$ -- 0
-newline$ -- 0
-num.names$ -- 0
-pop$ -- 0
-preamble$ -- 0
-purify$ -- 0
+int.to.str$ -- 11
+missing$ -- 11
+newline$ -- 58
+num.names$ -- 22
+pop$ -- 66
+preamble$ -- 1
+purify$ -- 57
 quote$ -- 0
-skip$ -- 0
+skip$ -- 113
 stack$ -- 0
-substring$ -- 0
-swap$ -- 0
-text.length$ -- 0
+substring$ -- 194
+swap$ -- 39
+text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 0
-warning$ -- 0
-while$ -- 0
-width$ -- 0
-write$ -- 0
-(There were 3 error messages)
+type$ -- 44
+warning$ -- 2
+while$ -- 36
+width$ -- 13
+write$ -- 123
+(There were 3 warnings)

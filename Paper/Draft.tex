@@ -142,22 +142,18 @@ All of this is possible, if the softbot can access all of the information reliab
  
  \subsection{Other related research}
  \subsubsection{Word sense representation}
- Skip-gram models have been widely used to represent words as vectors. This is useful as it is easy to calculate the distance between two vectors, which is a useful property for ontology matching. This vector distance has been shown to be related to the semantic similarity between words. This semantic similarity is very useful for ontology alignment, as parts of one ontology have to be aligned with parts of another ontology depending on their semantic relation.
+ Skip-gram models have been widely used to represent words as vectors. This is useful as it is easy to calculate the distance between two vectors, which is a useful property for ontology matching. This vector distance has been shown to be related to the semantic similarity between words, which is very useful for ontology alignment, as parts of one ontology have to be aligned with parts of another ontology depending on their semantic relation.
  
- Recently, an effective and efficient skip-gram model has been developed. It is called word2vec, and uses a number of extensions over previous methods that enable it to efficiently learn an effective representation.
-  Word2vec learns this representation by trying to predict a context matrix. First a one-hot encoding is made for the vocabulary. Then the model learns to predict a context matrix of C one-hot vectors based on the given one-hot input vector. The model is a neural network with one hidden layer and multiple output layers. Since the words are one-hot encoded the input to the hidden layer is equal to the row of the weight matrix that corresponds to the word. This row is the vector representation of the word.
+ Recently, an effective and efficient skip-gram model has been developed, called word2vec, which uses a number of extensions over previous methods that enable it to efficiently learn an effective representation.
+ Word2vec learns this representation by trying to predict the context of a word. First the vocabulary is one-hot encoded. Then the model learns to predict a context vector that minimizes the distance to the context one-hot encoded vectors. The model is a neural network with one hidden layer. Since the input is one-hot encoded, every word in the vocabulary is represented by one row in the weight matrix between the input layer and hidden layer. This row is the vector representation of the word.
  
- % Continue with better w2v
- Word2vec has been expanded in a number of different ways. For example, word order can be preserved, leading to a similarity measure that is closer to syntax, as syntax defines which words go where in a sentence. This research shows that the input does not have to be a bag-of-words representation, which will be useful later on. % Reference
- Another interesting development is the multi-sense word2vec, which has multiple vector representations per word, depending on the number of different definitions a word has. For example, the word bank represents both the monetary institute and the riverside, which would both have a different representation in this extension. It can differentiate between two different meanings based on the context. This will help with resolving ambiguity, a very important factor in ontology alignment.
+ Word2vec has been expanded in a number of different ways. For example, word order can be preserved, leading to a similarity measure that is closer to syntax, as syntax defines which words go where in a sentence. This preservation was done by having multiple output layers, one for every word in the context. The research shows that the input does not have to be a bag-of-words representation, which will be useful later on. \cite{ling2015}
+ Another interesting development is the multi-sense word2vec, which allows for multiple vector representations per word, depending on the number of different definitions a word has. For example, the word bank represents both the monetary institute and the riverside, which would both have a different representation in this extension. It can differentiate between two different meanings based on the context. This will help with resolving ambiguity, a very important factor in ontology alignment.\cite{multisense}
  \subsection{Used technology}
- \subsubsection{Ontology constructor}
  \subsubsection{AgreementMaker}
- AgreementMaker is an ontology matching system which obtained the highest F-measure in 6 of the 7 ontology matching tracks of OAEI 2015 %http://disi.unitn.it/~pavel/om2015/papers/oaei15_paper1.pdf. The system has also been updated the most recent at the time of writing.
+ AgreementMaker is an ontology matching system which obtained the highest F-measure in 6 of the 7 ontology matching tracks of OAEI 2015. \cite{OAEI2015} The system has also been updated the most recent at the time of writing\cite{agreementmaker}.
  
- The system uses an extensible framework which allows its users to add new modules to the system. This is very useful for research as it allows the researcher to compare different modules by swapping in just those modules in the framework. The module-swapping technique will also be used in this work, but more of that will be discussed in $Evaluation methods$.
- %http://disi.unitn.it/~p2p/RelatedWork/Matching/vldb2009-revised.pdf 
- 
+ The system uses an extensible framework which allows its users to add new modules to the system. This is very useful for research as it allows the researcher to compare different modules by swapping in just those modules in the framework. The module-swapping technique will also be used in this work, but more of that will be discussed in \ref{Evaluation methods}.
  \section{Problem}
 
  \subsection{Problem}
@@ -196,8 +192,6 @@ All of this is possible, if the softbot can access all of the information reliab
  \end{itemize}
  
  To solve these problems I will adapt word2vec to graphs and extend it with multi-sense embeddings. Also hot-starting is considered as an improvement.
- 
- \subsection{Theory}
  \subsection{Possibilities} % Rename please
   \subsubsection{Training corpus}
   Word embedding models need to be trained on a large corpus. These corpora need to cover the concepts that are contained in the ontology, but also need to be large enough to build good embeddings. Since the ontologies themselves do not necessarily contain enough examples to embed the concepts properly, I need to use ontologies that are likely to contain the concepts I want to align.
@@ -242,7 +236,7 @@ All of this is possible, if the softbot can access all of the information reliab
  \section{Evaluation}
  %https://hal.inria.fr/hal-00917910/document
  The goal of the research is to find an ontology alignment algorithm $A$ and proof that it performs better than current techniques. However, as current techniques may combine many different algorithms and sources of information, maybe such a comparison is not fair, nor is a comparison with individual algorithms as they may be optimised for being combined. So, instead we may want to see if performance is improved when adding $A$ to an ensemble of algorithms $E=(A_1,..,A_n)$.
- \subsection{Evaluation methods}
+ \subsection{Evaluation methods} \label{Evaluation methods}
  The evaluation should be done using a performance measure $P(Al,T)$ that takes the alignment an algorithm produces given an ontology and the ground truth. If both the alignment and truth are considered sets of alignments, i.e. $Al=\{a_1,..,a_n\}$ and $T=\{a'_1,..,a'_m\}$, then the True Positives $TP=\{a|a\in Al, a\in T\}$, False Positives $FP=\{a|a\in Al, a\notin T\}$ and False Negatives $FN=\{a|a\in T, a\notin Al\}$ determine the performance of the alignment. The True Negatives do not matter, as there are extremely many, and the goal of ontology matching is to find True Positives. Therefore the Jaccard similarity should be used as a performance measure.
  
  The Jaccard similarity is calculated as follows
@@ -269,6 +263,7 @@ All of this is possible, if the softbot can access all of the information reliab
  \section{Algorithm}
  \subsection{Idea}
  \subsection{Theory}
+ 
  \subsection{Product}
  
  \section{Results}
@@ -292,5 +287,6 @@ All of this is possible, if the softbot can access all of the information reliab
  \end{appendices}
  
  \section*{References}
- 
+ \bibliographystyle{plain}
+ \bibliography{bibliography}{}
  \end{document}

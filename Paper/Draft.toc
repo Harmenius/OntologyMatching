@@ -13,53 +13,53 @@
 \contentsline {subsubsection}{\numberline {2.2.4}Aristotle and Plato}{9}
 \contentsline {subsection}{\numberline {2.3}Current alignment strategies}{10}
 \contentsline {subsection}{\numberline {2.4}Problems in ontology alignment}{10}
-\contentsline {subsection}{\numberline {2.5}Other related research}{10}
-\contentsline {subsubsection}{\numberline {2.5.1}Word sense representation}{10}
-\contentsline {subsection}{\numberline {2.6}Used technology}{11}
-\contentsline {subsubsection}{\numberline {2.6.1}Ontology constructor}{11}
-\contentsline {subsubsection}{\numberline {2.6.2}AgreementMaker}{11}
-\contentsline {section}{\numberline {3}Problem}{11}
-\contentsline {subsection}{\numberline {3.1}Problem}{11}
-\contentsline {subsection}{\numberline {3.2}Research questions}{12}
-\contentsline {subsection}{\numberline {3.3}Hypotheses}{12}
-\contentsline {subsection}{\numberline {3.4}Justification}{12}
-\contentsline {section}{\numberline {4}Method}{12}
-\contentsline {subsection}{\numberline {4.1}Idea}{12}
-\contentsline {subsection}{\numberline {4.2}Theory}{13}
-\contentsline {subsection}{\numberline {4.3}Possibilities}{13}
-\contentsline {subsubsection}{\numberline {4.3.1}Training corpus}{13}
-\contentsline {subsubsection}{\numberline {4.3.2}Node vectorisation}{13}
-\contentsline {subsubsection}{\numberline {4.3.3}Combine with neighbours}{13}
+\contentsline {subsection}{\numberline {2.5}Other related research}{11}
+\contentsline {subsubsection}{\numberline {2.5.1}Word sense representation}{11}
+\contentsline {subsection}{\numberline {2.6}Used technology}{12}
+\contentsline {subsubsection}{\numberline {2.6.1}Ontology constructor}{12}
+\contentsline {subsubsection}{\numberline {2.6.2}AgreementMaker}{12}
+\contentsline {section}{\numberline {3}Problem}{12}
+\contentsline {subsection}{\numberline {3.1}Problem}{12}
+\contentsline {subsection}{\numberline {3.2}Research questions}{13}
+\contentsline {subsection}{\numberline {3.3}Hypotheses}{13}
+\contentsline {subsection}{\numberline {3.4}Justification}{13}
+\contentsline {section}{\numberline {4}Method}{13}
+\contentsline {subsection}{\numberline {4.1}Idea}{13}
+\contentsline {subsection}{\numberline {4.2}Theory}{14}
+\contentsline {subsection}{\numberline {4.3}Possibilities}{14}
+\contentsline {subsubsection}{\numberline {4.3.1}Training corpus}{14}
+\contentsline {subsubsection}{\numberline {4.3.2}Node vectorisation}{14}
+\contentsline {subsubsection}{\numberline {4.3.3}Combine with neighbours}{14}
 \contentsline {subsubsection}{\numberline {4.3.4}Select from senses}{14}
 \contentsline {subsubsection}{\numberline {4.3.5}Adding edge labels}{14}
-\contentsline {subsubsection}{\numberline {4.3.6}Select from senses}{14}
-\contentsline {subsubsection}{\numberline {4.3.7}Combining edges with nodes}{14}
-\contentsline {subsubsection}{\numberline {4.3.8}Hot start}{14}
-\contentsline {subsection}{\numberline {4.4}Discarded possibilities}{15}
-\contentsline {subsubsection}{\numberline {4.4.1}Training on text}{15}
-\contentsline {subsubsection}{\numberline {4.4.2}Just context nodes}{15}
-\contentsline {subsubsection}{\numberline {4.4.3}Just edges}{15}
-\contentsline {subsubsection}{\numberline {4.4.4}Context matrix representation}{15}
-\contentsline {subsection}{\numberline {4.5}Implementation}{15}
-\contentsline {section}{\numberline {5}Evaluation}{15}
+\contentsline {subsubsection}{\numberline {4.3.6}Select from senses}{15}
+\contentsline {subsubsection}{\numberline {4.3.7}Combining edges with nodes}{15}
+\contentsline {subsubsection}{\numberline {4.3.8}Hot start}{15}
+\contentsline {subsection}{\numberline {4.4}Discarded possibilities}{16}
+\contentsline {subsubsection}{\numberline {4.4.1}Training on text}{16}
+\contentsline {subsubsection}{\numberline {4.4.2}Just context nodes}{16}
+\contentsline {subsubsection}{\numberline {4.4.3}Just edges}{16}
+\contentsline {subsubsection}{\numberline {4.4.4}Context matrix representation}{16}
+\contentsline {subsection}{\numberline {4.5}Implementation}{16}
+\contentsline {section}{\numberline {5}Evaluation}{16}
 \contentsline {subsection}{\numberline {5.1}Evaluation methods}{16}
-\contentsline {subsection}{\numberline {5.2}Data}{16}
-\contentsline {subsubsection}{\numberline {5.2.1}Parts of OWL ignored}{17}
-\contentsline {section}{\numberline {6}Algorithm}{17}
-\contentsline {subsection}{\numberline {6.1}Idea}{17}
-\contentsline {subsection}{\numberline {6.2}Theory}{17}
-\contentsline {subsection}{\numberline {6.3}Product}{17}
-\contentsline {section}{\numberline {7}Results}{17}
-\contentsline {section}{\numberline {8}Conclusions}{17}
-\contentsline {subsection}{\numberline {8.1}Recap research questions}{17}
-\contentsline {subsection}{\numberline {8.2}Recap hypotheses}{17}
-\contentsline {subsection}{\numberline {8.3}Conclusion per hypothesis}{17}
-\contentsline {subsection}{\numberline {8.4}Overview of results}{17}
-\contentsline {subsection}{\numberline {8.5}Final conclusion}{17}
-\contentsline {section}{\numberline {9}Discussion}{17}
-\contentsline {subsection}{\numberline {9.1}Interpretation}{17}
-\contentsline {subsection}{\numberline {9.2}Unexpected results}{17}
-\contentsline {subsection}{\numberline {9.3}Expected results}{17}
-\contentsline {subsection}{\numberline {9.4}Future research}{17}
-\contentsline {section}{Appendix \numberline {A}Appendix 1}{17}
-\contentsline {section}{Appendix \numberline {B}Appendix 2}{17}
+\contentsline {subsection}{\numberline {5.2}Data}{17}
+\contentsline {subsubsection}{\numberline {5.2.1}Parts of OWL ignored}{18}
+\contentsline {section}{\numberline {6}Algorithm}{18}
+\contentsline {subsection}{\numberline {6.1}Idea}{18}
+\contentsline {subsection}{\numberline {6.2}Theory}{18}
+\contentsline {subsection}{\numberline {6.3}Product}{18}
+\contentsline {section}{\numberline {7}Results}{18}
+\contentsline {section}{\numberline {8}Conclusions}{18}
+\contentsline {subsection}{\numberline {8.1}Recap research questions}{18}
+\contentsline {subsection}{\numberline {8.2}Recap hypotheses}{18}
+\contentsline {subsection}{\numberline {8.3}Conclusion per hypothesis}{18}
+\contentsline {subsection}{\numberline {8.4}Overview of results}{18}
+\contentsline {subsection}{\numberline {8.5}Final conclusion}{18}
+\contentsline {section}{\numberline {9}Discussion}{18}
+\contentsline {subsection}{\numberline {9.1}Interpretation}{18}
+\contentsline {subsection}{\numberline {9.2}Unexpected results}{18}
+\contentsline {subsection}{\numberline {9.3}Expected results}{18}
+\contentsline {subsection}{\numberline {9.4}Future research}{18}
+\contentsline {section}{Appendix \numberline {A}Appendix 1}{18}
+\contentsline {section}{Appendix \numberline {B}Appendix 2}{18}
