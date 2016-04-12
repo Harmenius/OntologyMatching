@@ -5,8 +5,13 @@
  \author{Harmen Prins}
  
  \begin{document}
+ \pagenumbering{gobble}
  \maketitle
  \newpage
+ 
+ \pagenumbering{roman}
+ \section*{Acknowledgements}
+ \section*{Abstract}  
  
  \section*{Summary}
  %TODO somewhere else: explain why one large ontology won't work
@@ -15,6 +20,7 @@
  \tableofcontents
  \newpage
  
+ \pagenumbering{arabic}
  \section{Introduction}
  It is a Friday afternoon and you realise you want to watch a movie with some friends. So, what do you do? To achieve this goal you must take 4 steps.
  
@@ -45,11 +51,16 @@
  
  However, on the Semantic Web it is infeasible to use one single ontology, since the number of concepts it would have to contain is incredibly large. The larger an ontology the longer it takes to perform inference and searches on it, and thus the longer it takes to use it for communication. Therefore the semantic web will have separate ontologies for every domain. The downside of this approach is that when communication requires rules on multiple domains, which it often does, multiple ontologies need to be aligned or merged.
  
+ A lot of research has been done on creating ontologies, ranging from what an ontology structure should look like to how ontologies should be generated unsupervised. Some research has focused on ontology merging, with promising but slowing results.
+ 
+ Recently, a model that embeds words in a vector space that appears to contains semantics has become popular. Since it is unsupervised and can be used to calculate a semantic distance between words, it may very well be applicable to ontology matching. The model will be explained much more in-depth in \ref{w2v}.
+ 
  % This should actually be quite long since the whole context section is probably going to be ~10 pages, so 1 page is still fairly short. With a context too short a lot of information gets lost and it comes across as cluttered.
  
  \subsection{Overview}
  This thesis is structured as follows...
  
+\newpage
 \section{Context}
 % Give an overview of the section
  In this section I will discuss all concepts that are required to understand the study. Firstly, the Semantic Web, the key technology that depends very strongly on ontology matching, will be discussed. Then the concept of the Ontology itself will be addressed. Lastly, current alignment strategies, their problems and other research and technologies will be discussed.
@@ -141,7 +152,7 @@ All of this is possible, if the softbot can access all of the information reliab
  When these problems are solved, ontology matching has matured enough to be used in Semantic Web applications. Then it is merely the challenge to have the public adopt these technologies.
  
  \subsection{Other related research}
- \subsubsection{Word sense representation}
+ \subsubsection{Word sense representation} \label{w2v}
  Skip-gram models have been widely used to represent words as vectors. This is useful as it is easy to calculate the distance between two vectors, which is a useful property for ontology matching. This vector distance has been shown to be related to the semantic similarity between words, which is very useful for ontology alignment, as parts of one ontology have to be aligned with parts of another ontology depending on their semantic relation.
  
  Recently, an effective and efficient skip-gram model has been developed, called word2vec, which uses a number of extensions over previous methods that enable it to efficiently learn an effective representation.
@@ -150,15 +161,19 @@ All of this is possible, if the softbot can access all of the information reliab
  Word2vec has been expanded in a number of different ways. For example, word order can be preserved, leading to a similarity measure that is closer to syntax, as syntax defines which words go where in a sentence. This preservation was done by having multiple output layers, one for every word in the context. The research shows that the input does not have to be a bag-of-words representation, which will be useful later on. \cite{ling2015}
  Another interesting development is the multi-sense word2vec, which allows for multiple vector representations per word, depending on the number of different definitions a word has. For example, the word bank represents both the monetary institute and the riverside, which would both have a different representation in this extension. It can differentiate between two different meanings based on the context. This will help with resolving ambiguity, a very important factor in ontology alignment.\cite{multisense}
  \subsection{Used technology}
- \subsubsection{AgreementMaker}
+ \subsubsection{AgreementMaker} \label{agreementmaker}
  AgreementMaker is an ontology matching system which obtained the highest F-measure in 6 of the 7 ontology matching tracks of OAEI 2015. \cite{OAEI2015} The system has also been updated the most recent at the time of writing\cite{agreementmaker}.
  
  The system uses an extensible framework which allows its users to add new modules to the system. This is very useful for research as it allows the researcher to compare different modules by swapping in just those modules in the framework. The module-swapping technique will also be used in this work, but more of that will be discussed in \ref{Evaluation methods}.
+ 
+ \subsubsection{Factorie} \label{factorie}
+ 
+ \newpage
  \section{Problem}
 
  \subsection{Problem}
  We have seen that when information from multiple domains needs to be integrated so that it is possible to reason over them together, the ontologies of those domains need to be aligned or merged. % Waar?
-  Those ontologies contain rules about concepts and concept classes in the shape of triplets, with two concepts and a relation. For example, the rule{\tt Professors are humans} contains the concepts \emph{Professor} and \emph{human} and relationship \emph{being}.
+  Those ontologies contain rules about concepts and concept classes in the shape of triplets, with two concepts and a relation. For example, the rule {\tt Professors are humans} contains the concepts \emph{Professor} and \emph{human} and relationship \emph{being}.
  
  If we want to merge two ontologies, we need to find the concepts from the different ontologies that are related by an 'is-same-as' or other rule.
  
@@ -172,28 +187,36 @@ All of this is possible, if the softbot can access all of the information reliab
  
  In summary, ontology aligning is required for multi-domain communication but poses a number of problems that make it difficult for concepts, the building blocks of ontologies, to be matched.
  \subsection{Research questions}
- Can distributed representations of concepts be used to find relationships between concepts in ontologies better than existing terminological matchers?
+ Can distributed representations of concepts be used to find relationships between concepts in ontologies better than existing terminological matchers?\\\\
  
- Can distributed representations use the context of a concept to find relationships between concepts in ontologies better than existing structural matchers?
+ Can distributed representations use the context of a concept to find relationships between concepts in ontologies better than existing structural matchers?\\\\
  
  Can distributed representations perform well in a domain it was not designed for?
  
  \subsection{Hypotheses}
- Since multiple implementations of the algorithm are considered, every hypothesis that follows is considered for every implementation.
+ Since multiple implementations of the algorithm are considered, every hypothesis that follows is considered for every implementation.\\\\
  
+ \begin{center}
  \textit{The distributed representations of concepts matcher can find relationships between concepts in ontologies better than existing terminological matchers.}
- 
+ \end{center}
+ \begin{center} 
  \textit{The distributed representations matcher can use the context of a concept to find relationships between concepts in ontologies better than existing structural matchers.}
- 
+ \end{center}
+ \begin{center}
  \textit{The distributed representations matcher can perform well in a domain it was not designed for.}
+ \end{center}
  
  The following hypotheses are true if for at least one implementation the corresponding hypothesis is true.
- 
+
+ \begin{center}  
  \textit{A distributed representations of concepts matcher can find relationships between concepts in ontologies better than existing terminological matchers.}
- 
+ \end{center} 
+ \begin{center}
  \textit{A distributed representations matcher can use the context of a concept to find relationships between concepts in ontologies better than existing structural matchers.}
- 
+ \end{center}
+ \begin{center}
  \textit{A distributed representations matcher can perform well in a domain it was not designed for.}
+ \end{center}
  
  \subsection{Justification}
  On the Semantic Web, many relatively small knowledge bases will be combined temporarily so that it is possible to reason over the combined knowledge of those knowledge bases. To combine these knowledge bases, their ontologies first need to be aligned. This is an act that will happen very often on the Semantic Web, since every interaction with the Semantic Web will usually require information from multiple domains. Large domains may be stored over multiple devices, which can be viewed as different knowledge bases which also need to be aligned. Therefore, it is save to say that efficient ontology matching will be very valuable.
@@ -205,8 +228,10 @@ All of this is possible, if the softbot can access all of the information reliab
  Since distributed representation algorithms can be trained unsupervised on new domains, they can be applied to those new domains without effort from humans, unlike current matching algorithms. This is also an improvement for the semantic web.
  
  However, ontology matching is also used outside of the semantic web. It is already in use for companies that want to merge knowledge from other companies, for example. If the proposed matching algorithm is better than the current algorithms, or at least improves the performance when used in ensemble with the current algorithms, it will be useful in any situation, not just on the Semantic Web.
+
+ \newpage
  \section{Method}
- In this section, I will describe the method that I developed. Firstly, I will describe the general idea. In the second section, I will give a theoretical justification for why this method should work and how it works conceptually. After that I will describe the different ways that the input graphs can be used to train the word2vec model and create the alignment. 
+ In this section, I will describe the method that I developed. Firstly, I will describe the general idea. In the second section, I will give a theoretical justification for why this method should work and how it works conceptually. After that I will describe the different ways that the input graphs can be used to train the word2vec model and create the alignment, some of which I have discarded on theoretical grounds as I will explain in the relevant section. Lastly, I will talk about the implementation process.
  \subsection{Idea}
  As explained earlier, word2vec is a model that learns two things: implicitly it learns the semantic vector representation of words, and explicitly it learns to predict words from their context or vice versa. I will use both of these pieces of information in our alignment algorithm.
  The semantic representation will be used for finding nodes in the two ontology graphs that are similar, i.e. close in the vector space. This step is relatively straightforward if proper vector representations are found. However, this may be hard due to a number of problems which I have listed below.
@@ -247,7 +272,7 @@ All of this is possible, if the softbot can access all of the information reliab
   % Moet voorafgaand stukje op een andere plek?
   The algorithm can find matches based purely on the given node and edge labels. However the algorithm might benefit from a hot start. Such a seed alignment might allow the algorithm to train with certain words that are known synonyms as if they were the same word, thus increasing the number of training samples per word (on known relevant words) and decreasing sparsity. This may help the model, improving performance. However, since some information from other algorithms is now used, it would not be fair to compare the results to the cold start algorithm results. For example, it may just add the results from the generic string matcher to its own results, improving performance, without learning any new relationships. A new testing method had to be designed for this algorithm. This method would have to compare it to the string matchers, to see if it improved over their results, rather than compare it to the cold start algorithm. However, if we compare the cold and hot algorithms with the generic string matchers, we may be able to compare them indirectly. 
   % Dit moet weg als het bs blijkt te zijn
- \subsection{Discarded possibilities} % Rename
+ \subsection{Discarded implementations}
   \subsubsection{Training on text}
   Rather than training on ontologies, it would be possible to train the model on text. Since there is more text available than ontologies when counting the number of training samples, it would make sense to use a purely text-trained model. However, this method has downsides which made me decide not to use it. Namely, the context of a word in a text corpus is very different from a node in an ontology. A word is surrounded by the words directly around it, or the sentence it is in, or the paragraph or entire document. However all these contexts are just words, usually represented as a bag of words to ensure enough data for the model. In an ontology, the context is a combination of a node with an edge, which have a very different relation than merely co-occurring. The relation may be inferred from one sentence, or many different documents.
   % Herschrijf dit aub want het is niet goed
@@ -258,8 +283,10 @@ All of this is possible, if the softbot can access all of the information reliab
   \subsubsection{Context matrix representation}
   
  \subsection{Implementation}
+ The two foundations the algorithm has been build and tested on are Factorie, described in \ref{factorie}, and AgreementMaker, described in \ref{agreementmaker}, respectively. Earlier work on a forked branch of factorie was done by \cite{multisensecode} to implement multi-sense word2vec.
  
  
+ \newpage
  \section{Evaluation}
  %https://hal.inria.fr/hal-00917910/document
  The goal of the research is to find an ontology alignment algorithm $A$ and proof that it performs better than current techniques. However, as current techniques may combine many different algorithms and sources of information, maybe such a comparison is not fair, nor is a comparison with individual algorithms as they may be optimised for being combined. So, instead we may want to see if performance is improved when adding $A$ to an ensemble of algorithms $E=(A_1,..,A_n)$.
@@ -290,6 +317,7 @@ All of this is possible, if the softbot can access all of the information reliab
  A reference alignment can be made by experts or be created by bipartitioning an existing ontology. %expand this.
  \subsubsection{Parts of OWL ignored} 
  
+ \newpage
  \section{Algorithm}
  \subsection{Idea}
  The goal of any ontology matcher is to find an alignment between two ontologies that is as similar as possible to the true alignment. Such an alignment consists of node pairs where the two nodes in each pair come from the two different ontologies. Sometimes a label is added to each pair, indicating the relationship the two nodes have. For example, 'part-of', 'similar-to', and such. However, we only consider equality relationships and thus the label can be omitted.
@@ -298,14 +326,16 @@ All of this is possible, if the softbot can access all of the information reliab
  
  The idea behind the algorithm introduced in this study is to find an alternative to WordNet that is at least as good in modelling semantic distance but scales to new domains. It should be trainable on this new domain through existing ontologies and texts in an unsupervised way so that it does not require the interference of experts. This will allow it to overcome the weakness of WordNet. This is only relevant, though, if the performance is equal to WordNet-based matchers.
  
- Word2vec is an unsupervised method that maps words to a vector space that has been shown to contain semantic properties %cite.
+ Word2vec is an unsupervised method that maps words to a vector space that has been shown to contain semantic properties. %cite
  It can be trained on large corpora quickly and the resulting vectors can easily be used to measure the distance between words. All these properties make it an excellent candidate for a concept distance measure to use for ontology matching. As an added benefit, it can also take into account the context of a concept, which may be able to improve its performance over a matcher that only uses the label of a concept.
  \subsection{Theory}
  
  \subsection{Product}
  
+ \newpage
  \section{Results} \label{results}
  
+ \newpage
  \section{Conclusions}
  \subsection{Recap research questions}
  \subsection{Recap hypotheses}
@@ -313,18 +343,22 @@ All of this is possible, if the softbot can access all of the information reliab
  \subsection{Overview of results}
  \subsection{Final conclusion}
  
+ \newpage
  \section{Discussion}
  \subsection{Interpretation}
  \subsection{Unexpected results}
  \subsection{Expected results}
  \subsection{Future research}
  
+ \newpage
+ \bibliographystyle{plain}
+ \bibliography{bibliography}{} 
+ 
+ \newpage
  \begin{appendices}
+  \pagenumbering{Roman}
   \section{Appendix 1}
   \section{Appendix 2}
  \end{appendices}
  
- \section*{References}
- \bibliographystyle{plain}
- \bibliography{bibliography}{}
  \end{document}

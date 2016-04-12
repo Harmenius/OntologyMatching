@@ -11,6 +11,20 @@ Kate Byrne.
   as rdf graphs.
 \newblock 2009.
 
+\bibitem{agreementmaker}
+Isabel~F Cruz, Flavio~Palandri Antonelli, and Cosmin Stroe.
+\newblock Agreementmaker: efficient matching for large real-world schemas and
+  ontologies.
+\newblock {\em Proceedings of the VLDB Endowment}, 2(2):1586--1589, 2009.
+
+\bibitem{OAEI2015}
+Daniel Faria, Catarina Martins, Amruta Nanavaty, Daniela Oliveira, Booma~S
+  Balasubramani, Aynaz Taheri, Catia Pesquita, Francisco~M Couto, and Isabel~F
+  Cruz.
+\newblock Aml results for oaei 2015.
+\newblock In {\em ISWC International Workshop on Ontology Matching (OM), CEUR
+  Workshop Proceedings}, 2015.
+
 \bibitem{le2002}
 Sophie Le~Moigno, Jean Charlet, Didier Bourigault, Patrice Degoulet, and
   Marie-Christine Jaulent.
@@ -39,6 +53,13 @@ Feiyu Lin and Kurt Sandkuhl.
 \newblock In {\em Artificial Intelligence in Theory and Practice II}, pages
   341--350. Springer, 2008.
 
+\bibitem{ling2015}
+Wang Ling, Chris Dyer, Alan Black, and Isabel Trancoso.
+\newblock Two/too simple adaptations of word2vec for syntax problems.
+\newblock In {\em Proceedings of the 2015 Conference of the North American
+  Chapter of the Association for Computational Linguistics: Human Language
+  Technologies}, pages 1299--1304, 2015.
+
 \bibitem{rdf}
 Frank Manola, Eric Miller, Brian McBride, et~al.
 \newblock Rdf primer.
@@ -48,6 +69,10 @@ Frank Manola, Eric Miller, Brian McBride, et~al.
 Deborah~L McGuinness, Frank Van~Harmelen, et~al.
 \newblock Owl web ontology language overview.
 \newblock {\em W3C recommendation}, 10(10):2004, 2004.
+
+\bibitem{multisensecode}
+Arvind Neelakantan, Jeevan Shankar, Alexandre Passos, and Andrew McCallum.
+\newblock Multi-sense skipgram implementation, 2014.
 
 \bibitem{multisense}
 Arvind Neelakantan, Jeevan Shankar, Alexandre Passos, and Andrew McCallum.
