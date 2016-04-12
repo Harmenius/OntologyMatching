@@ -155,18 +155,31 @@ All of this is possible, if the softbot can access all of the information reliab
  \subsubsection{Word sense representation} \label{w2v}
  Skip-gram models have been widely used to represent words as vectors. This is useful as it is easy to calculate the distance between two vectors, which is a useful property for ontology matching. This vector distance has been shown to be related to the semantic similarity between words, which is very useful for ontology alignment, as parts of one ontology have to be aligned with parts of another ontology depending on their semantic relation.
  
- Recently, an effective and efficient skip-gram model has been developed, called word2vec, which uses a number of extensions over previous methods that enable it to efficiently learn an effective representation.
+ Recently, an effective and efficient skip-gram model has been developed, called word2vec, which uses a number of extensions over previous methods that enable it to efficiently learn an effective representation. /cite{w2v}
  Word2vec learns this representation by trying to predict the context of a word. First the vocabulary is one-hot encoded. Then the model learns to predict a context vector that minimizes the distance to the context one-hot encoded vectors. The model is a neural network with one hidden layer. Since the input is one-hot encoded, every word in the vocabulary is represented by one row in the weight matrix between the input layer and hidden layer. This row is the vector representation of the word.
  
  Word2vec has been expanded in a number of different ways. For example, word order can be preserved, leading to a similarity measure that is closer to syntax, as syntax defines which words go where in a sentence. This preservation was done by having multiple output layers, one for every word in the context. The research shows that the input does not have to be a bag-of-words representation, which will be useful later on. \cite{ling2015}
  Another interesting development is the multi-sense word2vec, which allows for multiple vector representations per word, depending on the number of different definitions a word has. For example, the word bank represents both the monetary institute and the riverside, which would both have a different representation in this extension. It can differentiate between two different meanings based on the context. This will help with resolving ambiguity, a very important factor in ontology alignment.\cite{multisense}
  \subsection{Used technology}
  \subsubsection{AgreementMaker} \label{agreementmaker}
- AgreementMaker is an ontology matching system which obtained the highest F-measure in 6 of the 7 ontology matching tracks of OAEI 2015. \cite{OAEI2015} The system has also been updated the most recent at the time of writing\cite{agreementmaker}.
+ AgreementMaker is an ontology matching system that obtained the highest F-measure in 6 of the 7 ontology matching tracks of OAEI 2015. \cite{OAEI2015} The system has also been updated the most recent at the time of writing\cite{agreementmaker}.
  
  The system uses an extensible framework which allows its users to add new modules to the system. This is very useful for research as it allows the researcher to compare different modules by swapping in just those modules in the framework. The module-swapping technique will also be used in this work, but more of that will be discussed in \ref{Evaluation methods}.
  
  \subsubsection{Factorie} \label{factorie}
+ "FACTORIE [is a] a toolkit for probabilistic modeling based on imperatively-defined factor graphs" \cite{git-factorie}. As a toolkit it contains many different parts that can be used together. One example is the NLP package in the toolkit, which provides many algorithms to process text. One of those algorithms is the distributed representation of words algorithm by \cite{w2v}.
+ 
+ Factorie is written in scala, a relatively new language that interfaces with java. See \ref{scala}. This allows for interoperability between factorie and AgreementMaker. Any algorithm that is implemented in factorie or on top of factorie can therefore be used as a matching algorithm in AgreementMaker.
+ 
+ Factorie provides a number of utilities for writing an algorithm in the shape of abstract classes with existing functionality, namely IO, parallelisation, quick parsing and command line argument parsing. It also provides example implementations and programs.
+ 
+ The automated IO allows for quick reading in of the data set and secure saving of the trained model. The file reading is quicker than a naive CSV parser would allow for, and thus enabled quicker training of the models. This meant less time is used and more time can be used for experimenting and improving the algorithm. Saving the different models allows for model comparison after all models have been trained, which means new investigations can be performed after conclusions have been drawn from earlier investigations, without having to retrain all models. This also allows multiple models to be trained during a period where the experimenter is absent, after which he can still manually investigate the models.
+ 
+ Parallelisation can massively improve training speed. It allows an algorithm to update its model for multiple learning instances at the same time, thus reducing the time needed by the number of instances it can process simultaneously. The number of parallel processes differs per device but modern personal computers already boast 8 parallel processors.
+ 
+ When model training is extremely fast, which is the case for parallelised neural network training, parsing the data from string format to vectors in a proper data structure can become a bottleneck. Recently, factorie added JFlex to parse its data. This improved its parsing by \%5000, removing the bottleneck.
+ 
+ Since I investigate many different implementations of the same algorithm, it should be easy to switch between these implementations at run-time without much effort. Command line parsing allows for this to happen, and thus improves experimentation ease.
  
  \newpage
  \section{Problem}

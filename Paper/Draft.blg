@@ -5,47 +5,49 @@ The style file: plain.bst
 Database file #1: bibliography.bib
 Warning--entry type for "multisensecode" isn't style-file defined
 --line 141 of file bibliography.bib
+Warning--entry type for "git-factorie" isn't style-file defined
+--line 149 of file bibliography.bib
 Warning--empty journal in byrne
 Warning--can't use both volume and number fields in levenshtein
-You've used 15 entries,
+You've used 17 entries,
             2118 wiz_defined-function locations,
-            581 strings with 6733 characters,
-and the built_in function-call counts, 5726 in all, are:
-= -- 540
-> -- 332
-< -- 5
-+ -- 132
-- -- 116
-* -- 420
-:= -- 956
-add.period$ -- 46
-call.type$ -- 15
-change.case$ -- 100
+            590 strings with 7011 characters,
+and the built_in function-call counts, 6505 in all, are:
+= -- 615
+> -- 367
+< -- 6
++ -- 146
+- -- 128
+* -- 465
+:= -- 1070
+add.period$ -- 51
+call.type$ -- 17
+change.case$ -- 112
 chr.to.int$ -- 0
-cite$ -- 17
-duplicate$ -- 210
-empty$ -- 409
-format.name$ -- 116
-if$ -- 1187
+cite$ -- 19
+duplicate$ -- 242
+empty$ -- 475
+format.name$ -- 128
+if$ -- 1361
 int.to.chr$ -- 0
-int.to.str$ -- 15
-missing$ -- 14
-newline$ -- 77
-num.names$ -- 30
-pop$ -- 108
+int.to.str$ -- 17
+missing$ -- 15
+newline$ -- 86
+num.names$ -- 34
+pop$ -- 128
 preamble$ -- 1
-purify$ -- 85
+purify$ -- 95
 quote$ -- 0
-skip$ -- 158
+skip$ -- 189
 stack$ -- 0
-substring$ -- 285
-swap$ -- 56
-text.length$ -- 5
+substring$ -- 335
+swap$ -- 70
+text.length$ -- 6
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 60
+type$ -- 68
 warning$ -- 2
-while$ -- 49
-width$ -- 17
-write$ -- 163
-(There were 3 warnings)
+while$ -- 56
+width$ -- 19
+write$ -- 182
+(There were 4 warnings)

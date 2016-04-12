@@ -17,6 +17,10 @@ Isabel~F Cruz, Flavio~Palandri Antonelli, and Cosmin Stroe.
   ontologies.
 \newblock {\em Proceedings of the VLDB Endowment}, 2(2):1586--1589, 2009.
 
+\bibitem{git-factorie}
+Andrew~McCallum et~al.
+\newblock Factorie github page, 2009.
+
 \bibitem{OAEI2015}
 Daniel Faria, Catarina Martins, Amruta Nanavaty, Daniela Oliveira, Booma~S
   Balasubramani, Aynaz Taheri, Catia Pesquita, Francisco~M Couto, and Isabel~F
@@ -69,6 +73,13 @@ Frank Manola, Eric Miller, Brian McBride, et~al.
 Deborah~L McGuinness, Frank Van~Harmelen, et~al.
 \newblock Owl web ontology language overview.
 \newblock {\em W3C recommendation}, 10(10):2004, 2004.
+
+\bibitem{w2v}
+Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg~S Corrado, and Jeff Dean.
+\newblock Distributed representations of words and phrases and their
+  compositionality.
+\newblock In {\em Advances in neural information processing systems}, pages
+  3111--3119, 2013.
 
 \bibitem{multisensecode}
 Arvind Neelakantan, Jeevan Shankar, Alexandre Passos, and Andrew McCallum.
