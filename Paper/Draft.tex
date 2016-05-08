@@ -22,7 +22,7 @@
  
  \pagenumbering{arabic}
  \section{Introduction}
- It is a Friday afternoon and you realise you want to watch a movie with some friends. So, what do you do? To achieve this goal you must take 4 steps.
+ It is a Friday afternoon and you realise you want to watch a movie with some friends this weekend. So, what do you do? To achieve this goal you must take four steps.
  
  Firstly, you must open up an internet Movie Database, search for movies that you like that are also playing this weekend. To do this you must either manually go through the list of movies playing this weekend or movies the Database recommends for you and check if any movies on that list match your full criteria.
  
@@ -30,58 +30,67 @@
  
  The next step is to filter the number of time slots based on your agenda, so you cross-reference the available movie times with the times you are available during the weekend.
  
- Then onto the last step, getting friends to go with you. In this step you do not want to burden your friends to much by having them pick both the movie and the time, so you will have to decide which movie to watch or when, even though you do not know if your friends will like this movie or are available at that time. Once you contact your friends, most of them do not respond as they are not online at that time or they do not feel like filling in a poll about availability or movie choices.
+ Then onto the last step, getting friends to go with you. In this step you do not want to burden your friends too much by having them pick both the movie and the time, so you will have to decide which movie to watch or when, even though you do not know if your friends will like this movie or are available at that time. Once you contact your friends, most of them do not respond as they are not online at that time or they do not feel like filling in a poll about availability or movie choices.
  
- What would happen if this process was automated? The first step, finding movies that match two criteria would be considered trivial with modern technology. One finds the two lists of movies that are recommended for you and movies that are playing this weekend and intersect them. A ranking can be added based on how expensive the tickets are, how certain it is that you may like the movie, and other factors.
+ Most of the time people will limit their options to avoid these steps, considering only a few movies, cinemas, time slots and friends. But this is not necessary. What would happen if the above process was automated? The first step, finding movies that match two criteria would be considered trivial with modern technology. One finds the two lists of movies that are recommended for you and movies that are playing this weekend and intersect them. A ranking can be added based on how expensive the tickets are, how certain it is that you may like the movie, and other factors.
  
- The second step, cross-referencing the list of movies with cinema play times, would already be harder. Most of the time the cinema play times are written in a human-readable format, something that is often hard to incorporate for a computer. Either the play times have to be made in a computer-readable format or a computer has to interpret them and convert them into computer-readable. However, errors might occur because the local cinema labelled a sequel as "Movie II" whereas the list we have has it labelled as "Movie 2".
+ The second step, cross-referencing the list of movies with cinema play times, would already be harder. Most of the time the cinema play times are written in a human-readable format, something that is often hard to interpret for a computer. Either the play times have to be written in or transformed into a computer-readable format manually or a computer has to interpret the format and convert it into a computer-readable one. However, errors might occur because the local cinema labelled a sequel as "Movie II" whereas the list we have has it labelled as "Movie 2", for example.
  
  Checking an agenda to find an appropriate time would be easy if the times from the cinemas can be transformed to the same format as your agenda. If we are automating the process, we may be able to add more features, like changing standing appointments (of course incurring a penalty to the score of that time spot) and such.
  
- The last step, contacting friends can be done in one click. Let us call the program that automated the first three steps a \emph{softbot} and assume they are universal, i.e. everyone has one. Rather than bothering your friends with scheduling, your softbot can contact those of your friends and find the movie and time slot that optimize a cost function, taking into account which friends you like the most, which movie everybody likes the most and at which time the fewest dinners with wives need to be moved. Once this best time is chosen, everyone gets an invite to see the movie and once it is known who will go, a car pooling route is calculated and you can sit back an enjoy your Friday afternoon with no planning or scheduling required.
+ The last step, contacting friends can be done in one click. Let us call the program that automated the first three steps a \emph{softbot} and assume they are universal, i.e. everyone has one. Rather than bothering your friends with scheduling, your softbot can contact the softbots of your friends and find the movie and time slot that optimize a cost function, taking into account which friends you like the most, which movie everybody likes the most and at which time the fewest dinners with wives need to be moved. Once this best time slot is chosen, everyone gets an invite to see the movie and once it is known who will go, a car pooling route is calculated and you can sit back an enjoy your Friday afternoon with no planning or scheduling required.
  
- The most amazing thing about this story, is that it is already possible with the current technology. The algorithms to convert for example cinema website text to computer-readable format exist. Many open databases already contain a lot of structured data that can be used to reason about data.
+ The most amazing thing about this story, is that it is already possible with the current technology. The algorithms to convert for example cinema website text to a computer-readable format exist. Many open databases already contain a lot of structured data that can be used to reason about data. And algorithms to combine these piece of information to make decisions already exist and work.
  
- Two things are required before this web of computers who communicate and understand, this Semantic Web, will come into existence. 
+ Two things are required before this web of computers that communicate and understand, this Semantic Web, will come into existence. 
  Firstly, the Semantic Web needs to be adopted by humans. They must see the value of these personal assistants that can schedule things for you, that take into account your personal context when searching the web, that understand questions and can ask you for more information that can improve the search. People have to realise that the current search engines are not good enough, and that having to read through many papers to find the one nugget of information or the one connection that you are looking for is not acceptable or necessary.
- Lastly, the different knowledge bases and unstructured texts need to be aligned. This means that softbots should be able to reason about facts that are contained in different domains and documents. This last problem is the one that I will work on in this thesis. Once we can combine the information from different databases and unstructured text, the Semantic Web is technically possible and only needs to be socially accepted before it will become the norm.
+ But also, the different knowledge bases and unstructured texts need to be \emph{aligned}. Aligning means that softbots should be able to combine information that is contained in different domains, documents and databases. This last problem is the one that I will work on in this thesis. Once this problem has been solved, the Semantic Web is technically possible and only needs to be socially accepted before it will become the norm.
 
  \subsection{Short Context}
- On the Semantic Web, ontologies are used to define and share knowledge. The term ontology will be properly defined later on, but for now it suffices to know that an ontology is a set of rules that determine what relations are allowed and required in a given domain of discourse. On the semantic web, ontologies are the foundation for communication between agents.
+ In this section, I will give a short summary of the context for the problem. This will enable the reader to put the problem in perspective as well as understand the reasoning behind the solution to the problem. Everything that is mentioned in this section will be explained more in-depth further on.
  
- However, on the Semantic Web it is infeasible to use one single ontology, since the number of concepts it would have to contain is incredibly large. The larger an ontology the longer it takes to perform inference and searches on it, and thus the longer it takes to use it for communication. Therefore the semantic web will have separate ontologies for every domain. The downside of this approach is that when communication requires rules on multiple domains, which it often does, multiple ontologies need to be aligned or merged.
+ On the Semantic Web, Ontologies are used to define and share knowledge. The term ontology will be properly defined later on, but for now it suffices to know that an ontology is a set of rules that determine what relations are allowed and required in a given domain of discourse. Without ontologies, agents on the Semantic Web would be unable to communicate, as all concepts are defined in an Ontology.
  
- A lot of research has been done on creating ontologies, ranging from what an ontology structure should look like to how ontologies should be generated unsupervised. Some research has focused on ontology merging, with promising but slowing results.
+ However, using one single ontology is infeasible. This is due to the fact that inference and search time scales with Ontology size, and the number of concepts that are needed on the Semantic Web is enormous. Every single concept that is present in the billions of Terabytes of text, images and sounds that are on the web needs to be represented, for every professional domain and science, in every language. And all these concepts are related. Searching through this Ontology just to find one concept would be incredibly costly. And since every interaction on the Semantic Web requires lookups in an Ontology or corresponding Knowledge Base, these lookups need to be fast.
  
- Recently, a model that embeds words in a vector space that appears to contains semantics has become popular. Since it is unsupervised and can be used to calculate a semantic distance between words, it may very well be applicable to ontology matching. The model will be explained much more in-depth in \ref{w2v}.
+ The solution to this problem is to split this Ontology into many smaller Ontologies. However, as often is the case in Computer Science, this creates two new, albeit smaller, problems. 
  
- % This should actually be quite long since the whole context section is probably going to be ~10 pages, so 1 page is still fairly short. With a context too short a lot of information gets lost and it comes across as cluttered.
+ The first problem is the problem of splitting the Ontology. How do we find the distribution of all concepts over the different Ontologies to maximize their usefulness. Usefulness in this case should take into account co-occurrence of concepts. Naturally, connected concepts should be more likely to occur in the same Ontology as concepts that are not connected, since it is likely that agents that want to know about a concept also want to know things about its neighbours.
+ 
+ The second problem, the one I address in this thesis, is the problem of conversations that cover multiple domains. These conversations will occur more often if there are more Ontologies, but they can always occur if the number of Ontologies is larger than one. When a conversation requires information from multiple domains, the Ontologies corresponding to those domains need to be merged. This means connecting the related concepts from the different Ontologies. Some research has focused on ontology merging, with promising but slowing results.
+ 
+ The problem of Ontologies on the Semantic Web is to find those Ontologies that are as small as possible to improve search speed, but need to be merged as little as possible, to ensure as little time is used to merge the Ontologies before they can be searched. If it is possible to quickly and reliably merge Ontologies, Ontologies can be made small and communication on the Semantic Web can be done quickly.
+ 
+ Recently, a model that embeds words in a vector space that appears to contains semantics has become popular. Since it is unsupervised and can be used to calculate a semantic distance between words, it may very well be applicable to ontology matching.
  
  \subsection{Overview}
  This thesis is structured as follows...
  
 \newpage
 \section{Context}
-% Give an overview of the section
- In this section I will discuss all concepts that are required to understand the study. Firstly, the Semantic Web, the key technology that depends very strongly on ontology matching, will be discussed. Then the concept of the Ontology itself will be addressed. Lastly, current alignment strategies, their problems and other research and technologies will be discussed.
+ In this section I will discuss all concepts that are required to understand the study. Firstly, the Semantic Web, the key technology that depends very strongly on Ontology matching, will be discussed. Then the concept of the Ontology itself will be addressed. Lastly, current alignment strategies, their problems and other research and technologies will be discussed.
  \subsection{The Semantic Web}
- The Semantic Web, or Web 3.0, is a concept of a Web that enhances the User Experience in ways that the current Web can not provide. Web 2.0, the current Web, models the internet as \textit{hubs} (or sites) with a specific purpose and barely any interconnectivity. For example, Facebook is a hub for sharing content with people you consider friends, but if you want to share that content with more people you will have to go to another hub, like imgur or Pinterest.
-The Semantic Web, on the other hand, sees web pages as sources of \textit{information} that can be combined whenever the user needs it. This allows not only humans to browse the internet, but also Artificial Intelligences, which will use this information to aid their users.
+ The Semantic Web, also called Web 3.0, is a concept of a Web that enhances the User Experience in ways that the current Web can not provide. Web 2.0, the current Web, models the internet as \textit{hubs} (or sites) with a specific purpose and limited interconnectivity. For example, Facebook is a hub for sharing content with people you consider friends, but if you want to share that content with more people you will have to go to another hub, like imgur or Pinterest. It is possible to link to content from other hubs using URLs, but this moves the user to another hub, rather than connecting the content present in the hubs.
+The Semantic Web, on the other hand, contains sources of \textit{information} that can be combined whenever the user needs it. To stick with the social media example, a person can create a piece of content, say a picture of a tree, en shares it with his friends. One of his friends then can share this piece of content with a group of people that likes nature pictures. However, everyone can access all references someone makes. So if a person from the nature group notices the tree is ill and comments on this, the original poster can see this comment and act accordingly. On the current web the friend who shared the picture with the group has to be contacted directly by the commenter and then has to relay the message manually.
 
-For example, if a user wants to see a movie this weekend, he orders his AI, or \textit{softbot}, to find him a suitable time and movie to see. The softbot then accesses the Internet Movie Database to see which movies currently play and which of those are similar to what the user liked in the past. He will then access the pages of the local movie theaters to see when those movies play. Lastly, he will contact the softbots of the friends of the user to ask if they will also come to see that movie. After a short exchange the optimal time, place and participant set are decided, and the softbot tells the user what the results are. When the user accepts, the appointment is automatically added to his agenda. % Mogelijk verplaatsen naar introduction
+ The linking of every piece of content to another allows not only humans to browse the internet, but also virtual agents, which can use this information to aid their users in ways that are simply impossible nowadays. If someone wants to find information on a certain topic, the agent can collect all documents that are relevant to that topic, summarize each document in a way that is relevant to the search request and provide sources for every fact it finds. It would even be possible to have a question answering session on that specific topic, where the agent finds the answer to every question posed in the material that is linked to the topic.
 
-All of this is possible, if the softbot can access all of the information reliably. In the current Web, this is not possible, as all information is written in an ambiguous, unstructured format called human language. To allow softbots to access the same information that we can, the Semantic Web proposes to add a layer to the internet where all information is saved in a unified format that is unambiguous, robot-interpretable and can be used to store any type of knowledge.
+ Another possibility is the scenario from the introduction \ref{intro}, where a user wanted to see a movie, and ordered his softbot, to find him a suitable time and movie to see. This was shown to reduce a lot of planning and allow for much more favourable decisions since many more variables can be taken into account.
+
+ All of this is possible if the softbots can access all of the information reliably. In the current Web, this is not possible, as all information is written in an ambiguous, unstructured format called human language. To allow softbots to access the same information that we can, the Semantic Web proposes to add a layer to the internet where all information is saved in a unified format that is unambiguous, robot-interpretable and can be used to store any type of knowledge.
  
  \subsubsection{Goal}
- The goal of the Semantic Web is very pragmatic: help people in everyday activities by leveraging all information available on the internet. The fact that it is pragmatic goes a long way of making it a reality: if even one application comes into existence that uses online information in a structured way and thus makes everyday tasks a little easier, the goal is accomplished. Of course, then the goal resets and we should make more applications leveraging more information for more tasks.
+ The goal of the Semantic Web is very pragmatic: help people in everyday activities by leveraging all information available on the internet. The fact that it is pragmatic goes a long way of making it a reality: if even one application comes into existence that uses online information in a structured way and thus makes everyday tasks a little easier, the goal is accomplished. Of course, then the goal is stretched and we should make more applications leveraging more information for more tasks.
  
- Ultimately, the goal is to leverage all information that is available to an entity on the internet to improve the lives of humans. This information is not limited to the information that is online \emph{now}, but can include sensor data from the Internet of Things, data from robots, facts deduced or statistically inferred from existing data and so on. All this information can be used to accommodate the wants and needs of humans, when asked for it but also before the users are even aware of their needs. The personal agent should be able to predict the users need and provide the tools that can satisfy the need.
+ Ultimately, the goal is to leverage all information that is available to an entity on the internet to improve the lives of humans. This information is not limited to the information that is online \emph{now}, but can include sensor data from the Internet of Things, data from robots, facts deduced or statistically inferred from existing data and so on. All this information can be used to accommodate the wants and needs of humans, when asked for it \textit{and} before the users are aware of their needs. The personal agent should be able to predict the users need and provide the tools that can satisfy the need.
  
- To provide these tools to the user, an agent uses many different sources. For example, if the need of a researcher is knowledge on a certain topic, the agent must chart relevant topics, map relations between different domains and connect these new ideas to topics the researcher already knows about. In fact, the largest part of the job an agent has to carry out on the Semantic Web is finding relationships between pieces of information on the Web. Based on this observation, we can state that Ontology and Knowledge Base Alignment is the cornerstone  of the Semantic Web, since without this vital system the Web is merely a collection of separate pieces of information. Only when those pieces are aligned can we talk of knowledge, of semantics.
+ To provide these tools to the user, an agent uses many different sources. For example, if the need of a researcher is knowledge on a certain topic, the agent must chart relevant topics, map relations between different domains and connect these new ideas to topics that the researcher is already familiar with. In fact, the largest part of the job an agent has to carry out on the Semantic Web is finding relationships between pieces of information on the Web. Based on this observation, we can state that Ontology and Knowledge Base Alignment is the cornerstone  of the Semantic Web, since without this vital system the Web is merely a collection of separate pieces of information. Only when those pieces are aligned can we talk of knowledge, of semantics.
  
  To summarize, the goal of the Semantic Web is to connect all online information to help humans. Only when all information can be connected will it be possible to aid humans in their needs. But humans will only accept the Semantic Web if it is useful to them, so the Semantic Web must show its applications and usefulness before it will be used in daily life.
  \subsubsection{Current state}
- The Semantic Web is currently divided into two groups: the people who need high accuracy and the people who need high recall. The first group consist of scientists that work on specific fields that require exact knowledge, whereas the second group are data scientists that want big amounts of data available.
+ Currently, people are not aware of the Semantic Web. Either websites and applications do not use any semantic information, or it is used on the back-end, hidden with other complex programs that users will not understand. So what is the Semantic Web used for nowadays, if at all? In this section, I will list a number of general ways people use Semantic Web technologies as well as specific applications. Note that these are Semantic Web technologies, i.e. technologies that came into existence through Semantic Web research and can eventually be used in the Semantic Web, but currently are not used for the Semantic Web since it does not exist yet.
+ 
+ The Semantic Web is currently divided into two groups: the people who need high accuracy and the people who need high recall. The first group consist of scientists that work on specific fields that require exact knowledge, whereas the second group are data scientists that want big amounts of data available. In the past it was not possible to extract information from texts and other sources automatically, so 
  
  The group that requires high recall use hand-crafted knowledge bases, created by experts, containing only facts that are accurate, verified and relevant. This method of creating a knowledge base does not scale very well and usually consists of fewer than ten thousand facts. Because of this, the knowledge bases are restricted to small domains, including some parts of medicine and cultural heritage. \cite{byrne, le2002}
  
@@ -105,11 +114,15 @@ All of this is possible, if the softbot can access all of the information reliab
  
  An ontology describes concepts as their relationships to other concepts. The concepts that are described determine the domain the ontology covers, and the relationships determine the rules the ontology imposes on the domain. For example, a hierarchy is an ontology that describes concepts that are subclasses of other concepts. Therefore the relationships are 'part-of' relationships: birds are part-of the animals concept class.
  Concepts can be instantiated, which is done in a Knowledge Base (KB). KBs and Ontologies are often confused, and are indeed very similar in structure. The Knowledge Base in our example can contain actually existing birds or fictional birds, and refers to the Ontology concept of bird to embed the instantiations with meaning.
+  
+ 
  \subsubsection{OWL}
  OWL is a family of languages and syntaxes that can be used to create an ontology. The different languages are designed around requirements of possible relationships and concept definitions, and thus may differ a lot between them. The W3C has defined three variants which are the bases for all other adaptations. The variants trade off levels of expressiveness versus computability.
  \subsubsection{SPARQL}
  SPARQL is the query language for knowledge bases and ontologies. It allows a user to select nodes whose context match the query, similar to how rows are selected in SQL based on the row contents.
  \subsubsection{Role}
+ %Beschrijf de drie manieren om top-down ontologien te maken. Geen intra-ontologiale verwijzingen, verwijzingen of overlap (maar dan nog steeds verwijzingen). Beschrijf bottom-up ontologie maken.
+ 
  The reason ontologies are used in databases consists of multiple parts. Firstly, it allows querying languages to optimize the search process. Secondly, it allows expansion of information on a node. Thirdly, it allows for consistency checking a Knowledge Base. Lastly, it allows merging of knowledge bases.
  
  Search can be optimized by taking into account constraints the ontology provides. For example, no professor is a student, therefore no professor can be connected to a course with 'follows' predicate. This allows a search algorithm to skip all professors when looking for people that might follow a certain course.
@@ -134,7 +147,7 @@ All of this is possible, if the softbot can access all of the information reliab
  \subsection{Current alignment strategies} \label{strategies}
  Many different alignment strategies have already been developed. All strategies follow the same two-step approach. The two steps are independent and as such different methods can be used interchangeably. The first step is to generate an initial correspondence set, where correspondences between nodes are found based on just their labels and meta-data. The second step is to use this initial set and the structure of the ontology to find more correspondences. These steps are called the terminological and the structural steps. Some strategies also use extra steps like the extensional and semantic steps, which use vector space models and inference, respectively. https://hal.inria.fr/hal-00917910/document
  
- Popular terminological strategies are WordNet comparison and edit distance. The former uses the popular WordNet hierarchy as a distance measure between to concepts, e.g. the number of edges between the concepts and their least general common superconcept. \cite{lin2008}
+ Popular terminological strategies are WordNet comparison and edit distance. The former uses the popular WordNet hierarchy as a distance measure between two concepts, e.g. the number of edges between the concepts and their least general common superconcept. \cite{lin2008}
  Edit distance is a purely string-based similarity measure. The similarity is a (weighted) count of edits required to transform one word into another, where common edits are insertion, deletion and replacement. Similar methods include substring matching and n-gram matching, which compare parts of the strings to find similarities.\cite{singh2014, levenshtein}
  \subsection{Problems in ontology alignment}
  There are a number of different problems ... % Opsommen en samenvatten
@@ -200,18 +213,46 @@ All of this is possible, if the softbot can access all of the information reliab
  
  In summary, ontology aligning is required for multi-domain communication but poses a number of problems that make it difficult for concepts, the building blocks of ontologies, to be matched.
  \subsection{Research questions}
- Can distributed representations of concepts be used to find relationships between concepts in ontologies better than existing terminological matchers?\\\\
- 
- Can distributed representations use the context of a concept to find relationships between concepts in ontologies better than existing structural matchers?\\\\
- 
- Can distributed representations perform well in a domain it was not designed for?
- 
- \subsection{Hypotheses}
- Since multiple implementations of the algorithm are considered, every hypothesis that follows is considered for every implementation.\\\\
+ The main question that I will answer with this work is the following research question:
  
  \begin{center}
- \textit{The distributed representations of concepts matcher can find relationships between concepts in ontologies better than existing terminological matchers.}
+ \textit{
+ Can distributed representations of concepts be used to find relationships between concepts in ontologies better than existing terminological matchers?
+ }
  \end{center}
+ % Alternatively, do my matcher add anything? i.e. does adding it to an ensemble of existing matchers increase performance?
+ 
+ I will also investigate the following two related but different questions:
+ 
+ \begin{center}
+ \textit{
+ Can distributed representations use the context of a concept to find relationships between concepts in ontologies better than existing structural matchers?
+ }
+ \end{center}
+ 
+ \begin{center}
+ \textit{
+ Can distributed representations perform well in a domain it was not designed for?
+ }
+ \end{center}
+ 
+ \subsection{Hypotheses}
+ Since multiple implementations of the algorithm are considered, every hypothesis that follows is considered for every implementation.
+ 
+ \begin{center}
+ \textit{This specific matcher that uses a distributed representation of concepts can find relationships between concepts in ontologies better than existing terminological matchers.}
+ \end{center}
+
+ To prove this hypothesis, I must proof the following points:
+ \begin{itemize}
+ \item The algorithm uses distributed representations of concepts.
+ \item The algorithm finds relationships between concepts in ontologies.
+ \item The algorithm has been compared to the currently best matchers.
+ \item The algorithm performs better.
+ \end{itemize} 
+ 
+ The first three points will be shown in \ref{proofs}, whereas the last point is shown in \ref{conclusions}.
+ 
  \begin{center} 
  \textit{The distributed representations matcher can use the context of a concept to find relationships between concepts in ontologies better than existing structural matchers.}
  \end{center}
