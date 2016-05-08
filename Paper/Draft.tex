@@ -1,6 +1,11 @@
  \documentclass{article}
+ 
  \usepackage[utf8]{inputenc}
  \usepackage[titletoc]{appendix}
+ \usepackage{listings}
+
+
+
  \title{Ontology Matching with word2vec}
  \author{Harmen Prins}
  
@@ -193,6 +198,32 @@ The Semantic Web, on the other hand, contains sources of \textit{information} th
  When model training is extremely fast, which is the case for parallelised neural network training, parsing the data from string format to vectors in a proper data structure can become a bottleneck. Recently, factorie added JFlex to parse its data. This improved its parsing by \%5000, removing the bottleneck.
  
  Since I investigate many different implementations of the same algorithm, it should be easy to switch between these implementations at run-time without much effort. Command line parsing allows for this to happen, and thus improves experimentation ease.
+ 
+ \subsubsection{Jena}
+ Jena is the most used library for storing, manipulating, querying and reasoning on ontologies. It has an interface that allows for easy access to an ontology. For example, if one would like to obtain a list of all neighbours of a certain node, one can simply use the following Jena command:
+ \lstset{language=Java}
+ \begin{lstlisting}
+  ontology.listStatements(givenNode, null, null)
+ \end{lstlisting}
+ 
+ It automatically gives all statements that have the given node as subject. In terms of graphs this is equal to obtaining all edges that go out of the given node.
+ 
+ In Jena it is possible to obtain the label of any node, if it has it, by calling:
+ 
+ \begin{lstlisting}
+  label = node.isBlank() ? 
+  		  node.getBlankNodeLabel() : 
+  		  node.getLiteral()
+ \end{lstlisting}
+ 
+ The ternary is to distinguish between blank and non-blank nodes. Blank nodes are a feature of ontologies and thus need to be taken into account.
+ 
+ \subsubsection{Never-ending Language Learner}
+ The Never-Ending Language Learner, or NELL, also known as the Read the Web Project, has created a big ontology of facts extracted from the web. 
+ 
+ \subsubsection{WordNet}
+ WordNet is a manually constructed database of semantic relations between words.
+ % https://wordnet.princeton.edu/wordnet/publications/poznan.springer.pdf
  
  \newpage
  \section{Problem}
