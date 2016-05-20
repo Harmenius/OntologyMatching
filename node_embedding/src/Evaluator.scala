@@ -20,7 +20,14 @@ object Evaluator {
   }
 
   def loadTruth() : Alignment = {
-
+    val truthfile = WordSenseOpts.truthfile.value
+    val truthontology = new RDFOntology(truthfile)
+    val truthalignment = new Alignment
+    for (edge <- truthontology.getEdges) {
+      val (obj, subj) = edge.split(" ").slice(0,2)
+      truthalignment.add(obj, subj, 1)
+    }
+    truthalignment
   }
 
   def main(args: Array[String]) {
