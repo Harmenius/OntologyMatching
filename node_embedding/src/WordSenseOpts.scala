@@ -12,7 +12,7 @@ object WordSenseOpts extends EmbeddingOpts{
   // IO
   val inputFilename           = new CmdOption("embeddingsfile", "Data/output.csv", "String", "Loads embeddings from this file if not empty")
   val embeddingOutFile        = new CmdOption("embeddingout", "Data/output.csv", "String", "Embeddings are saved to this file if not empty")
-  inputFilename.setValue("")
+  //inputFilename.setValue("")
   val corpusses = new CmdOption("corpusses", "", "String", "List all corpusses to be included separated by a ;-sign. " ++
    "The first two corpusses are considered as the corpusses to be aligned. The others are only used for embedding purposes")
   val truthfile = new CmdOption("reference-alignment-name", "Data/anatomy/reference.rdf", "String", "Relative path of the file containing the ground truth")
@@ -21,6 +21,6 @@ object WordSenseOpts extends EmbeddingOpts{
   corpusses.setValue("Data/anatomy/human.owl;Data/anatomy/mouse.owl;Data/NELL_clean.csv")
   output.setValue("Data/output.csv")
   saveVocabFile.setValue("Data/vocab.csv")
-  //loadVocabFile.setValue("Data/vocab.csv")
+  loadVocabFile.setValue("Data/vocab.csv")
 }
 

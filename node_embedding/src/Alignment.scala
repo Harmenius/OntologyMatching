@@ -7,10 +7,9 @@ import math.max
   * Created by harmen on 22-4-16.
   */
 class Alignment {
-  def add(node1: String, node2: String, d: Double): Unit = {
-    if (d.isNaN)
-      return
-    alignments.add((node1, node2, d))
+  def add(node1: String, node2: String, d: Double) = {
+    if (!d.isNaN)
+      alignments.add((node1, node2, d))
   }
   val ordering = new Ordering[(String, String, Double)] {
     override def compare(x: (String, String, Double), y: (String, String, Double)): Int = x._3.compare(y._3)

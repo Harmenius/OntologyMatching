@@ -1,19 +1,20 @@
 import com.hp.hpl.jena.rdf.model.{RDFNode, Resource}
 import smile.neighbor.KDTree
 import smile.plot.PlotCanvas
+import scala.collection.JavaConverters._
 
 import math.sqrt
 
 object Evaluator {
 
   def compare(alignment: Alignment, truth: Alignment) : Double = {
-    val alignmentset = Set(alignment.alignments).map{case (s, o, v) => (s, o)}
-    val truthset = Set(truth.alignments).map{case (s, o, v) => (s, o)}
+    val alignmentset = alignment.alignments.asScala.toSet[(String, String, Double)].map{case (s: String, o:String, v: Double) => (s, o)}
+    val truthset = truth.alignments.asScala.toSet[(String, String, Double)].map{case (s: String, o: String, v: Any) => (s, o)}
     val N = alignmentset.size
     val M = truthset.size
     var count : Int = 0
-    for (pair <- alignmentset) {
-      if (truthset.contains(pair) || truthset.contains(pair.invert))
+    for (pair : (String, String) <- alignmentset) {
+      if (truthset.contains(pair) || truthset.contains(pair.swap))
         count+=1
     }
     2f * count / (N + M)
@@ -24,7 +25,9 @@ object Evaluator {
     val truthontology = new RDFOntology(truthfile)
     val truthalignment = new Alignment
     for (edge <- truthontology.getEdges) {
-      val (obj, subj) = edge.split(" ").slice(0,2)
+      //val (obj : String) :: (subj : String) :: _ = edge.split(" ")
+      val obj = edge.split(" ")(0)
+      val subj = edge.split(" ")(1)
       truthalignment.add(obj, subj, 1)
     }
     truthalignment
@@ -37,6 +40,7 @@ object Evaluator {
     //showplot(plotimage)
     val truth = loadTruth()
     val dice = compare(alignment, truth)
+    printf("The result of what you have been working for for months: %s%n", dice)
   }
 
   class PlotGUI extends swing.MainFrame {
