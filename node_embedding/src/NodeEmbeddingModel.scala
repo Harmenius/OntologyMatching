@@ -59,9 +59,11 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
     }
   }
 
+  override def buildVocab(): Unit = buildVocab(true)
+
   // total # of nodes in the corpus. Needed to calculate the distribution of the work among threads and seek points of corpus file
   // Component-1
-  override def buildVocab(): Unit = {
+  def buildVocab(all: Boolean): Unit = {
     vocab = new VocabBuilder(vocabHashSize, samplingTableSize, 0.7) // 0.7 is the load factor
     if (loadVocabFilename.isEmpty) {
       for (one_corpus <- corpusses.split(";")) {
@@ -126,19 +128,21 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
       loadEmbeddings()
       println("Done loading embeddings")
     } else {
+
+      println("Learning Embeddings")
+      optimizer = new AdaGradRDA(delta = adaGradDelta, rate = adaGradRate)
+      weights = (0 until V).map(i => Weights(TensorUtils.setToRandom1(new DenseTensor1(D, 0)))) // initialized using wordvec random
+      optimizer.initializeWeights(this.parameters)
+      trainer = new HogWildTrainer(weightsSet = this.parameters, optimizer = optimizer, nThreads = threads, maxIterations = Int.MaxValue)
+
+      val threadIds = (0 until threads).map(i => i)
       for (current_corpus <- corpusses.split(";")) {
         this.current_corpus = current_corpus
-        println("Learning Embeddings")
-        optimizer = new AdaGradRDA(delta = adaGradDelta, rate = adaGradRate)
-        weights = (0 until V).map(i => Weights(TensorUtils.setToRandom1(new DenseTensor1(D, 0)))) // initialized using wordvec random
-        optimizer.initializeWeights(this.parameters)
-        trainer = new HogWildTrainer(weightsSet = this.parameters, optimizer = optimizer, nThreads = threads, maxIterations = Int.MaxValue)
-        val threadIds = (0 until threads).map(i => i)
-        val fileLen = new File(corpus).length
+        val fileLen = new File(current_corpus).length
         //Threading.parForeach(threadIds, threads)(threadId => workerThread(threadId, fileLen))
         workerThread(0, fileLen) //TODO: Parallelize
-        println("Done learning embeddings. ")
       }
+      println("Done learning embeddings. ")
       if (!WordSenseOpts.embeddingOutFile.value.isEmpty)
         store()
     }
@@ -147,6 +151,12 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
   // Component-3
   override def store(): Unit = {
     println("Now, storing the embeddings .... ")
+
+    // Only store embeddings that are in the ontologies to be matched
+    val o1 = ontology.ontologies(0)
+    val o2 = ontology.ontologies(1)
+    val edges = Set() ++ o1.getNodes ++ o2.getNodes
+
     val out = storeInBinary match {
       case true => new java.io.PrintWriter(outputFilename, encoding)
       case false => new OutputStreamWriter(new GZIPOutputStream(new BufferedOutputStream(new FileOutputStream(outputFilename))), encoding)
@@ -156,19 +166,22 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
     // <word>[<space><embedding(word)(d)>]*dim-size<newline>
     out.write("%d %d\n".format(V, D))
     for (v <- 0 until V) {
-      out.write(vocab.getWord(v) + " ")
-      val embedding = weights(v).value
-      for (d <- 0 until D)
-        out.write(embedding(d) + " ")
-      out.write("\n")
-      out.flush()
+      val w = vocab.getWord(v)
+      if(edges.contains(w)) {
+        out.write(w + " ")
+        val embedding = weights(v).value
+        for (d <- 0 until D)
+          out.write(embedding(d) + " ")
+        out.write("\n")
+        out.flush()
+      }
     }
     out.close()
     println("Done storing embeddings")
   }
 
 
-  override protected def workerThread(id: Int, fileLen: Long, printAfterNDoc: Long = 100): Unit = {
+  override protected def workerThread(id: Int, fileLen: Long, printAfterNDoc: Long = 10000): Unit = {
     val skipBytes: Long = fileLen / threads * id // fileLen now pre-computed before passing to all threads. skip bytes. skipped bytes is done by other workers
     val edgeItr = ontology.getEdges
     var word_count: Long = 0
@@ -178,7 +191,7 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
     while (edgeItr.hasNext && work) {
       word_count += process(edgeItr.next) // Design choice : should word count be computed here and just expose process(doc : String): Unit ?.
       ndoc += 1
-      if (id == 1 && ndoc % printAfterNDoc == 0) {  // print the process after processing 100 docs in 1st thread. It approx reflects the total progress
+      if (id == 0 && ndoc % printAfterNDoc == 0) {  // print the process after processing 100 docs in 1st thread. It approx reflects the total progress
         println("Progress : " + word_count / total_words_per_thread.toDouble * 100 + " %")
       }
       work = word_count <= total_words_per_thread // Once, word_count reaches this limit, ask worker to end

@@ -9,13 +9,18 @@ import scala.collection.JavaConverters._
 abstract class Ontology {
   // TODO move to object
 
+  def clean(name: String): String = {
+    val nameparts = name.split(":")
+    nameparts(nameparts.length-1)
+  }
+
   def toString(node: RDFNode): String = {
     if(node.isLiteral)
-      node.asNode.getLiteral.getLexicalForm
+      clean(node.asNode.getLiteral.getLexicalForm)
     else if(node.isResource) {
       val name = node.asResource.getLocalName
       if (name == null)
-        return "a"
+        return "blank:%s".format(node.toString)
       name
     }
     else
@@ -29,11 +34,11 @@ abstract class Ontology {
 
   def toString(node: String): String = node
 
-  def getNodes(): Iterator[String]
-  def getEdges(): Iterator[String]
+  def getNodes: Iterator[String]
+  def getEdges: Iterator[String]
 }
 
-class RDFOntology (filename: String) extends Ontology {
+class RDFOntology (filename: String, ignoreblank: Boolean = true) extends Ontology {
   val model : Model = FileManager.get.loadModel(filename)
 
   def getNodes: Iterator[String] = {
@@ -51,7 +56,10 @@ class RDFOntology (filename: String) extends Ontology {
       (n.getObject.isResource && n.getObject.asResource.isAnon) ||
         (n.getSubject.isResource && n.getSubject.asResource.isAnon)
     }
-    model.listStatements().asScala.filterNot(containsBlank).map(this.toString)
+    var edges = model.listStatements().asScala
+    if (ignoreblank)
+      edges = edges.filterNot(containsBlank)
+    edges.map(this.toString)
   }
 
 }
@@ -71,7 +79,7 @@ class SharedOntology(filenames: String) extends Ontology {
     }
   }
 
-  override def getNodes(): Iterator[String] = {
+  override def getNodes: Iterator[String] = {
     var it = ontologies(0).getNodes
     for (i <- 1 until ontologies.length) {
       it = it ++ ontologies(i).getNodes
@@ -79,7 +87,7 @@ class SharedOntology(filenames: String) extends Ontology {
     it
   }
 
-  override def getEdges(): Iterator[String] = {
+  override def getEdges: Iterator[String] = {
     var it = ontologies(0).getEdges
     for (i <- 1 until ontologies.length) {
       it = it ++ ontologies(i).getEdges
@@ -93,11 +101,11 @@ class SharedOntology(filenames: String) extends Ontology {
 class CSVOntology(filename: String) extends Ontology {
   val reader = new FastLineReader(filename)
 
-  override def getNodes(): Iterator[String] = {
+  override def getNodes: Iterator[String] = {
     reader.flatMap[String](node => node.split(" "))
   }
 
-  override def getEdges(): Iterator[String] = {
+  override def getEdges: Iterator[String] = {
     reader
   }
 }

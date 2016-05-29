@@ -1,9 +1,11 @@
-import com.hp.hpl.jena.rdf.model.{RDFNode, Resource}
+import com.hp.hpl.jena.rdf.model.{RDFNode, Resource, Statement}
 import smile.neighbor.KDTree
 import smile.plot.PlotCanvas
-import scala.collection.JavaConverters._
 
+import scala.collection.JavaConverters._
 import math.sqrt
+import scala.collection.mutable
+import scala.util.Try
 
 object Evaluator {
 
@@ -22,13 +24,20 @@ object Evaluator {
 
   def loadTruth() : Alignment = {
     val truthfile = WordSenseOpts.truthfile.value
-    val truthontology = new RDFOntology(truthfile)
+    val truthontology = new RDFOntology(truthfile, false)
     val truthalignment = new Alignment
+    val edgemap = mutable.HashMap[String, String]()
     for (edge <- truthontology.getEdges) {
       //val (obj : String) :: (subj : String) :: _ = edge.split(" ")
-      val obj = edge.split(" ")(0)
-      val subj = edge.split(" ")(1)
-      truthalignment.add(obj, subj, 1)
+      val subj = edge.split(" ")(0)
+      val obj  = edge.split(" ")(2)
+      if(Try(subj.toDouble).isFailure && subj != "=") { // Not relation value or type
+        if(edgemap.contains(obj)) {
+          truthalignment.add(subj, edgemap.get(obj).get, 1)
+        } else {
+          edgemap.put(obj, subj)
+        }
+      }
     }
     truthalignment
   }
@@ -66,8 +75,8 @@ object Evaluator {
   }
 
   def makeAlignment() : Alignment = {
-    model.buildVocab
-    model.learnEmbeddings
+    model.buildVocab(false)
+    model.learnEmbeddings()
     val o1 = model.getOntologies(0)
     val o2 = model.getOntologies(1)
 
