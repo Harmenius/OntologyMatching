@@ -34,7 +34,7 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
   private def buildVocabRDF(corpus: String) = {
     println("... from RDF")
     // From each edge, grab subject and object
-    val edgeNames: Iterator[String] = ontology.getEdges
+    val edgeNames: Iterator[String] = ontology.getOntology(corpus).getEdges
     val names: Iterator[String] = edgeNames.flatMap(y => List(y.split(" ").head, y.split(" ").last))
     names.foreach(name => vocab.addWordToVocab(name.toLowerCase))
   }
@@ -136,12 +136,8 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
       trainer = new HogWildTrainer(weightsSet = this.parameters, optimizer = optimizer, nThreads = threads, maxIterations = Int.MaxValue)
 
       val threadIds = (0 until threads).map(i => i)
-      for (current_corpus <- corpusses.split(";")) {
-        this.current_corpus = current_corpus
-        val fileLen = new File(current_corpus).length
-        //Threading.parForeach(threadIds, threads)(threadId => workerThread(threadId, fileLen))
-        workerThread(0, fileLen) //TODO: Parallelize
-      }
+      val fileLen = new File(current_corpus).length
+      workerThread(0, fileLen) //TODO: Parallelize
       println("Done learning embeddings. ")
       if (!WordSenseOpts.embeddingOutFile.value.isEmpty)
         store()
@@ -192,9 +188,9 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
       word_count += process(edgeItr.next) // Design choice : should word count be computed here and just expose process(doc : String): Unit ?.
       ndoc += 1
       if (id == 0 && ndoc % printAfterNDoc == 0) {  // print the process after processing 100 docs in 1st thread. It approx reflects the total progress
-        println("Progress : " + word_count / total_words_per_thread.toDouble * 100 + " %")
+        println("Progress : " + ndoc / fileLen.toDouble * 100 + " %")
       }
-      work = word_count <= total_words_per_thread // Once, word_count reaches this limit, ask worker to end
+      //work = word_count <= total_words_per_thread // Once, word_count reaches this limit, ask worker to end
     }
     // println("thread :" + id + " word count : " + word_count)
   }

@@ -22,21 +22,34 @@ object Evaluator {
     2f * count / (N + M)
   }
 
+  def obtain_name(subj: String, predicate: String) : String = {
+    val (o, uri) = predicate.endsWith("1") match {
+      case true  => (model.getOntologies(0), "http://mouse.owl#")
+      case false => (model.getOntologies(1), "http://human.owl#")
+    }
+    o match {
+      case ontology: RDFOntology =>
+        ontology.get_label(uri + subj)
+      case _ =>
+        subj
+    }
+  }
+
   def loadTruth() : Alignment = {
     val truthfile = WordSenseOpts.truthfile.value
-    val truthontology = new RDFOntology(truthfile, false)
+    val truthontology = new RDFOntology(truthfile, true)
     val truthalignment = new Alignment
     val edgemap = mutable.HashMap[String, String]()
     for (edge <- truthontology.getEdges) {
       //val (obj : String) :: (subj : String) :: _ = edge.split(" ")
-      val subj = edge.split(" ")(0)
-      val obj  = edge.split(" ")(2)
-      if(Try(subj.toDouble).isFailure && subj != "=") { // Not relation value or type
-        if(edgemap.contains(obj)) {
-          truthalignment.add(subj, edgemap.get(obj).get, 1)
-        } else {
-          edgemap.put(obj, subj)
-        }
+      val subj  = edge.split(" ")(0)
+      val pred = edge.split(" ")(1)
+      val obj = edge.split(" ")(2)
+      val subj_  = obtain_name(subj, pred)
+      if(edgemap.contains(obj)) {
+        truthalignment.add(subj_, edgemap(obj), 1)
+      } else {
+        edgemap.put(obj, subj_)
       }
     }
     truthalignment

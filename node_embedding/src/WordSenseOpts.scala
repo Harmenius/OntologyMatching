@@ -8,7 +8,7 @@ object WordSenseOpts extends EmbeddingOpts{
   val bidirectional           = new CmdOption("bidirectional", false, "BOOLEAN", "Train both ends of edge with context (other, edge)")
   val invertedEdges           = new CmdOption("inverted-edges", true, "BOOLEAN", "If not bidirectional, train concepts with (parent, 'inv'+edge)")
   val combineContext          = new CmdOption("combined-context", false, "BOOLEAN", "Give edge and neighbour to trainer together")
-  threads.setValue(1500) //TODO real nr threads = 1
+  threads.setValue(1) //TODO real nr threads = 1
 
   // IO
   val inputFilename           = new CmdOption("embeddingsfile", "", "String", "Loads embeddings from this file if not empty")
@@ -18,7 +18,8 @@ object WordSenseOpts extends EmbeddingOpts{
   val truthfile = new CmdOption("reference-alignment-name", "Data/anatomy/reference.rdf", "String", "Relative path of the file containing the ground truth")
 
   // Hard-coding data files
-  corpusses.setValue("Data/anatomy/human.owl;Data/anatomy/mouse.owl;Data/NELL_clean.csv")
+  corpusses.setValue("Data/anatomy/mouse.owl;Data/anatomy/human.owl;Data/NELL_clean.csv")
+  //corpusses.setValue("Data/anatomy/mouse.owl;Data/anatomy/human.owl")
   output.setValue("Data/output.csv")
   saveVocabFile.setValue("Data/vocab.csv")
   loadVocabFile.setValue("Data/vocab.csv")
