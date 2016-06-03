@@ -17,7 +17,7 @@ class SkipGramNodeEmbedding() extends NodeEmbeddingModel(){
   val sample = WordSenseOpts.sample.value
 
   def randContext(): Seq[Int] = {
-    return Array(1,2,3)
+    return Array(1,2,3) // TODO: implement this
   }
 
   override def process(doc: String): Int = {
