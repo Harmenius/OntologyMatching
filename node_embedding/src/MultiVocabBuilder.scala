@@ -12,7 +12,7 @@ class MultiVocabBuilder(n: Int = 2) extends VocabBuilder {
   val vocabs = List.fill(n)(new VocabBuilder())
 
   override def getRandWordId(): Int = {
-    val N = vocabs.map(v => v.size()).sum
+    val N = size()
     rand.nextInt(N)
   }
 
@@ -57,6 +57,15 @@ class MultiVocabBuilder(n: Int = 2) extends VocabBuilder {
     }
   }
 
+  override def loadVocab(filename: String, encoding: String = "UTF8") : Unit = {
+    val basename = filename.split(".").dropRight(1).mkString(".")
+    val extension = "." + filename.split(".").last
+    for ((v, i) <- vocabs.zipWithIndex) {
+      val fn = "%s_%d%s".format(basename, i, extension)
+      v.loadVocab(fn, encoding)
+    }
+  }
+
   override def buildSamplingTable() : Unit = {
     for (v <- vocabs)
       v.buildSamplingTable()
@@ -69,4 +78,34 @@ class MultiVocabBuilder(n: Int = 2) extends VocabBuilder {
   override def getSubSampleProb(id: Int): Double = {
     throw NotImplementedException
   }
+
+  override def size(): Int = {
+    vocabs.map(v => v.size()).sum
+  }
+
+  override def trainWords(): Long = {
+    vocabs.map(v => v.trainWords()).sum
+  }
+
+  override def getCount(id: Int): Int = {
+    var cur_N = 0
+    for (v <- vocabs) {
+      if (cur_N + v.size >= id) {
+        return v.getCount(id - cur_N)
+      } else {
+        cur_N += v.size
+      }
+    }
+    -1
+  }
+
+  override def getCount(word: String): Int = {
+    getCount(getId(word))
+  }
+
+  def addWordToVocab(key: String, vid: Int): Unit = {
+    vocabs(vid).addWordToVocab(key)
+  }
+
+  def getVocab(i: Int) : VocabBuilder = vocabs(i)
 }
