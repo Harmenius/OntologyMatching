@@ -15,8 +15,6 @@ abstract class Ontology {
   val REF_URIS = Array("http://knowledgeweb.semanticweb.org/heterogeneity/alignmententity1",
                        "http://knowledgeweb.semanticweb.org/heterogeneity/alignmententity2")
 
-  // TODO move to object
-
   def clean(name: String): String = {
     val nameparts = name.split(":")
     nameparts(nameparts.length-1).replace(" ", "_").toLowerCase

@@ -113,7 +113,7 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
       val word = line.split(" ").apply(0)
       val weight : Array[String] = line.split(" ").drop(1)
       val weightTensor = new DenseTensor1(weight.length)
-      weight.zipWithIndex foreach (t => weightTensor.update(t._2, t._1.toDouble)) // TODO test parallel although unlikely since one object is accessed
+      weight.zipWithIndex foreach (t => weightTensor.update(t._2, t._1.toDouble))
       weights(vocab.getId(word)) = Weights(weightTensor)
     }
     this.weights = weights
@@ -137,7 +137,7 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
 
       val threadIds = (0 until threads).map(i => i)
       val fileLen = new File(current_corpus).length
-      workerThread(0, fileLen) //TODO: Parallelize
+      workerThread(0, fileLen)
       println("Done learning embeddings. ")
       if (!WordSenseOpts.embeddingOutFile.value.isEmpty)
         store()
