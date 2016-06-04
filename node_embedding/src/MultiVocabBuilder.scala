@@ -72,11 +72,10 @@ class MultiVocabBuilder(n: Int = 2) extends VocabBuilder {
   }
 
   override def buildSubSamplingTable(s: Double) : Unit = {
-    throw NotImplementedException
   }
 
   override def getSubSampleProb(id: Int): Double = {
-    throw NotImplementedException
+    throw new NotImplementedException("Author did not require this method.")
   }
 
   override def size(): Int = {
