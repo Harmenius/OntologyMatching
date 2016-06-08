@@ -27,7 +27,7 @@ class SkipGramNodeEmbedding() extends NodeEmbeddingModel(){
     if (concepts.length != 3)
       return 0
 
-    val conceptCount = concepts.size - (if (addEdges) 0 else 1)
+    val conceptCount = concepts.length - (if (addEdges) 0 else 1)
 
     for (i <- 0 to 2) {
       if (i != 1) {

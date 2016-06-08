@@ -2,13 +2,13 @@ import cc.factorie.app.nlp.embeddings.EmbeddingOpts
 
 object WordSenseOpts extends EmbeddingOpts{
 
-
   // Model
   val includeEdgeLabels       = new CmdOption("include-edge-labels", true, "BOOLEAN", "Should edges be taken into account when generating vocabulary?")
   val bidirectional           = new CmdOption("bidirectional", false, "BOOLEAN", "Train both ends of edge with context (other, edge)")
   val invertedEdges           = new CmdOption("inverted-edges", true, "BOOLEAN", "If not bidirectional, train concepts with (parent, 'inv'+edge)")
   val combineContext          = new CmdOption("combined-context", false, "BOOLEAN", "Give edge and neighbour to trainer together")
-  threads.setValue(1) //TODO real nr threads = 1
+  val synonyms                = new CmdOption("synonym-file", "Data/anatomy/VectorMatcherResults.rdf", "String", "File containing synonyms")
+  threads.setValue(1)
 
   // IO
   val inputFilename           = new CmdOption("embeddingsfile", "", "String", "Loads embeddings from this file if not empty")
@@ -23,6 +23,6 @@ object WordSenseOpts extends EmbeddingOpts{
   output.setValue("Data/output.csv")
   saveVocabFile.setValue("Data/vocab.csv")
   loadVocabFile.setValue("Data/vocab.csv")
-  //inputFilename.setValue("Data/output.csv")
+  inputFilename.setValue("Data/output.csv")
 }
 

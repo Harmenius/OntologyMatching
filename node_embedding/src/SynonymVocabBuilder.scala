@@ -1,18 +1,33 @@
+import java.lang.reflect.{Field, Method}
+
 import cc.factorie.app.nlp.embeddings.{VocabBuilder, vocab_word}
 
 /**
   * Created by harmen on 4-6-16.
   */
-class SynonymVocabBuilder extends VocabBuilder {
+class SynonymVocabBuilder(vocab_hash_size: Int = 20e6.toInt, sampling_table_size: Int = 1e8.toInt, load_factor: Double = 0.7)
+  extends VocabBuilder(vocab_hash_size, sampling_table_size, load_factor) {
 
   // Hack to get private values
-  val vocabField = super.getClass.getDeclaredField("vocab")
-  vocabField.setAccessible(true)
-  val vocab: Array[vocab_word] = vocabField.get(this).asInstanceOf[Array[vocab_word]]
+  def getPrivateField[A](fieldName: String): A = {
+    val fields = this.getClass.getSuperclass.getDeclaredFields
+    val trueName = "cc$factorie$app$nlp$embeddings$VocabBuilder$$" + fieldName
+    val field = fields.filter(_.getName == trueName).head
+    field.setAccessible(true)
+    field.get(this).asInstanceOf[A]
+  }
 
-  val hashField = super.getClass.getDeclaredField("vocab_hash")
-  vocabField.setAccessible(true)
-  val vocab_hash: Array[Int] = vocabField.get(this).asInstanceOf[Array[Int]]
+  def vocab = getPrivateField[Array[vocab_word]]("vocab")
+  val vocab_hash = getPrivateField[Array[Int]]("vocab_hash")
+
+  def addSynonymToVocab(key: String, orig: String): Unit = {
+    var orig_ = getId(orig)
+    if (orig_ == -1) {
+      addWordToVocab(orig)
+      orig_ = getId(orig)
+    }
+    addSynonymToVocab(key, orig_)
+  }
 
   def addSynonymToVocab(key: String, orig: Int): Unit = {
     val id = getId(key)
@@ -24,24 +39,17 @@ class SynonymVocabBuilder extends VocabBuilder {
       }
       vocab_hash(hash) = orig
     }
-    vocab(id).cn += 1
+    vocab(orig).cn += 1
   }
 
-  def vocab_size: Int = {
-    val sizeField = super.getClass.getDeclaredField("vocab_size")
-    sizeField.setAccessible(true)
-    sizeField.get(this).asInstanceOf[Int]
+  def vocab_size(): Int = {
+    getPrivateField[Int]("vocab_size")
   }
 
   def get_word_hash(key: String): Int = {
-    val hashSizeField = super.getClass.getDeclaredMethod("get_word_hash")
+    val methods = this.getClass.getSuperclass.getDeclaredMethods
+    val hashSizeField :Method = methods.filter(_.getName == "cc$factorie$app$nlp$embeddings$VocabBuilder$$get_word_hash").head
     hashSizeField.setAccessible(true)
-    hashSizeField.invoke(key).asInstanceOf[Int]
-  }
-
-  def vocab_hash_size: Int = {
-    val sizeField = super.getClass.getDeclaredField("vocab_hash_size")
-    sizeField.setAccessible(true)
-    sizeField.get(this).asInstanceOf[Int]
+    hashSizeField.invoke(this, key).asInstanceOf[Int]
   }
 }

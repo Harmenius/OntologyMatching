@@ -1,16 +1,23 @@
 import com.google.common.collect.MinMaxPriorityQueue
-
-import scala.collection.mutable
-import math.max
+import collection.JavaConversions._
 
 /**
   * Created by harmen on 22-4-16.
   */
 class Alignment {
+  var t: Double = Double.PositiveInfinity
+
   def add(node1: String, node2: String, d: Double) = {
     if (!d.isNaN)
-      alignments.add((node1, node2, d))
+      if (d < t)
+        alignments.add((node1, node2, d))
   }
+
+  def set_threshold(new_t: Double) = {
+    t = new_t
+    alignments.retainAll(alignments.filter(tup => tup._3 < t))
+  }
+
   val ordering = new Ordering[(String, String, Double)] {
     override def compare(x: (String, String, Double), y: (String, String, Double)): Int = x._3.compare(y._3)
   }

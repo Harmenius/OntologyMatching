@@ -13,7 +13,8 @@ abstract class Ontology {
                         "http://www.w3.org/2000/01/rdf-schema#subClassOf",
                         "http://www.geneontology.org/formats/oboInOwl#hasDefinition")
   val REF_URIS = Array("http://knowledgeweb.semanticweb.org/heterogeneity/alignmententity1",
-                       "http://knowledgeweb.semanticweb.org/heterogeneity/alignmententity2")
+                       "http://knowledgeweb.semanticweb.org/heterogeneity/alignmententity2",
+                       "http://knowledgeweb.semanticweb.org/heterogeneity/alignmentmeasure")
 
   def clean(name: String): String = {
     val nameparts = name.split(":")
@@ -22,8 +23,8 @@ abstract class Ontology {
 
   def toString(node: RDFNode): String = {
     if(node.isLiteral) {
-      val lblNode = node.asResource().getProperty(node.getModel.getProperty(LABEL_URI)).getObject.asLiteral.getLexicalForm
-      clean(lblNode)
+      //val lblNode = node.asResource().getProperty(node.getModel.getProperty(LABEL_URI)).getObject.asLiteral.getLexicalForm
+      clean(node.asLiteral().getLexicalForm)
     } else if(node.isResource) {
       val name = node.asResource.getLocalName
       if (name == null)
@@ -67,11 +68,14 @@ class RDFOntology (filename: String, reference: Boolean = false) extends Ontolog
 
   def getEdges: Iterator[String] = {
     val stmtit = reference match {
-      case false => model.listStatements(null, model.getProperty(EDGE_URIS(0)), null) andThen
+      case false =>
+        model.listStatements(null, model.getProperty(EDGE_URIS(0)), null) andThen
         model.listStatements(null, model.getProperty(EDGE_URIS(1)), null) andThen
         model.listStatements(null, model.getProperty(EDGE_URIS(2)), null)
-      case true => model.listStatements(null, model.getProperty(REF_URIS(0)), null) andThen
-                   model.listStatements(null, model.getProperty(REF_URIS(1)), null)
+      case true =>
+        model.listStatements(null, model.getProperty(REF_URIS(0)), null) andThen
+        model.listStatements(null, model.getProperty(REF_URIS(1)), null) andThen
+        model.listStatements(null, model.getProperty(REF_URIS(2)), null)
     }
     stmtit.asScala.map(this.toString)
   }

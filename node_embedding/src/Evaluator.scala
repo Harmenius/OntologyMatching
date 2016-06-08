@@ -14,11 +14,13 @@ object Evaluator {
     val truthset = truth.alignments.asScala.toSet[(String, String, Double)].map{case (s: String, o: String, v: Any) => (s, o)}
     val N = alignmentset.size
     val M = truthset.size
-    var count : Int = 0
-    for (pair : (String, String) <- alignmentset) {
-      if (truthset.contains(pair) || truthset.contains(pair.swap))
-        count+=1
-    }
+
+    printf("N: %d, M: %d%n", N, M)
+
+    val alignmentset_ = alignmentset.map(_.swap)
+    val count: Float = ((alignmentset union alignmentset_) intersect truthset).size
+    println("Recall %f".format(count / N))
+    println("Accuracy %f".format(count / M))
     2f * count / (N + M)
   }
 
@@ -29,34 +31,40 @@ object Evaluator {
     }
     o match {
       case ontology: RDFOntology =>
-        ontology.get_label(uri + subj)
+        Try(ontology.get_label(uri + subj)).getOrElse(subj)
       case _ =>
         subj
     }
   }
 
-  def loadTruth() : Alignment = {
-    val truthfile = WordSenseOpts.truthfile.value
+  def loadTruth(truthfile: String = WordSenseOpts.truthfile.value) : Alignment = {
     val truthontology = new RDFOntology(truthfile, true)
     val truthalignment = new Alignment
-    val edgemap = mutable.HashMap[String, String]()
+    val edgemap = mutable.HashMap[String, (String, String, String)]()
     for (edge <- truthontology.getEdges) {
       //val (obj : String) :: (subj : String) :: _ = edge.split(" ")
       val subj  = edge.split(" ")(0)
       val pred = edge.split(" ")(1)
       val obj = edge.split(" ")(2)
       val subj_  = obtain_name(subj, pred)
-      if(edgemap.contains(obj)) {
-        truthalignment.add(subj_, edgemap(obj), 1)
-      } else {
-        edgemap.put(obj, subj_)
+
+      var trip = Try(edgemap(obj)).getOrElse((null, null, null))
+      trip = pred.last match {
+        case '1' => (subj_, trip._2, trip._3)
+        case '2' => (trip._1, subj_, trip._3)
+        case 'e' => (trip._1, trip._2, subj_)
       }
+      if (trip._1 != null && trip._2 != null && trip._3 != null)
+        truthalignment.add(trip._1, trip._2, trip._3.toDouble)
+      else
+        edgemap.put(obj, trip)
     }
     truthalignment
   }
 
   def main(args: Array[String]) {
     val alignment = makeAlignment()
+    alignment.set_threshold(0.5)
     //val values : Array[Double] = alignment.alignments.toArray.map{case (x,y,v : Double) => v}
     //val plotimage : PlotCanvas = plot(values)
     //showplot(plotimage)

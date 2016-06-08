@@ -10,6 +10,9 @@ import scala.collection.JavaConverters._
 import cc.factorie.app.nlp.embeddings.{EmbeddingOpts, FastLineReader, TensorUtils, VocabBuilder, WordEmbeddingModel}
 import com.hp.hpl.jena.rdf.model.RDFNode
 
+import scala.collection.mutable
+import scala.util.Try
+
 abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
   //implicit def bool2int(b:Boolean): Int = if (b) 1 else 0 // Converts booleans to ints when needed
   //implicit def int2bool(i:Int): Boolean = if(i==0) false else true // Convert ints to booleans when needed
@@ -31,15 +34,34 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
   protected val ontology : SharedOntology = new SharedOntology(corpusses)
   private var train_nodes: Long = 0
 
-  private def buildVocabRDF(corpus: String) = {
-    println("... from RDF")
-    // From each edge, grab subject and object
-    val edgeNames: Iterator[String] = ontology.getOntology(corpus).getEdges
-    val names: Iterator[String] = edgeNames.flatMap(y => List(y.split(" ").head, y.split(" ").last))
-    names.foreach(name => vocab.addWordToVocab(name.toLowerCase))
+  def getRootSynonym(w: String, synonyms: mutable.HashMap[String, String]): String = {
+    var w_ = Try(synonyms(w)).getOrElse(w)
+    while(synonyms.contains(w_) && w_ != w)
+      w_ = synonyms(w_)
+    w_
   }
 
-  private def buildVocabCSV(corpus: String) = {
+  private def buildVocabRDF(corpus: String, synonyms: mutable.HashMap[String, String]) = {
+    println("... from RDF")
+    // From each edge, grab subject and object
+    val edgeNames: List[String] = ontology.getOntology(corpus).getEdges.map(_.toLowerCase).toList
+    val names: List[List[String]] = edgeNames.map(y => List(y.split(" ").head, y.split(" ").last))
+    val edgeLabels: List[String] = edgeNames.map(y => y.split(" ")(1))
+    for ((lbl, name2) <- edgeLabels zip names) {
+      var n1 :: n2 :: _ = name2
+      val n1_ = getRootSynonym(n1, synonyms)
+      val n2_ = getRootSynonym(n2, synonyms)
+
+      if (lbl endsWith "hasrelatedsynonym") {
+        vocab.asInstanceOf[SynonymVocabBuilder].addSynonymToVocab(n2, n1)
+      } else {
+        vocab.asInstanceOf[SynonymVocabBuilder].addSynonymToVocab(n1, n1_)
+        vocab.asInstanceOf[SynonymVocabBuilder].addSynonymToVocab(n2, n2_)
+      }
+    }
+  }
+
+  private def buildVocabCSV(corpus: String, Synonyms: mutable.HashMap[String, String]) = {
     println("... from CSV")
     val corpusLineItr = corpus.endsWith(".gz") match {
       case true => io.Source.fromInputStream(new GZIPInputStream(new FileInputStream(corpus)), encoding).getLines
@@ -61,13 +83,26 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
 
   override def buildVocab(): Unit = buildVocab(true)
 
+  def loadSynonyms(t: Float = 0.6f): mutable.HashMap[String, String] = {
+    val alignment = Evaluator.loadTruth(WordSenseOpts.synonyms.value)
+    val alignment_ = new mutable.HashMap[String, String]()
+    for ((o, s, v: Double) <- alignment.alignments.asScala) {
+      if (v >= t) {
+        if (o != s)
+          alignment_.put(o, s)
+      }
+    }
+    alignment_
+  }
+
   // total # of nodes in the corpus. Needed to calculate the distribution of the work among threads and seek points of corpus file
   // Component-1
   def buildVocab(all: Boolean): Unit = {
-    vocab = new VocabBuilder(vocabHashSize, samplingTableSize, 0.7) // 0.7 is the load factor
+    vocab = new SynonymVocabBuilder(vocabHashSize, samplingTableSize, 0.7) // 0.7 is the load factor
+    val synonyms = loadSynonyms()
     if (loadVocabFilename.isEmpty) {
       for (one_corpus <- corpusses.split(";")) {
-        buildVocab(one_corpus)
+        buildVocab(one_corpus, synonyms)
       }
       // save the vocab if the user provides the filename save-vocab
       if (saveVocabFilename.nonEmpty) {
@@ -88,12 +123,12 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
   }
 
 
-  def buildVocab(corpus: String): Unit = {
+  def buildVocab(corpus: String, synonyms: mutable.HashMap[String, String]): Unit = {
       println("Building vocabulary")
       if (corpus.contains(".owl") || corpus.contains(".rdf")) {
-        buildVocabRDF(corpus)
+        buildVocabRDF(corpus, synonyms)
       } else {
-        buildVocabCSV(corpus)
+        buildVocabCSV(corpus, synonyms)
       }
   }
 
@@ -136,7 +171,8 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
       trainer = new HogWildTrainer(weightsSet = this.parameters, optimizer = optimizer, nThreads = threads, maxIterations = Int.MaxValue)
 
       val threadIds = (0 until threads).map(i => i)
-      val fileLen = new File(current_corpus).length
+      //val fileLen = new File(current_corpus).length
+      val fileLen = ontology.getEdges.length
       workerThread(0, fileLen)
       println("Done learning embeddings. ")
       if (!WordSenseOpts.embeddingOutFile.value.isEmpty)
