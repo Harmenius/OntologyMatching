@@ -64,11 +64,10 @@ object Evaluator {
 
   def main(args: Array[String]) {
     val alignment = makeAlignment()
-    alignment.set_threshold(0.5)
-    //val values : Array[Double] = alignment.alignments.toArray.map{case (x,y,v : Double) => v}
-    //val plotimage : PlotCanvas = plot(values)
-    //showplot(plotimage)
+    //return // TODO don't stop halfway
+    //alignment.set_threshold(0.04)
     val truth = loadTruth()
+    Visualizer.hist_alignment(alignment, truth)
     val dice = compare(alignment, truth)
     printf("The result of what you have been working for for months: %s%n", dice)
   }
@@ -131,6 +130,4 @@ object Evaluator {
     window.contents = swing.Component.wrap(plot)
     window.visible = true
   }
-
-
 }
