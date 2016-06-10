@@ -69,14 +69,14 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
     }
     while (corpusLineItr.hasNext) {
       val line = corpusLineItr.next
-      if (includeEdgeLabels){
+      if (includeEdgeLabels) {
         var words = line.stripLineEnd.split(' ')
         words.foreach(w => vocab.addWordToVocab(w.toLowerCase))
         if (addInvertedEdges)
           vocab.addWordToVocab("INV" + words(1))
       } else {
         var words = line.stripLineEnd.split(' ')
-        Array(0, 2).foreach(i => vocab.addWordToVocab(words(i).toLowerCase)) // Only first and third labels are nodes/conceps
+        Array(0, 2).foreach(i => vocab.addWordToVocab(words(i).toLowerCase)) // Only first and third labels are nodes/concepts
       }
     }
   }
@@ -172,8 +172,8 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
 
       val threadIds = (0 until threads).map(i => i)
       //val fileLen = new File(current_corpus).length
-      val fileLen = ontology.getEdges.length
-      workerThread(0, fileLen)
+      val fileLen = ontology.getEdges.size
+      workerThread(0, fileLen, fileLen/100)
       println("Done learning embeddings. ")
       if (!WordSenseOpts.embeddingOutFile.value.isEmpty)
         store()

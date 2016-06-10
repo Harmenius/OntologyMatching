@@ -19,8 +19,8 @@ object Evaluator {
 
     val alignmentset_ = alignmentset.map(_.swap)
     val count: Float = ((alignmentset union alignmentset_) intersect truthset).size
-    println("Recall %f".format(count / N))
-    println("Accuracy %f".format(count / M))
+    println("Accuracy %f".format(count / N))
+    println("Recall %f".format(count / M))
     2f * count / (N + M)
   }
 
@@ -64,12 +64,14 @@ object Evaluator {
 
   def main(args: Array[String]) {
     val alignment = makeAlignment()
-    //return // TODO don't stop halfway
-    //alignment.set_threshold(0.04)
+    alignment.set_threshold(0.04)
     val truth = loadTruth()
-    Visualizer.hist_alignment(alignment, truth)
+    //Visualizer.hist_alignment(alignment, truth) // Only visualize if alignment contains all pairs
     val dice = compare(alignment, truth)
+    val synonyms = loadTruth(WordSenseOpts.synonyms.value)
+    val dice_ = compare(synonyms, truth)
     printf("The result of what you have been working for for months: %s%n", dice)
+    printf("For reference, just the synonyms scores: %s%n", dice_)
   }
 
   class PlotGUI extends swing.MainFrame {

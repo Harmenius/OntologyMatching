@@ -62,8 +62,7 @@ class RDFOntology (filename: String, reference: Boolean = false) extends Ontolog
   val model : Model = FileManager.get.loadModel(filename)
 
   def getNodes: Iterator[String] = {
-    val stmtit = model.listStatements(null, model.getProperty(LABEL_URI), null).asScala
-    stmtit.map(s => s.getObject.asLiteral.getLexicalForm)
+    getEdges.map(_.split(" ")).flatMap[String](a => Array(a(0),a(2))).toSet.toIterator
   }
 
   def getEdges: Iterator[String] = {
@@ -108,7 +107,7 @@ class SharedOntology(filenames: String) extends Ontology {
   override def getEdges: Iterator[String] = {
     var it = ontologies(0).getEdges
     for (i <- 1 until ontologies.length) {
-      it = it ++ ontologies(i).getEdges
+      it ++= ontologies(i).getEdges
     }
     it
   }
@@ -125,14 +124,13 @@ class SharedOntology(filenames: String) extends Ontology {
 }
 
 class CSVOntology(filename: String) extends Ontology {
-  val reader = new FastLineReader(filename)
 
   override def getNodes: Iterator[String] = {
-    reader.flatMap[String](node => node.split(" "))
+    new FastLineReader(filename).map[Array[String]](node => node.split(" ")).flatMap[String](a => Array(a(0), a(2)))
   }
 
   override def getEdges: Iterator[String] = {
-    reader
+    new FastLineReader(filename)
   }
 }
 
