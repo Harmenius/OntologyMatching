@@ -130,7 +130,7 @@ class CSVOntology(filename: String) extends Ontology {
   }
 
   override def getEdges: Iterator[String] = {
-    new FastLineReader(filename)
+    new FastLineReader(filename).map(clean(_))
   }
 }
 

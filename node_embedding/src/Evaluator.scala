@@ -67,6 +67,7 @@ object Evaluator {
     alignment.set_threshold(0.04)
     val truth = loadTruth()
     //Visualizer.hist_alignment(alignment, truth) // Only visualize if alignment contains all pairs
+    Visualizer.compare_hist(alignment, truth)
     val dice = compare(alignment, truth)
     val synonyms = loadTruth(WordSenseOpts.synonyms.value)
     val dice_ = compare(synonyms, truth)

@@ -73,7 +73,7 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
         var words = line.stripLineEnd.split(' ')
         words.foreach(w => vocab.addWordToVocab(w.toLowerCase))
         if (addInvertedEdges)
-          vocab.addWordToVocab("INV" + words(1))
+          vocab.addWordToVocab("inv" + words(1))
       } else {
         var words = line.stripLineEnd.split(' ')
         Array(0, 2).foreach(i => vocab.addWordToVocab(words(i).toLowerCase)) // Only first and third labels are nodes/concepts
