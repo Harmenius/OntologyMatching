@@ -2,6 +2,7 @@ import cc.factorie.app.nlp.embeddings.EmbeddingOpts
 
 object WordSenseOpts extends EmbeddingOpts{
 
+  minCount.setValue(0) // For some reason many nodes have no neighbours. Looking into that.
   // Model
   val includeEdgeLabels       = new CmdOption("include-edge-labels", true, "BOOLEAN", "Should edges be taken into account when generating vocabulary?")
   val bidirectional           = new CmdOption("bidirectional", false, "BOOLEAN", "Train both ends of edge with context (other, edge)")
