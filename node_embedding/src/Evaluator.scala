@@ -9,6 +9,9 @@ import scala.util.Try
 
 object Evaluator {
 
+  val opts  = WordSenseOpts
+  val model = new SkipGramNodeEmbedding()
+
   def compare(alignment: Alignment, truth: Alignment) : Double = {
     val alignmentset = alignment.alignments.asScala.toSet[(String, String, Double)].map{case (s: String, o:String, v: Double) => (s, o)}
     val truthset = truth.alignments.asScala.toSet[(String, String, Double)].map{case (s: String, o: String, v: Any) => (s, o)}
@@ -63,6 +66,7 @@ object Evaluator {
   }
 
   def main(args: Array[String]) {
+    println("Starting")
     val alignment = makeAlignment()
     alignment.set_threshold(0.04)
     val truth = loadTruth()
@@ -79,9 +83,6 @@ object Evaluator {
     title = "Plot"
     preferredSize = new swing.Dimension(500, 500)
   }
-
-  val opts  = WordSenseOpts
-  val model = new SkipGramNodeEmbedding()
 
   def calc(node1: String, node2: String): Double = {
     val v1 = model.getVector(node1)

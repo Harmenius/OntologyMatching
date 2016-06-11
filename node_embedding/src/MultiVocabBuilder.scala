@@ -8,8 +8,8 @@ import org.apache.commons.lang.NotImplementedException
   */
 class MultiVocabBuilder(n: Int = 2) extends VocabBuilder {
 
-  val rand = new Random(4)
-  val vocabs = List.fill(n)(new VocabBuilder())
+  val rand: Random = new Random(4)
+  lazy val vocabs: List[VocabBuilder] = List.fill(n)(new VocabBuilder())
 
   override def getRandWordId(): Int = {
     val N = size()

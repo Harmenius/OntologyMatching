@@ -5,9 +5,14 @@ import cc.factorie.app.nlp.embeddings.{VocabBuilder, vocab_word}
 /**
   * Created by harmen on 4-6-16.
   */
-class SynonymVocabBuilder(vocab_hash_size: Int = 20e6.toInt, sampling_table_size: Int = 1e8.toInt, load_factor: Double = 0.7)
+/**
+  *
+  * @param vocab_hash_size Default reduced from 20e6
+  * @param sampling_table_size Default reduced from 1e8
+  * @param load_factor
+  */
+class SynonymVocabBuilder(vocab_hash_size: Int = 1e6.toInt, sampling_table_size: Int = 1e6.toInt, load_factor: Double = 0.7)
   extends VocabBuilder(vocab_hash_size, sampling_table_size, load_factor) {
-
   // Hack to get private values
   def getPrivateField[A](fieldName: String): A = {
     val fields = this.getClass.getSuperclass.getDeclaredFields
