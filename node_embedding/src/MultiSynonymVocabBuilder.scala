@@ -3,7 +3,7 @@
   */
 class MultiSynonymVocabBuilder(n: Int = 2) extends MultiVocabBuilder(n) {
 
-  override val vocabs: List[SynonymVocabBuilder] = List.fill(n)(new SynonymVocabBuilder())
+  override lazy val vocabs: List[SynonymVocabBuilder] = List.fill(n)(new SynonymVocabBuilder())
 
   def addSynonymToVocab(key: String, orig: Int, vid: Int): Unit = {
     val v = vocabs(vid)
@@ -21,12 +21,12 @@ class MultiSynonymVocabBuilder(n: Int = 2) extends MultiVocabBuilder(n) {
     * @param ignoreStopWords Removes words that occur too often.
     * @param max_vocab_size Removes more words if there are too many.
     */
-  override def sortVocab(min_count: Int = 5, ignoreStopWords: Int = 1, max_vocab_size: Int = 2e6.toInt) : Unit = {
+  override def sortVocab(min_count: Int = 30, ignoreStopWords: Int = 1, max_vocab_size: Int = 3e5.toInt) : Unit = {
     for ((v, i) <- vocabs.zipWithIndex) {
-      if (i==3)
-        sortVocab(min_count, ignoreStopWords, max_vocab_size)
+      if (i==2)
+        v.sortVocab(min_count, ignoreStopWords, max_vocab_size)
       else
-        sortVocab(0, ignoreStopWords, max_vocab_size)
+        v.sortVocab(0, ignoreStopWords, max_vocab_size)
     }
   }
 

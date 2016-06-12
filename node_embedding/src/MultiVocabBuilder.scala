@@ -9,7 +9,7 @@ import org.apache.commons.lang.NotImplementedException
 class MultiVocabBuilder(n: Int = 2) extends VocabBuilder {
 
   val rand: Random = new Random(4)
-  lazy val vocabs: List[VocabBuilder] = List.fill(n)(new VocabBuilder())
+  lazy val vocabs: List[VocabBuilder] = List.fill(n)(new VocabBuilder()) // TODO kleinere sampling table size en ook bij synonyms
 
   override def getRandWordId(): Int = {
     val N = size()
@@ -24,7 +24,7 @@ class MultiVocabBuilder(n: Int = 2) extends VocabBuilder {
   override def getWord(id: Int) : String = {
     var cur_N = 0
     for (v <- vocabs) {
-      if (cur_N + v.size >= id) {
+      if (id - cur_N < v.size) {
         return v.getWord(id - cur_N)
       } else {
         cur_N += v.size
@@ -50,7 +50,7 @@ class MultiVocabBuilder(n: Int = 2) extends VocabBuilder {
 
   override def saveVocab(filename: String, binary: Int = 0, encoding: String = "UTF8") : Unit = {
     val basename = filename.split(".").dropRight(1).mkString(".")
-    val extension = "." + filename.split(".").last
+    val extension = "." + filename.split("\\.").last
     for ((v, i) <- vocabs.zipWithIndex) {
       val fn = "%s_%d%s".format(basename, i, extension)
       v.saveVocab(fn, binary, encoding)
@@ -59,7 +59,7 @@ class MultiVocabBuilder(n: Int = 2) extends VocabBuilder {
 
   override def loadVocab(filename: String, encoding: String = "UTF8") : Unit = {
     val basename = filename.split(".").dropRight(1).mkString(".")
-    val extension = "." + filename.split(".").last
+    val extension = "." + filename.split("\\.").last
     for ((v, i) <- vocabs.zipWithIndex) {
       val fn = "%s_%d%s".format(basename, i, extension)
       v.loadVocab(fn, encoding)
@@ -72,6 +72,7 @@ class MultiVocabBuilder(n: Int = 2) extends VocabBuilder {
   }
 
   override def buildSubSamplingTable(s: Double) : Unit = {
+    throw new NotImplementedException("Author did not require this method.")
   }
 
   override def getSubSampleProb(id: Int): Double = {

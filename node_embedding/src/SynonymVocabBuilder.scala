@@ -11,7 +11,7 @@ import cc.factorie.app.nlp.embeddings.{VocabBuilder, vocab_word}
   * @param sampling_table_size Default reduced from 1e8
   * @param load_factor
   */
-class SynonymVocabBuilder(vocab_hash_size: Int = 1e6.toInt, sampling_table_size: Int = 1e6.toInt, load_factor: Double = 0.7)
+class SynonymVocabBuilder(vocab_hash_size: Int = 5e5.toInt, sampling_table_size: Int = 3e6.toInt, load_factor: Double = 0.7)
   extends VocabBuilder(vocab_hash_size, sampling_table_size, load_factor) {
   // Hack to get private values
   def getPrivateField[A](fieldName: String): A = {
