@@ -19,6 +19,7 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
   protected val bidirectional = WordSenseOpts.bidirectional.value // Add both concepts with context (other concept, edge)
   protected val addInvertedEdges = !bidirectional && WordSenseOpts.invertedEdges.value // If not bidirectional, add concept with context (parent, "inv"+edge)
   protected val combineContext = WordSenseOpts.combineContext.value // Process edge and node value combined, not separately
+  protected val nIts = WordSenseOpts.nIts.value
 
   // IO Related
   private val storeInBinary = opts.binary.value // binary=1 will make both vocab file (optional) and embeddings in .gz file
@@ -117,7 +118,7 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
     }
     vocab.sortVocab(minCount, ignoreStopWords, maxVocabSize) // removes words whose count is less than minCount and sorts by frequency
     vocab.buildSamplingTable() // for getting random word from vocab in O(1) otherwise would O(log |V|)
-    vocab.buildSubSamplingTable(opts.sample.value) // precompute subsampling table
+    Try(vocab.buildSubSamplingTable(opts.sample.value)) // precompute subsampling table
     V = vocab.size()
     train_nodes = vocab.trainWords()
     println("Corpus Stat - Vocab Size :" + V + " Total words (effective) in corpus : " + train_nodes)
@@ -174,7 +175,8 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
       val threadIds = (0 until threads).map(i => i)
       //val fileLen = new File(current_corpus).length
       val fileLen = ontology.getEdges.size
-      workerThread(0, fileLen, fileLen/100)
+      for (i <- 1 to nIts)
+        workerThread(0, fileLen, fileLen/100)
       println("Done learning embeddings. ")
       if (!WordSenseOpts.embeddingOutFile.value.isEmpty)
         store()
