@@ -10,7 +10,8 @@ object WordSenseOpts extends EmbeddingOpts{
   val invertedEdges     = new CmdOption("inverted-edges", true, "BOOLEAN", "If not bidirectional, train concepts with (parent, 'inv'+edge)")
   val combineContext    = new CmdOption("combined-context", false, "BOOLEAN", "Give edge and neighbour to trainer together")
   val synonyms          = new CmdOption("synonym-file", "Data/anatomy/VectorMatcherResults.rdf", "String", "File containing synonyms")
-  val nIts              = new CmdOption("n-its", 0, "INTEGER", "Number of times w2v should go over the corpus")
+  val nIts              = new CmdOption("n-its", 5, "INTEGER", "Number of times w2v should go over the corpus")
+  nIts.setValue(0)
   threads.setValue(1)
 
   // IO
