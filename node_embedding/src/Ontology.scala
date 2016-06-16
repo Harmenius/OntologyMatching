@@ -91,8 +91,11 @@ class SharedOntology(filenames: String) extends Ontology {
       if (filename.contains(".csv") || filename.contains(".tar.gz")) {
         ontologies.update(i, new CSVOntology(filename))
       }
-      if (filename.endsWith(".rdf") || filename.endsWith(".owl"))
+      else if (filename.endsWith(".rdf") || filename.endsWith(".owl") || filename.endsWith(".ttl"))
         ontologies.update(i, new RDFOntology(filename))
+      else {
+        throw new Exception()
+      }
     }
   }
 

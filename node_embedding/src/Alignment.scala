@@ -13,9 +13,9 @@ class Alignment {
         alignments.add((node1, node2, d))
   }
 
-  def set_threshold(new_t: Double) = {
+  def set_threshold(new_t: Double, mustbehigher: Boolean = false) = {
     t = new_t
-    alignments.retainAll(alignments.filter(tup => tup._3 < t))
+    alignments.retainAll(alignments.filter(tup => (tup._3 >= t) == mustbehigher))
   }
 
   val ordering = new Ordering[(String, String, Double)] {

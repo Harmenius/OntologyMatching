@@ -11,7 +11,7 @@ object WordSenseOpts extends EmbeddingOpts{
   val combineContext    = new CmdOption("combined-context", false, "BOOLEAN", "Give edge and neighbour to trainer together")
   val synonyms          = new CmdOption("synonym-file", "Data/anatomy/VectorMatcherResults.rdf", "String", "File containing synonyms")
   val nIts              = new CmdOption("n-its", 5, "INTEGER", "Number of times w2v should go over the corpus")
-  nIts.setValue(0)
+  nIts.setValue(10)
   threads.setValue(1)
 
   // IO
@@ -22,11 +22,11 @@ object WordSenseOpts extends EmbeddingOpts{
   val truthfile         = new CmdOption("reference-alignment-name", "Data/anatomy/reference.rdf", "String", "Relative path of the file containing the ground truth")
 
   // Hard-coding data files
-  corpusses.setValue("Data/anatomy/mouse.owl;Data/anatomy/human.owl;Data/NELL_clean.csv")
-  //corpusses.setValue("Data/anatomy/mouse.owl;Data/anatomy/human.owl")
+  //corpusses.setValue("Data/anatomy/mouse.owl;Data/anatomy/human.owl;Data/NELL_clean.csv")
+  corpusses.setValue("Data/anatomy/mouse.owl;Data/anatomy/human.owl")
   output.setValue("Data/output.csv")
   saveVocabFile.setValue("Data/vocab.csv")
-  //loadVocabFile.setValue("Data/vocab.csv")
-  //inputFilename.setValue("Data/output.csv")
+  loadVocabFile.setValue("Data/vocab.csv")
+  inputFilename.setValue("Data/output.csv")
 }
 

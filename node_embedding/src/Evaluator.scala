@@ -9,12 +9,12 @@ import scala.util.Try
 
 object Evaluator {
 
-  val opts  = WordSenseOpts
+  val opts = WordSenseOpts
   val model = new SkipGramNodeEmbedding()
 
-  def compare(alignment: Alignment, truth: Alignment) : Double = {
-    val alignmentset = alignment.alignments.asScala.toSet[(String, String, Double)].map{case (s: String, o:String, v: Double) => (s, o)}
-    val truthset = truth.alignments.asScala.toSet[(String, String, Double)].map{case (s: String, o: String, v: Any) => (s, o)}
+  def compare(alignment: Alignment, truth: Alignment): Double = {
+    val alignmentset = alignment.alignments.asScala.toSet[(String, String, Double)].map { case (s: String, o: String, v: Double) => (s, o) }
+    val truthset = truth.alignments.asScala.toSet[(String, String, Double)].map { case (s: String, o: String, v: Any) => (s, o) }
     val N = alignmentset.size
     val M = truthset.size
 
@@ -25,6 +25,16 @@ object Evaluator {
     println("Accuracy %f".format(count / N))
     println("Recall %f".format(count / M))
     2f * count / (N + M)
+  }
+
+  def show_alignment(alignment: Alignment, other: Alignment) = {
+    val a = alignment.alignments.asScala.toSet[(String, String, Double)]
+    val a_ = other.alignments.asScala.toSet[(String, String, Double)]
+    val minus = a -- a_
+    val minus_ = minus.filter(t => t._1 != t._2)
+    //val b = minus.flatMap(t => Array(t._1, t._2))
+    //val c = b.map(model.getVocab.getId(_))
+    println(minus_)
   }
 
   def obtain_name(subj: String, predicate: String) : String = {
@@ -77,6 +87,7 @@ object Evaluator {
     val dice_ = compare(synonyms, truth)
     printf("The result of what you have been working for for months: %s%n", dice)
     printf("For reference, just the synonyms scores: %s%n", dice_)
+    show_alignment(alignment, synonyms)
   }
 
   class PlotGUI extends swing.MainFrame {
@@ -105,11 +116,13 @@ object Evaluator {
     val o2 = model.getOntologies(1)
 
     println("Building trees for aligning")
-    val nodes1 = o1.getNodes.toArray
+    val synonyms = model.loadSynonyms()
+
+    val nodes1 = o1.getNodes.map(model.getRootSynonym(_, synonyms)).toSet[String].toArray[String] // Don't grab all synonyms too
     val vectors1 : Array[Array[Double]] = nodes1.map(n => model.getVector(n))
     val nv1 = vectors1.zip(nodes1).filterNot{case (v,_) => v(0).isNaN}.unzip
 
-    val nodes2 = o2.getNodes.toArray
+    val nodes2 = o2.getNodes.map(model.getRootSynonym(_, synonyms)).toSet[String].toArray[String]
     val vectors2 : Array[Array[Double]] = nodes2.map(n => model.getVector(n))
     val nv2 = vectors2.zip(nodes2).filterNot{case (v,_) => v(0).isNaN}.unzip
 
@@ -121,7 +134,9 @@ object Evaluator {
     val alignment = new Alignment
     for(n1 <- nv1._2) {
       for(n2 <- tree2.knn(model.getVector(n1), 50)) {
-        alignment.add(n1, n2.value, calc(n1, n2.value))
+        val n2_ = n2.value
+        if (!n1.contains("blank") && !n2_.contains("blank"))
+          alignment.add(n1, n2.value, calc(n1, n2.value))
       }
     }
     println("Done aligning")

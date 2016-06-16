@@ -34,6 +34,9 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
   protected val ontology : SharedOntology = new SharedOntology(corpusses)
   private var train_nodes: Long = 0
 
+  def getRootSynonym(w: String): String = {
+    getRootSynonym(w, loadSynonyms())
+  }
   def getRootSynonym(w: String, synonyms: mutable.HashMap[String, String]): String = {
     var w_ = Try(synonyms(w)).getOrElse(w)
     while(synonyms.contains(w_) && w_ != w)
@@ -54,7 +57,7 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
       val n2_ = getRootSynonym(n2, synonyms)
 
       if (lbl endsWith "hasrelatedsynonym") {
-        vocab.asInstanceOf[SynonymVocabBuilder].addSynonymToVocab(n2, n1)
+        //vocab.asInstanceOf[SynonymVocabBuilder].addSynonymToVocab(n2, n1)
       } else {
         vocab.asInstanceOf[SynonymVocabBuilder].addSynonymToVocab(n1, n1_)
         vocab.asInstanceOf[SynonymVocabBuilder].addSynonymToVocab(n2, n2_)
@@ -87,12 +90,11 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
 
   def loadSynonyms(t: Float = 0.6f): mutable.HashMap[String, String] = {
     val alignment = Evaluator.loadTruth(WordSenseOpts.synonyms.value)
+    alignment.set_threshold(0.9, mustbehigher = true)
     val alignment_ = new mutable.HashMap[String, String]()
-    for ((o, s, v: Double) <- alignment.alignments.asScala) {
-      if (v >= t) {
-        if (o != s)
-          alignment_.put(o, s)
-      }
+    for ((o, s, _) <- alignment.alignments.asScala) {
+      if (o != s)
+        alignment_.put(o, s)
     }
     alignment_
   }
@@ -100,7 +102,7 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
   // total # of nodes in the corpus. Needed to calculate the distribution of the work among threads and seek points of corpus file
   // Component-1
   def buildVocab(all: Boolean): Unit = {
-    vocab = new MultiSynonymVocabBuilder(3)
+    vocab = new MultiSynonymVocabBuilder(2) //TODO: unhardcode 2
     val synonyms = loadSynonyms()
     if (loadVocabFilename.isEmpty) {
       for ((one_corpus, i) <- corpusses.split(";").zipWithIndex) {
@@ -127,7 +129,7 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
 
   def buildVocab(corpus: String, synonyms: mutable.HashMap[String, String], vocab_i: Int): Unit = {
       println("Building vocabulary")
-      if (corpus.contains(".owl") || corpus.contains(".rdf")) {
+      if (corpus.endsWith(".owl") || corpus.endsWith(".rdf") || corpus.endsWith(".ttl")) {
         buildVocabRDF(corpus, synonyms, vocab_i)
       } else {
         buildVocabCSV(corpus, synonyms, vocab_i)
@@ -227,7 +229,7 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
       word_count += process(edgeItr.next) // Design choice : should word count be computed here and just expose process(doc : String): Unit ?.
       ndoc += 1
       if (id == 0 && ndoc % printAfterNDoc == 0) {  // print the process after processing 100 docs in 1st thread. It approx reflects the total progress
-        println("Progress : " + ndoc / fileLen.toDouble * 100 + " %")
+        printf("Progress: %f.3%% @%d%n", ndoc / fileLen.toDouble * 100, ndoc)
       }
       //work = word_count <= total_words_per_thread // Once, word_count reaches this limit, ask worker to end
     }
