@@ -10,7 +10,7 @@ import scala.util.Try
 object Evaluator {
 
   val opts = WordSenseOpts
-  val model = new SkipGramNodeEmbedding()
+  val model = new DeepWalkNodeEmbedding() //SkipGramNodeEmbedding()
 
   def compare(alignment: Alignment, truth: Alignment): Double = {
     val alignmentset = alignment.alignments.asScala.toSet[(String, String, Double)].map { case (s: String, o: String, v: Double) => (s, o) }

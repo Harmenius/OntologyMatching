@@ -8,7 +8,7 @@ import smile.neighbor.KDTree
 import scala.collection.mutable.ArrayBuffer
 import scala.util.control.Breaks._
 
-class SkipGramNodeEmbedding() extends NodeEmbeddingModel(){
+class SkipGramNodeEmbedding() extends NodeEmbeddingModel {
 
 
   val negative = WordSenseOpts.negative.value

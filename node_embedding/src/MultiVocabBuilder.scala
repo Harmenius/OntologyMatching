@@ -35,10 +35,13 @@ class MultiVocabBuilder(n: Int = 2) extends VocabBuilder {
 
   override def getId(word: String): Int = {
     var w = -1
+    var sum = 0
     for (v <- vocabs) {
       w = v.getId(word)
       if (w != -1)
-        return w
+        return sum + w
+      else
+        sum += v.size()
     }
     w
   }
@@ -72,11 +75,20 @@ class MultiVocabBuilder(n: Int = 2) extends VocabBuilder {
   }
 
   override def buildSubSamplingTable(s: Double) : Unit = {
-    throw new NotImplementedException("Author did not require this method.")
+    for (v <- vocabs)
+      v.buildSubSamplingTable(s)
   }
 
   override def getSubSampleProb(id: Int): Double = {
-    throw new NotImplementedException("Author did not require this method.")
+    var cur_N = 0
+    for (v <- vocabs) {
+      if (id - cur_N < v.size) {
+        return v.getSubSampleProb(id - cur_N) * (v.size() / size())
+      } else {
+        cur_N += v.size
+      }
+    }
+    0
   }
 
   override def size(): Int = {

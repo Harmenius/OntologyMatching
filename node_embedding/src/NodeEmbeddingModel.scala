@@ -1,4 +1,4 @@
-import cc.factorie.app.nlp.embeddings.{LiteHogwildTrainer => HogWildTrainer}
+import cc.factorie.app.nlp.embeddings.{EmbeddingOpts, TensorUtils, WordEmbeddingModel, LiteHogwildTrainer => HogWildTrainer}
 import cc.factorie.model.Weights
 import cc.factorie.optimize.AdaGradRDA
 import cc.factorie.la.DenseTensor1
@@ -6,12 +6,11 @@ import java.io._
 import java.util.zip.{GZIPInputStream, GZIPOutputStream}
 
 import scala.collection.JavaConverters._
-import cc.factorie.app.nlp.embeddings.{TensorUtils,WordEmbeddingModel}
-
 import scala.collection.mutable
 import scala.util.Try
 
-abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
+
+abstract class NodeEmbeddingModel extends WordEmbeddingModel(WordSenseOpts) {
   //implicit def bool2int(b:Boolean): Int = if (b) 1 else 0 // Converts booleans to ints when needed
   //implicit def int2bool(i:Int): Boolean = if(i==0) false else true // Convert ints to booleans when needed
   // Algo related
@@ -37,6 +36,7 @@ abstract class NodeEmbeddingModel() extends WordEmbeddingModel(WordSenseOpts) {
   def getRootSynonym(w: String): String = {
     getRootSynonym(w, loadSynonyms())
   }
+
   def getRootSynonym(w: String, synonyms: mutable.HashMap[String, String]): String = {
     var w_ = Try(synonyms(w)).getOrElse(w)
     while(synonyms.contains(w_) && w_ != w)

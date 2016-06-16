@@ -26,7 +26,7 @@ object WordSenseOpts extends EmbeddingOpts{
   corpusses.setValue("Data/anatomy/mouse.owl;Data/anatomy/human.owl")
   output.setValue("Data/output.csv")
   saveVocabFile.setValue("Data/vocab.csv")
-  loadVocabFile.setValue("Data/vocab.csv")
-  inputFilename.setValue("Data/output.csv")
+  //loadVocabFile.setValue("Data/vocab.csv")
+  //inputFilename.setValue("Data/output.csv")
 }
 
