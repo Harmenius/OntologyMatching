@@ -119,7 +119,7 @@ The Semantic Web, on the other hand, contains sources of \textit{information} th
  An ontology describes concepts as their relationships to other concepts. The concepts that are described determine the domain the ontology covers, and the relationships determine the rules the ontology imposes on the domain. For example, a hierarchy is an ontology that describes concepts that are subclasses of other concepts. Therefore the relationships are 'is-a' relationships: a bird \emph{is an} animal.
  Concepts can be instantiated, which is done in a Knowledge Base (KB). KBs and Ontologies are often confused, and are indeed very similar in structure. The Knowledge Base in our example can contain actually existing birds or fictional birds, and refers to the Ontology concept of bird to embed the instantiations with meaning.
  
- \subsubsection{Example}
+ \subsubsection{Example} \label{example}
  An example of an ontology or a knowledge base of mice and men would be the following:
  A mouse consists of the following body parts:
  \begin{itemize}
@@ -191,7 +191,7 @@ The Semantic Web, on the other hand, contains sources of \textit{information} th
  \subsection{Problems in ontology alignment}
  There are a number of different problems ... %TODO Opsommen en samenvatten
  
- How should the wildly differing demands the applications place on the ontology matching systems be satisfied by a single of a few systems? When merging ontologies on one end of the Aristotle-Plato spectrum, often a completely different approach is required than an ontology on the other side. Sometimes the matching needs to be very fast, for example when the ontologies are used in a search query which the user expects to be done in milliseconds.
+ How should the wildly differing demands the applications place on the ontology matching systems be satisfied by a single or just a few systems? When merging ontologies on one end of the Aristotle-Plato spectrum, often a completely different approach is required than an ontology on the other side. Sometimes the matching needs to be very fast, for example when the ontologies are used in a search query which the user expects to be done in milliseconds.
  
  Online matching would allow for updates in a knowledge base to be represented in the alignments of that knowledge base. This would be required on any ontology that tracks changing knowledge, like stores, movie theatres and social media, for example.
  
@@ -207,7 +207,7 @@ The Semantic Web, on the other hand, contains sources of \textit{information} th
  \subsubsection{Skip-gram models}
  Skip-gram models have been widely used to represent words as vectors. This is useful as it is easy to calculate the distance between two vectors, which is a useful property for ontology matching. This vector distance has been shown to be related to the semantic similarity between words, which is very useful for ontology alignment, as parts of one ontology have to be aligned with parts of another ontology depending on their semantic relation.
 
- \subsubsection{The state of the art} 
+ \subsubsection{The state of the art}
  Recently, an effective and efficient skip-gram model has been developed, called \textbf{Word2vec}, which uses a number of extensions over previous methods that enable it to efficiently learn an effective representation\cite{w2v}.
  \textbf{Word2vec} learns this representation by trying to predict the context of a word. First the vocabulary is one-hot encoded. Then the model learns to predict a context vector that minimizes the distance to the context one-hot encoded vectors. The model is a neural network with one hidden layer. Since the input is one-hot encoded, every word in the vocabulary is represented by one row in the weight matrix between the input layer and hidden layer. This row is the vector representation of the word.
  
@@ -362,29 +362,31 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
  To solve these problems I will adapt \textbf{Word2vec} to graphs to create an algorithm that converts nodes to vectors, in other words \textbf{Node2vec}. It can be extended with multi-sense embeddings, different ways of considering the neighbourhood and hot-starting. %TODO this paragraph needs to be explained
  \subsection{Considered implementations}
  In this section, I will discuss the different implementations that were made of the algorithm. All implementations use the same basic algorithm in different ways by taking into account the context in different ways. All of these implementations were tested and the results can be found in Section \ref{results}. Some implementations extend others, but all implementations are covered to ensure completeness. This way, all improvements are recorded precisely.
+ The explanations refer back to the example in Section \ref{example}
   \subsubsection{Node vectorisation}
-  The most basic \textbf{Node2vec} model converts a node to a vector purely based on its own label. This method has one advantage over simple string matching: if no node is found in the other ontology that matches exactly, we can still find a node that is similar since it is close in the vector space. Therefore, this method should already be an improvement over the most basic string matching algorithms. It may even be competitive with more advanced string matchers (that look at substrings of labels). For example, \emph{ear lobe} and \emph{ear} will be matched by a substring matcher, but are also semantically similar since they will often be mentioned in the same context.
+  The most basic \textbf{Node2vec} model converts a node to a vector purely based on its own label. This method has one advantage over simple string matching: if no node is found in the other ontology that matches exactly, we can still find a node that is similar since it is close in the vector space. Therefore, this method should already be an improvement over the most basic string matching algorithms. It may even be competitive with more advanced string matchers (that look at substrings of labels). For example, \emph{whisker} and \emph{moustache} will be matched by a substring matcher, but are also semantically similar since they will often be mentioned in the same context.
   \subsubsection{Combine with neighbours}
   To improve the model, we can add context information from the neighbours of a node. The most basic context adaptation would be to create a vector as the average of the context vectors. The resulting vector should be combined with the node vector of the node that is being investigated. This can be done by averaging or weighted averaging where the context is weighed more if there are more neighbours, though not necessarily linearly. These possibilities were also investigated.
+  For example, since the \emph{front paws} and \emph{arms} are both attached to the \emph{torso}, their context vectors will be similar as well.
   \subsubsection{Select from senses}
-  Another way to take into account the influence of neighbouring nodes is to train a multi-sense node embedding model as described in {appropriate section}, and selecting from the different node senses based on which is closest to the context average.
+  Another way to take into account the influence of neighbouring nodes is to train a multi-sense node embedding model as described in {appropriate section}, and selecting from the different node senses based on which is closest to the context average. %TODO appropriate section
   \subsubsection{Adding edge labels}
   To add more information to the model, edge labels can also be added to the context of a node. This method effectively doubles the training data and context size when creating the context average. This should make the model more robust, although edge labels may be duplicate (one has many unique family members) and less informative in general, so a lower weight may be appropriate. A different possible problem with this method is that the relation between a neighbour node and its corresponding edge may be lost, since they are just treated as independent contexts.
+  In the case of the mouse Ontology, the \emph{head} is above the \emph{torso} so \emph{isAbove} will be added to the context of \emph{head}. The same goes for the \emph{human head}, which will make them more similar.
   \subsubsection{Select from senses}
   This method is exactly the same as the selecting from node senses with just the neighbour nodes except that you now also take into account the edge labels.
   \subsubsection{Combining edges with nodes}
-  As can be read in {appropriate section}, it is possible to drop the bag-of-words assumption that the context is sequence invariant. 
-  % maybe ref too\endcomment
-  This means we can for example have the context be (previous word, next word) and those words will be treated differently. Similarly we can separate the edge and node labels and treat them differently. This ensures that the model will find any relationship between the edge and the node if it exists and will take this into account. For example, the system might use just the information 'isMarriedTo' to infer that someone is a human, but may infer that 'isMarriedTo' in combination with a man usually refers to a woman.
-  %  Ja doe maar een ander voorbeeld ivm gelijkheid e.d.
+  As can be read in {appropriate section}, it is possible to drop the bag-of-words assumption that the context is sequence invariant.
+  %TODO appropriate section
+  %TODO maybe ref too\endcomment
+  This means we can for example have the context be (previous word, next word) and those words will be treated differently. Similarly we can separate the edge and node labels and treat them differently. This ensures that the model will find any relationship between the edge and the node if it exists and will take this into account. For example, \emph{isBelow} and \emph{torso} will combine into a vector that is similar to \emph{tail} whereas \emph{isAbove} and \emph{torso} combine into a vector that is similar to \emph{head} since the edge and node labels are combined in the model, rather than considered separately.
   \subsubsection{Hot start}
-  It is hard to classify the proposed algorithm in terms of the conventional ontology alignment method classes. It is not purely string matching, since it takes into account information from the context. However, it is also not structural, as it can work without a seed alignment and uses information other than the structure as well. It is not logical 
-  %  Goeie woord?
-  since it does not use inference. Nor is it terminological, which looks at dictionaries or other ontologies to find matches. However, it does use other ontologies (or text corpora) implicitly, so if it must be grouped it would be terminological.
+  It is hard to classify the proposed algorithm in terms of the conventional ontology alignment method classes. It is not purely string matching, since it takes into account information from the context. However, it is also not structural, as it can work without a seed alignment and uses information other than the structure as well. It is not semantic (or logical) since it does not use inference. Nor is it terminological, which looks at dictionaries or other ontologies to find matches. However, it can use dictionaries and other ontologies to improve performance.
   % Moet voorafgaand stukje op een andere plek?
   The algorithm can find matches based purely on the given node and edge labels. However the algorithm might benefit from a hot start. Such a seed alignment might allow the algorithm to train with certain words that are known synonyms as if they were the same word, thus increasing the number of training samples per word (on known relevant words) and decreasing sparsity. This may help the model, improving performance. However, since some information from other algorithms is now used, it would not be fair to compare the results to the cold start algorithm results. For example, it may just add the results from the generic string matcher to its own results, improving performance, without learning any new relationships. A new testing method had to be designed for this algorithm. This method would have to compare it to the string matchers, to see if it improved over their results, rather than compare it to the cold start algorithm. However, if we compare the cold and hot algorithms with the generic string matchers, we may be able to compare them indirectly.
+  An example of a hot start is that \emph{mouse torso} is already matched with \emph{human torso}. Then it is likely that their neighbours are also related. Since the \emph{front paws} and \emph{arms} are next to the \emph{torso}, they are more likely to be matched now. In the case of \textbf{Node2vec} they are more likely to be matched, since their neighbourhoods are the same (the only neighbour of both \emph{arms} and \emph{paws} is \emph{connectedTo torso}).
  \subsubsection{Training corpus}
-  Word embedding models need to be trained on a large corpus. These corpora need to cover the concepts that are contained in the ontology, but also need to be large enough to build good embeddings. Since the ontologies themselves do not necessarily contain enough examples to embed the concepts properly, I need to use ontologies that are likely to contain the concepts I want to align.
+  Word embedding models need to be trained on a large corpus. These corpora need to cover the concepts that are contained in the ontology, but also need to be large enough to build good embeddings. Since the ontologies themselves do not necessarily contain enough examples to embed the concepts properly, I need to use ontologies that are likely to contain the concepts I want to align. In the case of the mice and men ontologies, anatomical or medical ontologies can be useful, since they may list more anatomical relationships or common relationships (for example \emph{whisker} and \emph{moustache} are related to \emph{hair}).
   As a benchmark, I will use the WordNet and NELL ontologies. To check if adding the ontologies that are to be aligned helps, I will also train a model on an ontology consisting of WordNet, NELL and the two alignment candidates.
  \subsubsection{DeepWalk}
   An alternative way of increasing the number of examples that the algorithm considers is using DeepWalk. DeepWalk generates sentences by randomly walking through the ontology and processes those sentences using a normal embedding model. This has the advantage of having a wider neighbourhood, as the neighbours of neighbours are also used as context, or even further neighbours depending on the scope of the algorithm. It also allows for weighting of edges to change the sampling rate of the random walk, which can be used to prioritize important nodes or highlight informative neighbours.
@@ -399,8 +401,7 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
   \subsubsection{Context matrix representation}
   
  \subsection{Implementation}
- The two foundations the algorithm has been build and tested on are Factorie, described in \ref{factorie}, and AgreementMaker, described in \ref{agreementmaker}, respectively. Earlier work on a forked branch of factorie was done by \cite{multisensecode} to implement multi-sense \textbf{Word2vec}.
- 
+ The foundation the algorithm has been build and tested on is Factorie, described in \ref{factorie}. Earlier work on a forked branch of factorie was done by \cite{multisensecode} to implement multi-sense \textbf{Word2vec}.
  
  \newpage
  \section{Evaluation}
