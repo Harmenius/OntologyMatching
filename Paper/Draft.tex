@@ -118,12 +118,46 @@ The Semantic Web, on the other hand, contains sources of \textit{information} th
  
  An ontology describes concepts as their relationships to other concepts. The concepts that are described determine the domain the ontology covers, and the relationships determine the rules the ontology imposes on the domain. For example, a hierarchy is an ontology that describes concepts that are subclasses of other concepts. Therefore the relationships are 'is-a' relationships: a bird \emph{is an} animal.
  Concepts can be instantiated, which is done in a Knowledge Base (KB). KBs and Ontologies are often confused, and are indeed very similar in structure. The Knowledge Base in our example can contain actually existing birds or fictional birds, and refers to the Ontology concept of bird to embed the instantiations with meaning.
-  
+ 
+ \subsubsection{Example}
+ An example of an ontology or a knowledge base of mice and men would be the following:
+ A mouse consists of the following body parts:
+ \begin{itemize}
+ \item Head
+ \item Torso
+ \item Whiskers
+ \item Tail
+ \item Front paws
+ \item Hind paws
+ \end{itemize}
+ 
+ They are connected as follows: IMAGE
+ 
+ Humans consist of:
+ \begin{itemize}
+ \item Head
+ \item Torso
+ \item Moustache
+ \item Arms
+ \item Legs
+ \end{itemize} 
+ 
+ Humans and mice are connected as follows: MATCHING IMAGE
  
  \subsubsection{OWL}
  OWL is a family of languages and syntaxes that can be used to create an ontology. The different languages are designed around requirements of possible relationships and concept definitions, and thus may differ a lot between them. The W3C has defined three variants which are the bases for all other adaptations. The variants trade off levels of expressiveness versus computability. %TODO consider SKOS
+
+ A relationship in OWL is written as follows:
+ 
+ \lstset{language=XML}
+ \begin{lstlisting}
+ <owl:Class rdf:about="http://mouse.owl#Whiskers">
+   <rdfs:connectedTo rdf:resource="http://mouse.owl#Head"/>
+ </owl:Class>
+ \end{lstlisting}
+ 
  \subsubsection{SPARQL}
- SPARQL is the query language for knowledge bases and ontologies. It allows a user to select nodes whose context match the query, similar to how rows are selected in SQL based on the row contents.
+ SPARQL is the query language for knowledge bases and ontologies. It allows a user to select nodes whose context match the query, similar to how SQL selects rows whose content match the query.
  \subsubsection{Uses of Ontologies}
  %Beschrijf bottom-up ontologie maken.
  There are three main reasons Ontologies are used. Firstly, it allows querying languages to optimize the search process. Secondly, it allows expansion of information on a node. Thirdly, it allows for consistency checking a Knowledge Base. Lastly, it allows merging of knowledge bases.
@@ -151,7 +185,9 @@ The Semantic Web, on the other hand, contains sources of \textit{information} th
  Many different alignment strategies have already been developed. All strategies follow the same two-step approach. The two steps are independent and as such different methods can be used interchangeably. The first step is to generate an initial correspondence set, where correspondences between nodes are found based on just their labels and meta-data. The second step is to use this initial set and the structure of the ontology to find more correspondences. These steps are called the terminological and the structural steps. Some strategies also use extra steps like the extensional and semantic steps, which use vector space models and inference, respectively. %TODO cite https://hal.inria.fr/hal-00917910/document
  
  Popular terminological strategies are WordNet comparison and edit distance. The former uses the popular WordNet hierarchy as a distance measure between two concepts, e.g. the number of edges between the concepts and their least general common superconcept\cite{lin2008}.
+ For example, the distance between moustache and whiskers is 3, since their least general common superconcept is hair the distance between moustache and hair is 2 (with facial hair between them) and the distance between whisker and hair is 1 (direct).
  Edit distance is a purely string-based similarity measure. The similarity is a (weighted) count of edits required to transform one word into another, where common edits are insertion, deletion and replacement. Similar methods include substring matching and n-gram matching, which compare parts of the strings to find similarities\cite{singh2014, levenshtein}.
+ For example, arm and front paw have an edit distance of 8, since they have 1 character in sequence in common (either the a or the r) and thus 8 characters that are different.
  \subsection{Problems in ontology alignment}
  There are a number of different problems ... %TODO Opsommen en samenvatten
  
@@ -207,6 +243,7 @@ The Semantic Web, on the other hand, contains sources of \textit{information} th
  
  In Jena it is possible to obtain the label of any node, if it has it, by calling:
  
+ \lstset{language=Java}
  \begin{lstlisting}
   label = node.isBlank() ? 
   		  node.getBlankNodeLabel() : 
