@@ -4,8 +4,6 @@
  \usepackage[titletoc]{appendix}
  \usepackage{listings}
 
-
-
  \title{Ontology Matching with word2vec}
  \author{Harmen Prins}
  
@@ -168,17 +166,21 @@ The Semantic Web, on the other hand, contains sources of \textit{information} th
  When these problems are solved, ontology matching has matured enough to be used in Semantic Web applications. Then it is merely the challenge to have the public adopt these technologies.
  
  \subsection{Word sense representation} \label{w2v}
+ \subsubsection{Skip-gram models}
  Skip-gram models have been widely used to represent words as vectors. This is useful as it is easy to calculate the distance between two vectors, which is a useful property for ontology matching. This vector distance has been shown to be related to the semantic similarity between words, which is very useful for ontology alignment, as parts of one ontology have to be aligned with parts of another ontology depending on their semantic relation.
- 
- Recently, an effective and efficient skip-gram model has been developed, called \textf{word2vec}, which uses a number of extensions over previous methods that enable it to efficiently learn an effective representation\cite{w2v}.
+
+ \subsubsection{The state of the art} 
+ Recently, an effective and efficient skip-gram model has been developed, called \textf{Word2vec}, which uses a number of extensions over previous methods that enable it to efficiently learn an effective representation\cite{w2v}.
  \textf{Word2vec} learns this representation by trying to predict the context of a word. First the vocabulary is one-hot encoded. Then the model learns to predict a context vector that minimizes the distance to the context one-hot encoded vectors. The model is a neural network with one hidden layer. Since the input is one-hot encoded, every word in the vocabulary is represented by one row in the weight matrix between the input layer and hidden layer. This row is the vector representation of the word.
  
+ \subsubsection{Extensions}
  \textf{Word2vec} has been expanded in a number of different ways. For example, word order can be preserved, leading to a similarity measure that is closer to syntax, as syntax defines which words go where in a sentence. This preservation was done by having multiple output layers, one for every word in the context. The research shows that the input does not have to be a bag-of-words representation, which will be useful later on\cite{ling2015}.
  Another interesting development is the multi-sense \textf{Word2vec}, which allows for multiple vector representations per word, depending on the number of different definitions a word has. For example, the word bank represents both the monetary institute and the riverside, which would both have a different representation in this extension. It can differentiate between two different meanings based on the context. This will help with resolving ambiguity, a very important factor in ontology alignment\cite{multisense}.
+ 
  \subsection{Used technology}
  %TODO Guide user from problem to research question. See Arjen's notes 1. 
  \subsubsection{Factorie} \label{factorie} %TODO rewrite
- "FACTORIE [is a] a toolkit for probabilistic modeling based on imperatively-defined factor graphs" \cite{git-factorie}. As a toolkit it contains many different parts that can be used together. One example is the NLP package in the toolkit, which provides many algorithms to process text. One of those algorithms is the distributed representation of words algorithm by \cite{w2v}.
+ Factorie is a toolkit that contains a number of tools which includes word-embedding models \cite{git-factorie}. \cite{w2v}.
  
  Factorie is written in scala, a relatively new language that interfaces with java. See \ref{scala}. This allows for interoperability between factorie and AgreementMaker. Any algorithm that is implemented in factorie or on top of factorie can therefore be used as a matching algorithm in AgreementMaker.
  

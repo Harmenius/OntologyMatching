@@ -9,7 +9,7 @@
 \contentsline {subsection}{\numberline {2.2}Ontologies}{6}
 \contentsline {subsubsection}{\numberline {2.2.1}OWL}{7}
 \contentsline {subsubsection}{\numberline {2.2.2}SPARQL}{7}
-\contentsline {subsubsection}{\numberline {2.2.3}Role}{7}
+\contentsline {subsubsection}{\numberline {2.2.3}Uses of Ontologies}{7}
 \contentsline {subsubsection}{\numberline {2.2.4}Aristotle and Plato}{8}
 \contentsline {subsection}{\numberline {2.3}Current alignment strategies}{8}
 \contentsline {subsection}{\numberline {2.4}Problems in ontology alignment}{9}
