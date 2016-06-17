@@ -172,12 +172,12 @@ The Semantic Web, on the other hand, contains sources of \textit{information} th
  Skip-gram models have been widely used to represent words as vectors. This is useful as it is easy to calculate the distance between two vectors, which is a useful property for ontology matching. This vector distance has been shown to be related to the semantic similarity between words, which is very useful for ontology alignment, as parts of one ontology have to be aligned with parts of another ontology depending on their semantic relation.
 
  \subsubsection{The state of the art} 
- Recently, an effective and efficient skip-gram model has been developed, called \textf{Word2vec}, which uses a number of extensions over previous methods that enable it to efficiently learn an effective representation\cite{w2v}.
- \textf{Word2vec} learns this representation by trying to predict the context of a word. First the vocabulary is one-hot encoded. Then the model learns to predict a context vector that minimizes the distance to the context one-hot encoded vectors. The model is a neural network with one hidden layer. Since the input is one-hot encoded, every word in the vocabulary is represented by one row in the weight matrix between the input layer and hidden layer. This row is the vector representation of the word.
+ Recently, an effective and efficient skip-gram model has been developed, called \textbf{Word2vec}, which uses a number of extensions over previous methods that enable it to efficiently learn an effective representation\cite{w2v}.
+ \textbf{Word2vec} learns this representation by trying to predict the context of a word. First the vocabulary is one-hot encoded. Then the model learns to predict a context vector that minimizes the distance to the context one-hot encoded vectors. The model is a neural network with one hidden layer. Since the input is one-hot encoded, every word in the vocabulary is represented by one row in the weight matrix between the input layer and hidden layer. This row is the vector representation of the word.
  
  \subsubsection{Extensions}
- \textf{Word2vec} has been expanded in a number of different ways. For example, word order can be preserved, leading to a similarity measure that is closer to syntax, as syntax defines which words go where in a sentence. This preservation was done by having multiple output layers, one for every word in the context. The research shows that the input does not have to be a bag-of-words representation, which will be useful later on\cite{ling2015}.
- Another interesting development is the multi-sense \textf{Word2vec}, which allows for multiple vector representations per word, depending on the number of different definitions a word has. For example, the word bank represents both the monetary institute and the riverside, which would both have a different representation in this extension. It can differentiate between two different meanings based on the context. This will help with resolving ambiguity, a very important factor in ontology alignment\cite{multisense}.
+ \textbf{Word2vec} has been expanded in a number of different ways. For example, word order can be preserved, leading to a similarity measure that is closer to syntax, as syntax defines which words go where in a sentence. This preservation was done by having multiple output layers, one for every word in the context. The research shows that the input does not have to be a bag-of-words representation, which will be useful later on\cite{ling2015}.
+ Another interesting development is the multi-sense \textbf{Word2vec}, which allows for multiple vector representations per word, depending on the number of different definitions a word has. For example, the word bank represents both the monetary institute and the riverside, which would both have a different representation in this extension. It can differentiate between two different meanings based on the context. This will help with resolving ambiguity, a very important factor in ontology alignment\cite{multisense}.
  
  \subsection{Used technology}
  %TODO Guide user from problem to research question. See Arjen's notes 1. 
@@ -301,7 +301,7 @@ The Semantic Web, on the other hand, contains sources of \textit{information} th
 
  \newpage
  \section{Method}
- This Section will describe the method that I developed. Firstly, I will describe the general idea. In the second section, I will give a theoretical justification for why this method should work and how it works conceptually. After that I will describe the different ways that the input graphs can be used to train the \textf{Word2vec} model and create the alignment, some of which I have discarded on theoretical grounds as I will explain in the relevant section. Lastly, I will talk about the implementation process.
+ This Section will describe the method that I developed. Firstly, I will describe the general idea. In the second section, I will give a theoretical justification for why this method should work and how it works conceptually. After that I will describe the different ways that the input graphs can be used to train the \textbf{Word2vec} model and create the alignment, some of which I have discarded on theoretical grounds as I will explain in the relevant section. Lastly, I will talk about the implementation process.
  
  \section{Idea}
 The goal of any ontology matcher is to find an alignment between two ontologies that is as similar as possible to the true alignment. Such an alignment consists of node pairs where the two nodes in each pair come from the two different ontologies. Sometimes a label is added to each pair, indicating the relationship the two nodes have. For example, 'part-of', 'similar-to', and such. However, we only consider equality relationships and thus the label can be omitted.
@@ -310,7 +310,7 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
  
  The idea behind the algorithm introduced in this study is to find an alternative to WordNet that is at least as good in modelling semantic distance but scales to new domains. It should be trainable on this new domain through existing ontologies and texts in an unsupervised way so that it does not require the interference of experts. This will allow it to overcome the weakness of WordNet. This is only relevant, though, if the performance is equal to WordNet-based matchers.
  
- \textf{Word2vec} is an unsupervised method that implicitly maps words to a vector space that has been shown to contain semantic properties. Explicitly, it predicts words from the context of that word. %cite
+ \textbf{Word2vec} is an unsupervised method that implicitly maps words to a vector space that has been shown to contain semantic properties. Explicitly, it predicts words from the context of that word. %cite
  It can be trained on large corpora quickly and the resulting vectors can easily be used to measure the distance between words. All these properties make it an excellent candidate for a concept distance measure to use for ontology matching. As an added benefit, it can also take into account the context of a concept, which may be able to improve its performance over a matcher that only uses the label of a concept. 
  
  \subsection{Challenges}
@@ -322,11 +322,11 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
   \item Some labels may be ambiguous, for example homonyms, which are concepts that have the same label but represent a different context.
  \end{itemize}
  
- To solve these problems I will adapt \textf{Word2vec} to graphs to create an algorithm that converts nodes to vectors, in other words \textf{Node2vec}. It can be extended with multi-sense embeddings, different ways of considering the neighbourhood and hot-starting. %TODO this paragraph needs to be explained
+ To solve these problems I will adapt \textbf{Word2vec} to graphs to create an algorithm that converts nodes to vectors, in other words \textbf{Node2vec}. It can be extended with multi-sense embeddings, different ways of considering the neighbourhood and hot-starting. %TODO this paragraph needs to be explained
  \subsection{Considered implementations}
  In this section, I will discuss the different implementations that were made of the algorithm. All implementations use the same basic algorithm in different ways by taking into account the context in different ways. All of these implementations were tested and the results can be found in Section \ref{results}. Some implementations extend others, but all implementations are covered to ensure completeness. This way, all improvements are recorded precisely.
   \subsubsection{Node vectorisation}
-  The most basic \textf{Node2vec} model converts a node to a vector purely based on its own label. This method has one advantage over simple string matching: if no node is found in the other ontology that matches exactly, we can still find a node that is similar since it is close in the vector space. Therefore, this method should already be an improvement over the most basic string matching algorithms. It may even be competitive with more advanced string matchers (that look at substrings of labels). For example, \emph{ear lobe} and \emph{ear} will be matched by a substring matcher, but are also semantically similar since they will often be mentioned in the same context.
+  The most basic \textbf{Node2vec} model converts a node to a vector purely based on its own label. This method has one advantage over simple string matching: if no node is found in the other ontology that matches exactly, we can still find a node that is similar since it is close in the vector space. Therefore, this method should already be an improvement over the most basic string matching algorithms. It may even be competitive with more advanced string matchers (that look at substrings of labels). For example, \emph{ear lobe} and \emph{ear} will be matched by a substring matcher, but are also semantically similar since they will often be mentioned in the same context.
   \subsubsection{Combine with neighbours}
   To improve the model, we can add context information from the neighbours of a node. The most basic context adaptation would be to create a vector as the average of the context vectors. The resulting vector should be combined with the node vector of the node that is being investigated. This can be done by averaging or weighted averaging where the context is weighed more if there are more neighbours, though not necessarily linearly. These possibilities were also investigated.
   \subsubsection{Select from senses}
@@ -362,7 +362,7 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
   \subsubsection{Context matrix representation}
   
  \subsection{Implementation}
- The two foundations the algorithm has been build and tested on are Factorie, described in \ref{factorie}, and AgreementMaker, described in \ref{agreementmaker}, respectively. Earlier work on a forked branch of factorie was done by \cite{multisensecode} to implement multi-sense \textf{Word2vec}.
+ The two foundations the algorithm has been build and tested on are Factorie, described in \ref{factorie}, and AgreementMaker, described in \ref{agreementmaker}, respectively. Earlier work on a forked branch of factorie was done by \cite{multisensecode} to implement multi-sense \textbf{Word2vec}.
  
  
  \newpage
