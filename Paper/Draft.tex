@@ -3,6 +3,10 @@
  \usepackage[utf8]{inputenc}
  \usepackage[titletoc]{appendix}
  \usepackage{listings}
+ \usepackage{amsmath}
+ \usepackage{graphicx}
+ \usepackage{float}
+ \usepackage{caption}
 
  \title{Ontology Matching with word2vec}
  \author{Harmen Prins}
@@ -65,7 +69,7 @@
  A recently developed model for word embedding may be used to deal with ambiguity. It maps words to a vector space that has semantic properties, and thus can be used to calculate the relatedness of two words. There are a number of extensions that can deal with homonyms as well as data structured other than the continuous bag of words representation that the initial model was developed for. These facts show that it may be possible to make an embedding model for Ontologies and use the word relatedness to combine Ontologies.
  
  \subsection{Overview}
- This thesis is structured as follows...
+ This thesis is structured as follows: firstly, I will describe the context of the problem, which includes the Semantic Web, Ontologies, Ontology matching and other relevant research. Secondly, I will outline the problem and research questions. Thirdly, I will describe the method I used to develop the solution, which includes the idea, challenges and considered implementations. The fourth section after this describes methods I used to evaluate the solution, with the fifth section showing the results, the sixth section the conclusions and the last and seventh section the discussion.
  
 \newpage
 \section{Context}
@@ -74,13 +78,13 @@
  The first concept is the Semantic Web, also called Web 3.0, a vision of a Web that enhances the User Experience in ways that the current Web can not provide. Web 2.0, the current Web, models the internet as \textit{hubs} (or sites) with a specific purpose and limited interconnectivity.\footnote{For example, Facebook is a hub for sharing content with people you consider friends, but if you want to share that content with more people you will have to go to another hub, like imgur or Pinterest.} It is possible to link to content from other hubs using URLs, but this moves the user to another hub, rather than connecting the content present in the hubs.
 The Semantic Web, on the other hand, contains sources of \textit{information} that can be combined whenever the user needs it. To stick with the social media example, a person can create a piece of content, say a picture of a tree, and share it with his friends. One of his friends then can share this piece of content with a group of people that likes nature pictures. However, everyone can access all references someone makes. So if a person from the nature group notices the tree is ill and comments on this, the original poster can see this comment and act accordingly. On the current web the friend who shared the picture with the group has to be contacted directly by the commenter and then has to relay the message manually.
 
- The linking of every piece of content to another allows not only humans to browse the internet, but also virtual agents, which can use this information to aid their users in ways that are simply impossible nowadays. If someone wants to find information on a certain topic, the agent can collect all documents that are relevant to that topic, summarize each document in a way that is relevant to the search request and provide sources for every fact it finds. It would even be possible to have a question answering session on that specific topic, where the agent finds the answer to every question posed in the material that is linked to the topic.
+ Linking every piece of content to another allows not only humans to browse the internet, but also virtual agents, which can use this information to aid their users in ways that are simply impossible nowadays. If someone wants to find information on a certain topic, the agent can collect all documents that are relevant to that topic, summarize each document in a way that is relevant to the search request and provide sources for every fact it finds. It would even be possible to have a question answering session on that specific topic, where the agent finds the answer to every question posed in the material that is linked to the topic.
 
  Another possibility is the scenario from the introduction \ref{intro}, where a user wanted to see a movie, and ordered his softbot, to find him a suitable time and movie to see. This was shown to reduce a lot of planning and allow for much more favourable decisions since many more variables can be taken into account.
 
  All of this is possible if the softbots can access all of the information reliably. In the current Web, this is not possible, as all information is written in an ambiguous, unstructured format called natural language. To allow softbots to access the same information that we can, the Semantic Web proposes to add a layer to the internet where all information is saved in a unified format that is unambiguous, robot-interpretable and can be used to store any type of knowledge.
  
- The Semantic Web has a current state, the technologies that have been developed, which will be discussed later. But more importantly it is an idea 
+ The Semantic Web has a current state, the technologies that have been developed, which will be discussed later. But more importantly the Semantic Web is a 
  
  \subsubsection{Goal}
  The goal of the Semantic Web is very pragmatic: help people in everyday activities by leveraging all information available on the internet. The fact that it is pragmatic goes a long way of making it a reality: if even one application comes into existence that uses online information in a structured way and thus makes everyday tasks a little easier, the goal is accomplished. Of course, then the goal is stretched and we should make more applications leveraging more information for more tasks.
@@ -117,7 +121,7 @@ The Semantic Web, on the other hand, contains sources of \textit{information} th
  Earlier, ontologies were referred to as `a set of rules that determine what relations are allowed and required.' Now, the term will be defined more extensively, the standard format will be described and the uses of ontologies will be discussed.
  
  An ontology describes concepts as their relationships to other concepts. The concepts that are described determine the domain the ontology covers, and the relationships determine the rules the ontology imposes on the domain. For example, a hierarchy is an ontology that describes concepts that are subclasses of other concepts. Therefore the relationships are 'is-a' relationships: a bird \emph{is an} animal.
- Concepts can be instantiated, which is done in a Knowledge Base (KB). KBs and Ontologies are often confused, and are indeed very similar in structure. The Knowledge Base in our example can contain actually existing birds or fictional birds, and refers to the Ontology concept of bird to embed the instantiations with meaning.
+ Concepts can be instantiated, which is done in a Knowledge Base (KB). KBs and Ontologies are often confused, and are indeed very similar in structure. The Knowledge Base in our example can contain actually existing birds or fictional birds, and refers to the Ontology concept of bird to embed the instantiations with meaning\cite{ontologyGuru}.
  
  \subsubsection{Example} \label{example}
  An example of an ontology or a knowledge base of mice and men would be the following:
@@ -156,8 +160,6 @@ The Semantic Web, on the other hand, contains sources of \textit{information} th
  </owl:Class>
  \end{lstlisting}
  
- \subsubsection{SPARQL}
- SPARQL is the query language for knowledge bases and ontologies. It allows a user to select nodes whose context match the query, similar to how SQL selects rows whose content match the query.
  \subsubsection{Uses of Ontologies}
  %Beschrijf bottom-up ontologie maken.
  There are three main reasons Ontologies are used. Firstly, it allows querying languages to optimize the search process. Secondly, it allows expansion of information on a node. Thirdly, it allows for consistency checking a Knowledge Base. Lastly, it allows merging of knowledge bases.
@@ -168,21 +170,22 @@ The Semantic Web, on the other hand, contains sources of \textit{information} th
  
  One important aspect of data bases is consistency. Manipulations on a data base such as a knowledge base must not result in a knowledge base that does not adhere to the data base constraints. In a knowledge base, these constraints are defined in the ontology.
  
- When two knowledge bases need to be merged, aligned or matched, instantiations that refer to the same thing need to be merged. For example, if two person databases both contain references to the same person, all information on that person needs to be linked to the same object, such that information of that person from both knowledge bases can be combined. Merging the ontologies of the two knowledge bases vastly improves the alignment between the two knowledge bases. However, ontology and knowledge base merging is not a trivial problem and actually the problem that this thesis addresses. Therefore it will be explained more in-depth later on. %TODO add \ref
+ When two knowledge bases need to be merged, aligned or matched, instantiations that refer to the same thing need to be merged. For example, if two person databases both contain references to the same person, all information on that person needs to be linked to the same object, such that information of that person from both knowledge bases can be combined. Merging the ontologies of the two knowledge bases vastly improves the alignment between the two knowledge bases. However, ontology and knowledge base merging is not a trivial problem and actually the problem that this thesis addresses. Therefore it will be explained more in-depth later on\cite{09ontology}.
  \subsubsection{Aristotle and Plato}
  All ontologies lie on a spectrum of formality. On the one end of the spectrum are the Platonic ontologies, which should only contain concepts that are perfectly defined and constraints which are completely binding. The name refers to the Platonic philosophy that all concepts are existing entities and can thus be perfectly captured in a definition.
  
- On the other end of the spectrum are the Aristotelian ontologies, which do not necessarily contain perfectly defined concepts, but rather concepts as we observe them. Aristotle disagreed with Plato's theory that concepts are existing things, and thus these ontologies are named after him. %TODO cite
+ On the other end of the spectrum are the Aristotelian ontologies, which do not necessarily contain perfectly defined concepts, but rather concepts as we observe them. Aristotle disagreed with Plato's theory that concepts are existing things, and thus these ontologies are named after him\cite{aristotleplato}.
  
  Aristotelian ontologies have the advantage of being easier to create. One could use statistical methods given a sample of all possible observations or crowd sourcing to create concepts and constraints. This would enable enormous ontologies and knowledge bases with the amount of data currently available and cheap mental labour with services like Amazon's Mechanical Turk.
  
- The advantage of a Platonic ontology would be the fact that every query would result in a fact, since the ontology itself is perfect. The disadvantage is that creating such an ontology is much more costly than an Aristotelian ontology, since every concept and constraint needs to be correct in all cases. %TODO cite Lakoff
+ The advantage of a Platonic ontology would be the fact that every query would result in a fact, since the ontology itself is perfect. The disadvantage is that creating such an ontology is much more costly than an Aristotelian ontology, since every concept and constraint needs to be correct in all cases.
  
  Another way to represent this spectrum is the precision-recall trade-off. A Platonic ontology has maximum precision but its recall is limited since it can only represent very little if creation budget is limited, or paradoxes exist. The Aristotelian ontology on the other hand, can theoretically reach perfect recall given enough storage size and observations for its statistical methods. Again, in reality this is limited by a budget. All ontologies fall between these two extremes. Often, a combination of statistical methods with expert confirmation is used.
  
  Platonic ontologies are often used in areas where precision is important, like medicine, where lives depend on the information contained in the ontology and its knowledge base. Aristotelian ontologies are more common on the Semantic Web, where massive amounts of data need to be represented and queried.
+ 
  \subsection{Current alignment strategies} \label{strategies}
- Many different alignment strategies have already been developed. All strategies follow the same two-step approach. The two steps are independent and as such different methods can be used interchangeably. The first step is to generate an initial correspondence set, where correspondences between nodes are found based on just their labels and meta-data. The second step is to use this initial set and the structure of the ontology to find more correspondences. These steps are called the terminological and the structural steps. Some strategies also use extra steps like the extensional and semantic steps, which use vector space models and inference, respectively. %TODO cite https://hal.inria.fr/hal-00917910/document
+ Many different alignment strategies have already been developed. All strategies follow the same two-step approach. The two steps are independent and as such different methods can be used interchangeably. The first step is to generate an initial correspondence set, where correspondences between nodes are found based on just their labels and meta-data. The second step is to use this initial set and the structure of the ontology to find more correspondences. These steps are called the terminological and the structural steps. Some strategies also use extra steps like the extensional and semantic steps, which use vector space models and inference, respectively\cite{matchingchallenges}.
  
  Popular terminological strategies are WordNet comparison and edit distance. The former uses the popular WordNet hierarchy as a distance measure between two concepts, e.g. the number of edges between the concepts and their least general common superconcept\cite{lin2008}.
  For example, the distance between moustache and whiskers is 3, since their least general common superconcept is hair the distance between moustache and hair is 2 (with facial hair between them) and the distance between whisker and hair is 1 (direct).
@@ -203,17 +206,38 @@ The Semantic Web, on the other hand, contains sources of \textit{information} th
  
  When these problems are solved, ontology matching has matured enough to be used in Semantic Web applications. Then it is merely the challenge to have the public adopt these technologies.
  
- \subsection{Word sense representation} \label{w2v}
+ \subsection{Word representation} \label{w2v}
+ An important area of research in Natural Language Process is the representation of words. The most obvious representation is the collection of characters humans are used to. However, this is not useful for computers as these characters do not say anything about the meaning of the words, nor is it a representation that computers can quickly do calculations on.
+ 
+ Many different representations have been proposed. The main purpose of word representations in NLP is to represent the meaning of the word. One way to represent a word is the term frequency. This representation counts the number of occurrences of a word per document in a set of documents. The resulting vector of occurrence counts is then used to represent the words. Since the documents have a subject, there is some meaning embedded in the vector representation. However, the representation is very sparse and the semantics or meaning of the word are not captured very well. Also, the method requires many discrete documents to train on, which are not available in Ontology matching.
+ 
+ The rest of this subsection will describe the latest word representation model which has very interesting results in NLP. It will cover the history and the most recent advances that are relevant to this study.
+ 
  \subsubsection{Skip-gram models}
- Skip-gram models have been widely used to represent words as vectors. This is useful as it is easy to calculate the distance between two vectors, which is a useful property for ontology matching. This vector distance has been shown to be related to the semantic similarity between words, which is very useful for ontology alignment, as parts of one ontology have to be aligned with parts of another ontology depending on their semantic relation.
+ Skip-gram models have been in use for some time. Like the document frequency representation, it represents words as vectors. However, the vectors are much more dense and can be trained on sentences rather than documents. The vector distance of skip-gram models has been shown to be related to the semantic similarity between words. This semantic similarity property is very useful for ontology alignment, as parts of one ontology have to be aligned with parts of another ontology depending on their semantic relation.
+ 
+ Skip-gram models work by teaching a 3-layer neural network to predict the context of a word. In NLP the context is a number of words before and after the word. Firstly, all words a represented by 1-hot encoding, which is a vector with all zeroes and a single one on the index of the word. This vector has length $V$ equal to the number of words in the corpus. This vector represents the first layer, the input layer of the neural network. The second layer, the hidden layer is obtained by multiplying the first weight matrix with the first layer. Since the first layer is one-hot encoded, this is equal to the row of the matrix corresponding to the index of the word. This representation will later be used as the representation of the word.
+ 
+ Then the representation is multiplied with another matrix to create the third layer, the output layer. The word representations and second matrix are optimized in such a way that the output layer is as close as possible to the one-hot encodings of the context.
+ 
+ As a consequence words that occur in similar contexts will be represented similarly. This again causes contexts that contain similarly represented words to also become more similar. This positive feedback loop causes co-occurring words to be represented more and more similarly. On convergence, words with similar meanings are represented similarly.
 
  \subsubsection{The state of the art}
- Recently, an effective and efficient skip-gram model has been developed, called \textbf{Word2vec}, which uses a number of extensions over previous methods that enable it to efficiently learn an effective representation\cite{w2v}.
- \textbf{Word2vec} learns this representation by trying to predict the context of a word. First the vocabulary is one-hot encoded. Then the model learns to predict a context vector that minimizes the distance to the context one-hot encoded vectors. The model is a neural network with one hidden layer. Since the input is one-hot encoded, every word in the vocabulary is represented by one row in the weight matrix between the input layer and hidden layer. This row is the vector representation of the word.
+ Recently, an effective and efficient skip-gram model has been developed, called \textbf{Word2vec}, which uses a number of extensions over previous methods that enable it to efficiently learn an effective representation\cite{w2v}. One example of such an extension is negative sampling, which is a step that teaches the network that randomly selected words should have non-similar representations.
  
- \subsubsection{Extensions}
- \textbf{Word2vec} has been expanded in a number of different ways. For example, word order can be preserved, leading to a similarity measure that is closer to syntax, as syntax defines which words go where in a sentence. This preservation was done by having multiple output layers, one for every word in the context. The research shows that the input does not have to be a bag-of-words representation, which will be useful later on\cite{ling2015}.
- Another interesting development is the multi-sense \textbf{Word2vec}, which allows for multiple vector representations per word, depending on the number of different definitions a word has. For example, the word bank represents both the monetary institute and the riverside, which would both have a different representation in this extension. It can differentiate between two different meanings based on the context. This will help with resolving ambiguity, a very important factor in ontology alignment\cite{multisense}.
+ These extensions enable \textbf{Word2vec} to be trained on large corpora and represent words in a way that is very useful in NLP. It is used as a language model in part-of-speech tagging and machine translation.
+ 
+ Interestingly, the representations have been shown to contain semantic information too. A common example is the following formula: $vec("\text{queen}") = vec("king") - vec("man") + vec("woman")$. This means that gender is encoded in the vectors and other types of meaning may also be encoded.
+ 
+ After the authors showed the usefulness of \textbf{Word2vec}, many researchers developed new uses for the algorithm. Some extensions that are relevant to this study will be discussed. Firstly, I will describe a model that represents syntax as opposed to semantics. Secondly, I will describe a model that is capable of representing multiple meanings per words.
+ 
+ \subsubsection{Word order}
+ \textbf{Word2vec} has been expanded in a number of different ways. For example, word order can be preserved, leading to a similarity measure that is closer to syntax, as syntax defines positional properties of words within a sentence\cite{ling2015}. To enable this alternative representation, the model had to be changed structurally. Rather than a single output layer generated by a single matrix, one layer per word in the context was used. As such, the model learns to predict the context words based on their position relative to the source word. More important than the fact that these models can be used for syntax is the fact that the research shows that the input does not have to be a continuous bag-of-words representation. This sparked the idea that it may also be possible to have a graph as the input to the network. This assumption is the basis of this study and will be tested thoroughly.
+ 
+ \subsubsection{Multi-sense}
+ Another interesting development is the multi-sense \textbf{Word2vec}, which allows for multiple vector representations per word, depending on the number of different definitions a word has. For example, the word bank represents both the monetary institute and the riverside, which would both have a different representation in this extension. It can differentiate between two different meanings based on the context. The importance of allowing for multiple meanings is that between multiple ontologies, the same word can have different meanings and as such should not be matched. On the other hand, a concept in a single ontology can have multiple meanings and should therefore be matched with more than one concept from another ontology\cite{multisense}. This idea sparked the second reason why I started investigating semantic word representations for Ontology matching, since current methods do not allow for disambiguation.
+ 
+ For example, string matchers only look at the phrases representing the concepts, and as such do not care about semantics. Structural matchers use the context, but do not use the meaning of the concept since they only look at the location of the concept within the graph. Lastly, lexical matchers do use synonyms and antonyms to see which different words could refer to the same concept, but if two concepts can be represented by one word. As such, initially the multi-sense representation seemed like a very strong candidate for improving matching results.
  
  \subsection{Used technology}
  %TODO Guide user from problem to research question. See Arjen's notes 1. 
@@ -338,9 +362,9 @@ The Semantic Web, on the other hand, contains sources of \textit{information} th
 
  \newpage
  \section{Method}
- This Section will describe the method that I developed. Firstly, I will describe the general idea. In the second section, I will give a theoretical justification for why this method should work and how it works conceptually. After that I will describe the different ways that the input graphs can be used to train the \textbf{Word2vec} model and create the alignment, some of which I have discarded on theoretical grounds as I will explain in the relevant section. Lastly, I will talk about the implementation process.
+
  
- \section{Idea}
+ \subsection{Idea}
 The goal of any ontology matcher is to find an alignment between two ontologies that is as similar as possible to the true alignment. Such an alignment consists of node pairs where the two nodes in each pair come from the two different ontologies. Sometimes a label is added to each pair, indicating the relationship the two nodes have. For example, 'part-of', 'similar-to', and such. However, we only consider equality relationships and thus the label can be omitted.
  
  Then the question becomes: \textit{how do we measure similarity of concepts between ontologies?} As shown in \ref{strategies}, attempts have been made to model similarity of nodes as the string similarity of their labels. Also, WordNet is used to find similar nodes. The string similarity assumes that similar labels refer to similar concepts. While this is true to a certain degree, homonyms, synonyms, and other phenomena make this assumption very weak. WordNet-based similarity measures are better since WordNet links concepts semantically, and thus similar concepts will be close in WordNet. The major problem with WordNet is that it is constructed by hand, and thus does not scale very well to new domains.
@@ -359,7 +383,8 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
   \item Some labels may be ambiguous, for example homonyms, which are concepts that have the same label but represent a different context.
  \end{itemize}
  
- To solve these problems I will adapt \textbf{Word2vec} to graphs to create an algorithm that converts nodes to vectors, in other words \textbf{Node2vec}. It can be extended with multi-sense embeddings, different ways of considering the neighbourhood and hot-starting. %TODO this paragraph needs to be explained
+ To solve these problems I will adapt \textbf{Word2vec} to graphs to create an algorithm that converts nodes to vectors, in other words \textbf{Node2vec}. It can be extended with multi-sense embeddings, different ways of considering the neighbourhood and hot-starting.
+ 
  \subsection{Considered implementations}
  In this section, I will discuss the different implementations that were made of the algorithm. All implementations use the same basic algorithm in different ways by taking into account the context in different ways. All of these implementations were tested and the results can be found in Section \ref{results}. Some implementations extend others, but all implementations are covered to ensure completeness. This way, all improvements are recorded precisely.
  The explanations refer back to the example in Section \ref{example}
@@ -390,15 +415,7 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
   As a benchmark, I will use the WordNet and NELL ontologies. To check if adding the ontologies that are to be aligned helps, I will also train a model on an ontology consisting of WordNet, NELL and the two alignment candidates.
  \subsubsection{DeepWalk}
   An alternative way of increasing the number of examples that the algorithm considers is using DeepWalk. DeepWalk generates sentences by randomly walking through the ontology and processes those sentences using a normal embedding model. This has the advantage of having a wider neighbourhood, as the neighbours of neighbours are also used as context, or even further neighbours depending on the scope of the algorithm. It also allows for weighting of edges to change the sampling rate of the random walk, which can be used to prioritize important nodes or highlight informative neighbours.
- \subsection{Discarded implementations} %TODO consider adding to future
-  \subsubsection{Training on text}
-  Rather than training on ontologies, it would be possible to train the model on text. Since there is more text available than ontologies when counting the number of training samples, it would make sense to use a purely text-trained model. However, this method has downsides which made me decide not to use it. Namely, the context of a word in a text corpus is very different from a node in an ontology. A word is surrounded by the words directly around it, or the sentence it is in, or the paragraph or entire document. However all these contexts are just words, usually represented as a bag of words to ensure enough data for the model. In an ontology, the context is a combination of a node with an edge, which have a very different relation than merely co-occurring. The relation may be inferred from one sentence, or many different documents.
-  % Herschrijf dit aub want het is niet goed
-  \subsubsection{Just context nodes}
-  
-  \subsubsection{Just edges}
-  
-  \subsubsection{Context matrix representation}
+
   
  \subsection{Implementation}
  The foundation the algorithm has been build and tested on is Factorie, described in \ref{factorie}. Earlier work on a forked branch of factorie was done by \cite{multisensecode} to implement multi-sense \textbf{Word2vec}.
@@ -432,11 +449,74 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
  Every data set contains two ontologies that need to be aligned and a ground truth alignment. The goal is straightforward: find the alignment given only the ontologies and whichever outside resources are needed.
 
  A reference alignment can be made by experts or be created by bipartitioning an existing ontology. %expand this.
- \subsubsection{Parts of OWL ignored} 
+ %\subsubsection{Parts of OWL ignored} 
  
  \newpage
  \section{Results} \label{results}
  
+ In this section I will show the objective results of the study. Firstly, I will show the precision-recall trade-off curve of all algorithms. Then I will go into detail of the results of the most promising algorithm.
+ 
+ \subsection{Precision versus recall}
+  \subsubsection{Mice and men data}
+  \begin{figure}[H]
+   \centering
+   \includegraphics[width=\textwidth]{plots/untrained_ROC}
+   \caption{The precision and recall trade-off for the results of the untrained Node2vec. $AP = 0.04194$}
+   \label{ROC_trained}
+  \end{figure}
+ 
+  \begin{figure}[H]
+   \centering
+   \includegraphics[width=\textwidth]{plots/Generic_ROC}
+   \caption{The precision and recall trade-off for the results of the Word2vec algorithm. $AP: 0.04636$}
+   \label{ROC_trained}
+  \end{figure}
+ 
+  \begin{figure}[H]
+   \centering
+   \includegraphics[width=\textwidth]{plots/trained_ROC}
+   \caption{The precision and recall trade-off for the results of the bidirectional Node2vec. $AP = 0.04198$}
+   \label{ROC_trained}
+  \end{figure}
+  
+  \begin{figure}[H]
+   \centering
+   \includegraphics[width=\textwidth]{plots/Alternative_ROC}
+   \caption{The precision and recall trade-off for the results of the alternative DeepWalk algorithm. $AP = 0.04193$}
+   \label{ROC_trained}
+  \end{figure}
+   \subsubsection{Medical data}
+   TBD
+   
+ \newpage
+ \section{Interpretation}
+  The system underperforms on the provided data. This can have one or more of the following four causes:
+  \begin{itemize}
+  \item The data breaks the considered algorithms.
+  \item There are bugs in the developed system unrelated to the algorithms.
+  \item The considered context extraction does not work.
+  \item The considered algorithms are not suited for Ontology matching.
+  \end{itemize}
+  
+  \subsection{The data}
+  If the data set is the cause of the underperformance, logically switching to another data set will improve performance over the baseline. Possible reasons the data set causes underperformance include a too small data set or a data set having a structure that does not work with the algorithm.
+  
+  The algorithm has been run on multiple data sets with no significant difference in performance, therefore the data is not the cause of the underperformance.
+  \subsection{The system}
+  If any of the steps in the software system contains an error, the whole system may fail. This could cause all algorithms to learn badly or the results to be misinterpreted. The system consists of a data loader, preprocessor, context extractor, the algorithm, the matcher and multiple visualizers. 
+  
+  All other steps I have replaced by another piece of software that does the preprocessing, context extraction and the algorithm. The results are titled "alternative DeepWalk" in the results Section. Since that software has been used in other projects and is written by someone else, it can be concluded that it works. Since the results are the same as with my system, it can be concluded that the corresponding parts of my system work.
+  
+  The preprocessing works, as described in Section \ref{preprocessing}.  The matcher is a simple KD-tree that finds the nearest neighbours of every node in the opposing Ontology. This is unlikely to contain errors.
+  
+  Since the visualizers work in parallel, errors in them would not cascade to the others, so they are all faulty or none of them are.
+  
+  As such, it is safe to conclude that the system has been thoroughly tested and is not faulty.
+  \subsection{Context extraction}
+  The context extraction works, as described in Section \ref{sentences}.
+  \subsection{The algorithm}
+  Since we have excluded all other possibilities, we can conclude that the remaining possibility, that the set of algorithms do not work well on Ontology data.
+  
  \newpage
  \section{Conclusions}
  \subsection{Recap research questions}
@@ -451,6 +531,13 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
  \subsection{Unexpected results}
  \subsection{Expected results}
  \subsection{Future research}
+ \subsection{Discarded implementations} %TODO consider adding to future
+
+  \subsubsection{Just context nodes} % In future?
+  
+  \subsubsection{Just edges}
+  
+  \subsubsection{Context matrix representation}
  
  \newpage
  \bibliographystyle{plain}
