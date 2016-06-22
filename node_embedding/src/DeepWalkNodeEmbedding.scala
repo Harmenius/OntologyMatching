@@ -3,7 +3,7 @@ import com.hp.hpl.jena.rdf.model.{RDFNode, Resource, Statement}
 
 import scala.util.Random
 import scala.collection.JavaConverters._
-import scala.collection.immutable.List
+import scala.collection.immutable.{HashMap, List}
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
@@ -12,23 +12,31 @@ import scala.collection.mutable.ArrayBuffer
   */
 class DeepWalkNodeEmbedding extends NodeEmbeddingModel {
 
-  var it = 0
-
   val URIs = Array("http://mouse.owl#",
                    "http://human.owl#")
   val LABEL_URI = "http://www.w3.org/2000/01/rdf-schema#label"
+  val neighbours = buildNeighbours()
+
+  def buildNeighbours(): Array[Map[String, Array[String]]] = {
+    val neighbours = new Array[Map[String, Array[String]]](2)
+
+    for (curOnt <- 0 to 1) {
+      val curNeighbours = new mutable.HashMap[String, Array[String]]()
+      val onto = ontology.getOntologies(curOnt).asInstanceOf[RDFOntology]
+      val edges = onto.getEdges
+      for (edge <- edges) {
+        val nbs: Array[String] = curNeighbours.getOrElse(edge.split(" ")(0), Array())
+        curNeighbours.put(edge.split(" ")(0), nbs :+ edge.split(" ")(2))
+        val nbs_ = curNeighbours.getOrElse(edge.split(" ")(2), Array())
+        curNeighbours.put(edge.split(" ")(2), nbs_ :+ edge.split(" ")(0))
+      }
+      neighbours(curOnt) = collection.immutable.HashMap[String, Array[String]](curNeighbours.toList: _*)
+    }
+    neighbours
+  }
 
   def getNeighbours(curNode: String, curOnt: Int) : Array[String] = {
-    val onto = ontology.getOntologies(curOnt).asInstanceOf[RDFOntology]
-    val edges = onto.getEdges
-    var nbs = new mutable.ArrayBuffer[String]()
-    for (edge <- edges) {
-      if (edge.split(" ")(0) == curNode)
-        nbs += edge.split(" ")(2)
-      else if (edge.split(" ")(2) == curNode)
-        nbs += edge.split(" ")(0)
-    }
-    nbs.toArray
+    neighbours(curOnt).getOrElse(curNode, new Array[String](0))
   }
 
   def getWeights(neighbors: Seq[String]): Seq[Double] = {
@@ -64,13 +72,12 @@ class DeepWalkNodeEmbedding extends NodeEmbeddingModel {
       return curOnt
   }
 
-  def check_finished(): Boolean = {
-    it+=1
-    return it < 1000
+  def check_finished(it: Int): Boolean = {
+    return it < nIts
   }
 
   def end_sentence(): Boolean = {
-    val p = 0.9 //TODO: don't hardcode
+    val p = 0.97 //TODO: don't hardcode
     rng.nextDouble() > p
   }
 
@@ -84,6 +91,7 @@ class DeepWalkNodeEmbedding extends NodeEmbeddingModel {
       val sentence = new StringBuilder()
       val nodes = ontology.getNodes.toList
       var curNode = nodes(rng.nextInt(nodes.length))
+      sentence.append(curNode)
 
       var sentence_end = false
       while(!sentence_end) {
@@ -104,15 +112,16 @@ class DeepWalkNodeEmbedding extends NodeEmbeddingModel {
         }
       }
       process(sentence.toString())
-      if (ndoc % printAfterNDoc == 0)
-        printf("Progress: %d/%d%n", ndoc, 1000)
-      work = check_finished()
+      if (ndoc % printAfterNDoc == 0 && id == 0) {
+        printf("Progress: %d/%d%n", ndoc, nIts)
+        store()
+      }
+      work = check_finished(ndoc)
+      curOnt = maybeSwitch(curOnt)
     }
   }
 
   // Stuff copied from SkipGramNodeEmbedding
-  def getOntologies : Array[Ontology] = ontology.ontologies
-
   def getVector(node: RDFNode) : Array[Double] = {
     getVector(ontology.toString(node))
   }

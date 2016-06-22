@@ -21,17 +21,17 @@ abstract class NodeEmbeddingModel extends WordEmbeddingModel(WordSenseOpts) {
   protected val nIts = WordSenseOpts.nIts.value
 
   // IO Related
-  private val storeInBinary = opts.binary.value // binary=1 will make both vocab file (optional) and embeddings in .gz file
-  private val loadVocabFilename = opts.loadVocabFile.value // load the vocab file. Very useful for large corpus should you run multiple times
-  private val saveVocabFilename = opts.saveVocabFile.value // save the vocab into a file. Next time for the same corpus, load it . Saves lot of time on large corpus
-  private val encoding = opts.encoding.value // Default is ISO-8859-15. Note: Blake server follows iso-5589-1 (david's GoogleEmbeddingcode has this. shouldn;t be ISO-8859-15) or  iso-5589-15 encoding (I see this) ??
-  private val includeEdgeLabels = WordSenseOpts.includeEdgeLabels.value
+  protected val storeInBinary = opts.binary.value // binary=1 will make both vocab file (optional) and embeddings in .gz file
+  protected val loadVocabFilename = opts.loadVocabFile.value // load the vocab file. Very useful for large corpus should you run multiple times
+  protected val saveVocabFilename = opts.saveVocabFile.value // save the vocab into a file. Next time for the same corpus, load it . Saves lot of time on large corpus
+  protected val encoding = opts.encoding.value // Default is ISO-8859-15. Note: Blake server follows iso-5589-1 (david's GoogleEmbeddingcode has this. shouldn;t be ISO-8859-15) or  iso-5589-15 encoding (I see this) ??
+  protected val includeEdgeLabels = WordSenseOpts.includeEdgeLabels.value
   protected val corpusses = WordSenseOpts.corpusses.value
   protected var current_corpus = ""
 
   /**override**/ this.vocab = new MultiSynonymVocabBuilder()
   protected val ontology : SharedOntology = new SharedOntology(corpusses)
-  private var train_nodes: Long = 0
+  protected var train_nodes: Long = 0
 
   def getRootSynonym(w: String): String = {
     getRootSynonym(w, loadSynonyms())
@@ -44,7 +44,7 @@ abstract class NodeEmbeddingModel extends WordEmbeddingModel(WordSenseOpts) {
     w_
   }
 
-  private def buildVocabRDF(corpus: String, synonyms: mutable.HashMap[String, String], vocab_i: Int) = {
+  protected def buildVocabRDF(corpus: String, synonyms: mutable.HashMap[String, String], vocab_i: Int) = {
     val vocab = this.vocab.asInstanceOf[MultiSynonymVocabBuilder].getVocab(vocab_i)
     println("... from RDF")
     // From each edge, grab subject and object
@@ -136,7 +136,7 @@ abstract class NodeEmbeddingModel extends WordEmbeddingModel(WordSenseOpts) {
       }
   }
 
-  def loadEmbeddings(): Unit = {
+  def loadEmbeddings(mapping: mutable.HashMap[String, String] = null) {
     val in = new BufferedReader(new InputStreamReader(
       storeInBinary match {
         case true => new FileInputStream(WordSenseOpts.embeddingOutFile.value)
@@ -149,7 +149,8 @@ abstract class NodeEmbeddingModel extends WordEmbeddingModel(WordSenseOpts) {
     var line : String = ""
     val weights = new Array[Weights](vocab.size)
     while({line = in.readLine; line != null}) {
-      val word = line.split(" ").apply(0)
+      val word_ = line.split(" ").apply(0)
+      val word = if(mapping == null) word_ else mapping(word_)
       val weight : Array[String] = line.split(" ").drop(1)
       val weightTensor = new DenseTensor1(weight.length)
       weight.zipWithIndex foreach (t => weightTensor.update(t._2, t._1.toDouble))
@@ -161,28 +162,29 @@ abstract class NodeEmbeddingModel extends WordEmbeddingModel(WordSenseOpts) {
 
   // Component-2
   override def learnEmbeddings(): Unit = {
+    optimizer = new AdaGradRDA(delta = adaGradDelta, rate = adaGradRate)
     if (!WordSenseOpts.inputFilename.value.isEmpty)
     {
       println("Loading Embeddings")
       loadEmbeddings()
       println("Done loading embeddings")
-    } else {
 
-      println("Learning Embeddings")
-      optimizer = new AdaGradRDA(delta = adaGradDelta, rate = adaGradRate)
+      if (!WordSenseOpts.continue.value)
+        return
+
+    } else {
       weights = (0 until V).map(i => Weights(TensorUtils.setToRandom1(new DenseTensor1(D, 0)))) // initialized using wordvec random
       optimizer.initializeWeights(this.parameters)
-      trainer = new HogWildTrainer(weightsSet = this.parameters, optimizer = optimizer, nThreads = threads, maxIterations = Int.MaxValue)
-
-      val threadIds = (0 until threads).map(i => i)
-      //val fileLen = new File(current_corpus).length
-      val fileLen = ontology.getEdges.size
-      for (i <- 1 to nIts)
-        workerThread(0, fileLen, fileLen/100)
-      println("Done learning embeddings. ")
-      if (!WordSenseOpts.embeddingOutFile.value.isEmpty)
-        store()
     }
+
+    trainer = new HogWildTrainer(weightsSet = this.parameters, optimizer = optimizer, nThreads = threads, maxIterations = Int.MaxValue)
+    val threadIds = (0 until threads).map(i => i)
+    //val fileLen = new File(current_corpus).length
+    val fileLen = ontology.getEdges.size
+    threadIds.par.foreach(workerThread(_, fileLen, 300))
+    println("Done learning embeddings.")
+    if (!WordSenseOpts.embeddingOutFile.value.isEmpty && (WordSenseOpts.inputFilename.value.isEmpty || WordSenseOpts.continue.value))
+      store()
   }
 
   // Component-3
@@ -235,6 +237,8 @@ abstract class NodeEmbeddingModel extends WordEmbeddingModel(WordSenseOpts) {
     }
     // println("thread :" + id + " word count : " + word_count)
   }
+
+  def getOntologies : Array[Ontology] = ontology.ontologies
 
   // override this function in your Embedding Model like SkipGramEmbedding or CBOWEmbedding
   protected def process(doc: String): Int

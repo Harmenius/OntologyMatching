@@ -115,8 +115,6 @@ class SkipGramNodeEmbedding() extends NodeEmbeddingModel {
     vocab.getId("INV" + str)
   }
 
-  def getOntologies : Array[Ontology] = ontology.ontologies
-
 }
 
 case class SkipGramKHotSamplingExample(model: SkipGramNodeEmbedding, word: Int, context: Seq[Int], label: Int) extends Example {

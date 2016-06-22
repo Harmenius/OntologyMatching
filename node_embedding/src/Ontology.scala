@@ -9,9 +9,9 @@ import scala.collection.immutable.HashMap
 
 abstract class Ontology {
   val LABEL_URI = "http://www.w3.org/2000/01/rdf-schema#label"
-  val EDGE_URIS = Array("http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym",
-                        "http://www.w3.org/2000/01/rdf-schema#subClassOf",
-                        "http://www.geneontology.org/formats/oboInOwl#hasDefinition")
+  val EDGE_URIS = Array(//"http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym",
+                        "http://www.w3.org/2000/01/rdf-schema#subClassOf"
+  )// "http://www.geneontology.org/formats/oboInOwl#hasDefinition")
   val REF_URIS = Array("http://knowledgeweb.semanticweb.org/heterogeneity/alignmententity1",
                        "http://knowledgeweb.semanticweb.org/heterogeneity/alignmententity2",
                        "http://knowledgeweb.semanticweb.org/heterogeneity/alignmentmeasure")
@@ -62,21 +62,29 @@ class RDFOntology (filename: String, reference: Boolean = false) extends Ontolog
   val model : Model = FileManager.get.loadModel(filename)
 
   def getNodes: Iterator[String] = {
-    getEdges.map(_.split(" ")).flatMap[String](a => Array(a(0),a(2))).toSet.toIterator
+    val nodes = getEdges.map(_.split(" ")).flatMap[String](a => Array(a(0),a(2)))
+    if(this.reference)
+      return nodes
+    else
+      return nodes.filterNot(_.contains("blank:")).toSet.toIterator
   }
 
   def getEdges: Iterator[String] = {
     val stmtit = reference match {
       case false =>
-        model.listStatements(null, model.getProperty(EDGE_URIS(0)), null) andThen
-        model.listStatements(null, model.getProperty(EDGE_URIS(1)), null) andThen
-        model.listStatements(null, model.getProperty(EDGE_URIS(2)), null)
+ //       model.listStatements(null, model.getProperty(EDGE_URIS(0)), null) andThen
+ //       model.listStatements(null, model.getProperty(EDGE_URIS(1)), null) andThen
+        model.listStatements(null, model.getProperty(EDGE_URIS(0)), null)
       case true =>
         model.listStatements(null, model.getProperty(REF_URIS(0)), null) andThen
         model.listStatements(null, model.getProperty(REF_URIS(1)), null) andThen
         model.listStatements(null, model.getProperty(REF_URIS(2)), null)
     }
-    stmtit.asScala.map(this.toString)
+    val edges = stmtit.asScala.map(this.toString)
+    if(this.reference)
+      return edges
+    else
+      return edges.filterNot(_.contains("blank:"))
   }
 }
 

@@ -11,8 +11,11 @@ object WordSenseOpts extends EmbeddingOpts{
   val combineContext    = new CmdOption("combined-context", false, "BOOLEAN", "Give edge and neighbour to trainer together")
   val synonyms          = new CmdOption("synonym-file", "Data/anatomy/VectorMatcherResults.rdf", "String", "File containing synonyms")
   val nIts              = new CmdOption("n-its", 5, "INTEGER", "Number of times w2v should go over the corpus")
-  nIts.setValue(10)
-  threads.setValue(1)
+  val continue          = new CmdOption("continue", true, "BOOLEAN", "")
+  nIts.setValue(0)//1000000)
+  threads.setValue(4)
+  continue.setValue(false)
+  dimension.setValue(50)
 
   // IO
   val inputFilename     = new CmdOption("embeddingsfile", "", "String", "Loads embeddings from this file if not empty")
@@ -24,9 +27,15 @@ object WordSenseOpts extends EmbeddingOpts{
   // Hard-coding data files
   //corpusses.setValue("Data/anatomy/mouse.owl;Data/anatomy/human.owl;Data/NELL_clean.csv")
   corpusses.setValue("Data/anatomy/mouse.owl;Data/anatomy/human.owl")
+  //corpusses.setValue("Data/medical/oaei2013_SNOMED_small_overlapping_nci.owl;Data/medical/oaei2013_NCI_small_overlapping_snomed.owl")
+  //truthfile.setValue("Data/medical/oaei2013_SNOMED2NCI_repaired_UMLS_mappings.rdf")
   output.setValue("Data/output.csv")
-  saveVocabFile.setValue("Data/vocab.csv")
+  //saveVocabFile.setValue("Data/vocab.csv")
   //loadVocabFile.setValue("Data/vocab.csv")
   //inputFilename.setValue("Data/output.csv")
+  //inputFilename.setValue("Data/forthelongesttime.csv")
+  //inputFilename.setValue("edgemappings.csv")
+  //inputFilename.setValue("Data/pretrained/glove.6B.50d.txt")
+  continue.setValue(continue.value && !inputFilename.value.isEmpty) // Can't continue on nothing
 }
 

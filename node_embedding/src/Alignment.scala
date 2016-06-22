@@ -14,14 +14,23 @@ class Alignment {
   }
 
   def set_threshold(new_t: Double, mustbehigher: Boolean = false) = {
-    t = new_t
-    alignments.retainAll(alignments.filter(tup => (tup._3 >= t) == mustbehigher))
+    if (new_t < 1.0) {
+      t = new_t
+      alignments.retainAll(alignments.filter(tup => (tup._3 >= t) == mustbehigher))
+    } else {
+      val t_ : Int = new_t.toInt
+      if (t_ < alignments.size) {
+        val alignments_ = MinMaxPriorityQueue.orderedBy(ordering).maximumSize(t_).create[(String, String, Double)]()
+        alignments_.addAll(this.alignments.take(t_)) //.dropRight(alignments.size() - t_)
+        alignments = alignments_
+      }
+    }
   }
 
   val ordering = new Ordering[(String, String, Double)] {
     override def compare(x: (String, String, Double), y: (String, String, Double)): Int = x._3.compare(y._3)
   }
-  val alignments = MinMaxPriorityQueue.orderedBy(ordering).maximumSize(20000).create[(String, String, Double)]()
+  var alignments = MinMaxPriorityQueue.orderedBy(ordering).maximumSize(100000).create[(String, String, Double)]()
   //TODO: unhardcode maximum size
 
 
