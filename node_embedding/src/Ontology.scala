@@ -66,7 +66,7 @@ class RDFOntology (filename: String, reference: Boolean = false) extends Ontolog
     if(this.reference)
       return nodes
     else
-      return nodes.filterNot(_.contains("blank:")).toSet.toIterator
+      return nodes.toSet.toIterator//.filterNot(_.contains("blank:")).toSet.toIterator
   }
 
   def getEdges: Iterator[String] = {

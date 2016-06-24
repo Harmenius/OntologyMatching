@@ -2,7 +2,6 @@ import cc.factorie.app.nlp.embeddings.EmbeddingOpts
 
 object WordSenseOpts extends EmbeddingOpts{
 
-
   minCount.setValue(0) // For some reason many nodes have no neighbours. Looking into that.
   // Model
   val includeEdgeLabels = new CmdOption("include-edge-labels", true, "BOOLEAN", "Should edges be taken into account when generating vocabulary?")
@@ -15,7 +14,7 @@ object WordSenseOpts extends EmbeddingOpts{
   nIts.setValue(0)//1000000)
   threads.setValue(4)
   continue.setValue(false)
-  dimension.setValue(50)
+  dimension.setValue(5)
 
   // IO
   val inputFilename     = new CmdOption("embeddingsfile", "", "String", "Loads embeddings from this file if not empty")
@@ -30,7 +29,7 @@ object WordSenseOpts extends EmbeddingOpts{
   //corpusses.setValue("Data/medical/oaei2013_SNOMED_small_overlapping_nci.owl;Data/medical/oaei2013_NCI_small_overlapping_snomed.owl")
   //truthfile.setValue("Data/medical/oaei2013_SNOMED2NCI_repaired_UMLS_mappings.rdf")
   output.setValue("Data/output.csv")
-  //saveVocabFile.setValue("Data/vocab.csv")
+  saveVocabFile.setValue("Data/vocab.csv")
   //loadVocabFile.setValue("Data/vocab.csv")
   //inputFilename.setValue("Data/output.csv")
   //inputFilename.setValue("Data/forthelongesttime.csv")

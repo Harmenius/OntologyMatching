@@ -32,7 +32,7 @@ object Visualizer {
     val alignmentMap = (keys zip values).toMap
     val vec = DenseVector(values)
 
-    val keys_ = truth.alignments.asScala.toArray.map{case (a,b,c) => (a,b)}
+    val keys_ = truth.alignments.asScala.toArray.map{case (a,b,c) => (a.toLowerCase,b.toLowerCase)}
     val values_ : Array[Double] = keys_.map(t => calc(t._1, t._2)).filterNot(t => t >= 100000)
     val vec_ = DenseVector(values_)
 

@@ -103,7 +103,8 @@ abstract class NodeEmbeddingModel extends WordEmbeddingModel(WordSenseOpts) {
   // Component-1
   def buildVocab(all: Boolean): Unit = {
     vocab = new MultiSynonymVocabBuilder(2) //TODO: unhardcode 2
-    val synonyms = loadSynonyms()
+    //val synonyms = loadSynonyms()
+    val synonyms = new mutable.HashMap[String, String]()
     if (loadVocabFilename.isEmpty) {
       for ((one_corpus, i) <- corpusses.split(";").zipWithIndex) {
         buildVocab(one_corpus, synonyms, i)
@@ -181,7 +182,11 @@ abstract class NodeEmbeddingModel extends WordEmbeddingModel(WordSenseOpts) {
     val threadIds = (0 until threads).map(i => i)
     //val fileLen = new File(current_corpus).length
     val fileLen = ontology.getEdges.size
-    threadIds.par.foreach(workerThread(_, fileLen, 300))
+    for (it <- 0 to nIts) {
+      println("Iteration: " + it)
+      threadIds.par.foreach(workerThread(_, fileLen, 300))
+      store()
+    }
     println("Done learning embeddings.")
     if (!WordSenseOpts.embeddingOutFile.value.isEmpty && (WordSenseOpts.inputFilename.value.isEmpty || WordSenseOpts.continue.value))
       store()
@@ -231,7 +236,7 @@ abstract class NodeEmbeddingModel extends WordEmbeddingModel(WordSenseOpts) {
       word_count += process(edgeItr.next) // Design choice : should word count be computed here and just expose process(doc : String): Unit ?.
       ndoc += 1
       if (id == 0 && ndoc % printAfterNDoc == 0) {  // print the process after processing 100 docs in 1st thread. It approx reflects the total progress
-        printf("Progress: %f.3%% @%d%n", ndoc / fileLen.toDouble * 100, ndoc)
+        printf("Progress: %f%% @%d%n", ndoc / fileLen.toDouble * 100, ndoc)
       }
       //work = word_count <= total_words_per_thread // Once, word_count reaches this limit, ask worker to end
     }

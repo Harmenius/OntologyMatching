@@ -14,7 +14,7 @@ import scala.util.Try
 object Evaluator {
 
   val opts = WordSenseOpts
-  val model = new DeepWalkNodeEmbedding() //SkipGramNodeEmbedding()
+  val model = new SkipGramNodeEmbedding()
 
   def get_compare_stats(alignment: Alignment, truth: Alignment, calc: (String, String) => Double = this.calc): (Int, Int, Int) = {
     val alignmentset = alignment.alignments.asScala.toSet[(String, String, Double)].map { case (s: String, o: String, v: Double) => (s, o) }
@@ -41,9 +41,10 @@ object Evaluator {
   def show_alignment(alignment: Alignment, other: Alignment) = {
     val a = alignment.alignments.asScala.toSet[(String, String, Double)]
     val a_ = other.alignments.asScala.toSet[(String, String, Double)]
+    val b = a.flatMap(t => Array(t._1, t._2))
+    val b_ = a_.flatMap(t => Array(t._1, t._2))
     val minus = a_ -- a//a -- a_
     val minus_ = minus.filter(t => t._1 != t._2)
-    //val b = minus.flatMap(t => Array(t._1, t._2))
     //val c = b.map(model.getVocab.getId(_))
     println(minus_)
   }
@@ -79,7 +80,7 @@ object Evaluator {
         case 'e' => (trip._1, trip._2, subj_)
       }
       if (trip._1 != null && trip._2 != null && trip._3 != null)
-        truthalignment.add(trip._1, trip._2, trip._3.toDouble)
+        truthalignment.add(trip._1.toLowerCase, trip._2.toLowerCase, trip._3.toDouble)
       else
         edgemap.put(obj, trip)
     }
@@ -146,12 +147,15 @@ object Evaluator {
     } else {
       println("Starting")
 
+      /*
       val file = io.Source.fromFile("edgemappings.csv")
       val hm = new mutable.HashMap[String, String]()
       for (line <- file.getLines()) {
         hm.put(line.split(" ").head, line.split(" ").last)
       }
+      */
 
+      loadTruth()
       model.buildVocab()
       model.learnEmbeddings()
 
@@ -161,15 +165,15 @@ object Evaluator {
   }
 
     def dotherest(alignment: Alignment) {
-      //Visualizer.hist_alignment(alignment)
-      alignment.set_threshold(0.0075)
+      Visualizer.hist_alignment(alignment)
+      //alignment.set_threshold(0.0075)
       val truth = loadTruth()
       Visualizer.compare_hist(alignment, truth)
       val dice = compare(alignment, truth)
-      val synonyms = loadTruth(WordSenseOpts.synonyms.value)
-      val dice_ = compare(synonyms, truth)
+      //val synonyms = loadTruth(WordSenseOpts.synonyms.value)
+      //val dice_ = compare(synonyms, truth)
       printf("The result of what you have been working for for months: %s%n", dice)
-      printf("For reference, just the synonyms scores: %s%n", dice_)
+      //printf("For reference, just the synonyms scores: %s%n", dice_)
       show_alignment(alignment, truth)
       plot_roc(alignment, truth)
     }
@@ -236,7 +240,7 @@ object Evaluator {
     println("Starting with aligning")
     val alignment = new Alignment
     for(n1 <- nv1._2) {
-      for(n2 <- tree2.knn(model.getVector(n1), 50)) {
+      for(n2 <- tree2.knn(model.getVector(n1), 2)) {
         val n2_ = n2.value
         if (!n1.contains("blank") && !n2_.contains("blank"))
           alignment.add(n1, n2.value, calc(n1, n2.value))
