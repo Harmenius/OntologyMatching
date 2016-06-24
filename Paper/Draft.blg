@@ -4,50 +4,57 @@ The top-level auxiliary file: Draft.aux
 The style file: plain.bst
 Database file #1: bibliography.bib
 Warning--entry type for "multisensecode" isn't style-file defined
---line 141 of file bibliography.bib
+--line 139 of file bibliography.bib
 Warning--entry type for "git-factorie" isn't style-file defined
---line 149 of file bibliography.bib
+--line 147 of file bibliography.bib
+Warning--I didn't find a database entry for "mccallumweblecture"
+Warning--I didn't find a database entry for "scala"
+Warning--I didn't find a database entry for "vowlview"
+Warning--I didn't find a database entry for "mice_ontology"
+Warning--empty journal in schreiber
 Warning--empty journal in byrne
 Warning--can't use both volume and number fields in levenshtein
-You've used 17 entries,
+Warning--empty journal in multisense
+Warning--empty year in multisense
+You've used 24 entries,
             2118 wiz_defined-function locations,
-            590 strings with 7011 characters,
-and the built_in function-call counts, 6505 in all, are:
-= -- 615
-> -- 367
-< -- 6
-+ -- 146
-- -- 128
-* -- 465
-:= -- 1070
-add.period$ -- 51
-call.type$ -- 17
-change.case$ -- 112
+            636 strings with 7990 characters,
+and the built_in function-call counts, 8818 in all, are:
+= -- 844
+> -- 475
+< -- 9
++ -- 190
+- -- 164
+* -- 619
+:= -- 1456
+add.period$ -- 73
+call.type$ -- 24
+change.case$ -- 148
 chr.to.int$ -- 0
-cite$ -- 19
-duplicate$ -- 242
-empty$ -- 475
-format.name$ -- 128
-if$ -- 1361
+cite$ -- 29
+duplicate$ -- 336
+empty$ -- 653
+format.name$ -- 164
+if$ -- 1846
 int.to.chr$ -- 0
-int.to.str$ -- 17
-missing$ -- 15
-newline$ -- 86
-num.names$ -- 34
-pop$ -- 128
+int.to.str$ -- 24
+missing$ -- 24
+newline$ -- 120
+num.names$ -- 48
+pop$ -- 175
 preamble$ -- 1
-purify$ -- 95
+purify$ -- 126
 quote$ -- 0
-skip$ -- 189
+skip$ -- 252
 stack$ -- 0
-substring$ -- 335
-swap$ -- 70
-text.length$ -- 6
+substring$ -- 461
+swap$ -- 88
+text.length$ -- 9
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 68
-warning$ -- 2
-while$ -- 56
-width$ -- 19
-write$ -- 182
-(There were 4 warnings)
+type$ -- 92
+warning$ -- 5
+while$ -- 81
+width$ -- 26
+write$ -- 256
+(There were 11 warnings)

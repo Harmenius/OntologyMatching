@@ -1,0 +1,4 @@
+\contentsline {figure}{\numberline {1}{\ignorespaces The precision and recall trade-off for the results of the untrained Node2vec. $AP = 0.04194$\relax }}{24}
+\contentsline {figure}{\numberline {2}{\ignorespaces The precision and recall trade-off for the results of the Word2vec algorithm. $AP: 0.04636$\relax }}{25}
+\contentsline {figure}{\numberline {3}{\ignorespaces The precision and recall trade-off for the results of the bidirectional Node2vec. $AP = 0.04198$\relax }}{25}
+\contentsline {figure}{\numberline {4}{\ignorespaces The precision and recall trade-off for the results of the alternative DeepWalk algorithm. $AP = 0.04193$\relax }}{26}

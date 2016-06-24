@@ -1,5 +1,11 @@
 \begin{thebibliography}{10}
 
+\bibitem{schreiber}
+A~Amin, MFJ van Assem, V~de Boer, L~Hardman, M~Hildebrand, L~Hollink, Z~Huang,
+  J~van Kersen, M~de Niet, B~Omelayenko, et~al.
+\newblock Multimedian e-culture demonstrator.
+\newblock 2006.
+
 \bibitem{lod}
 Chris Bizer, Anja Jentzsch, and Richard Cyganiak.
 \newblock State of the lod cloud.
@@ -11,23 +17,38 @@ Kate Byrne.
   as rdf graphs.
 \newblock 2009.
 
-\bibitem{agreementmaker}
-Isabel~F Cruz, Flavio~Palandri Antonelli, and Cosmin Stroe.
-\newblock Agreementmaker: efficient matching for large real-world schemas and
-  ontologies.
-\newblock {\em Proceedings of the VLDB Endowment}, 2(2):1586--1589, 2009.
+\bibitem{jena}
+Jeremy~J Carroll, Ian Dickinson, Chris Dollin, Dave Reynolds, Andy Seaborne,
+  and Kevin Wilkinson.
+\newblock Jena: implementing the semantic web recommendations.
+\newblock In {\em Proceedings of the 13th international World Wide Web
+  conference on Alternate track papers \& posters}, pages 74--83. ACM, 2004.
 
 \bibitem{git-factorie}
 Andrew~McCallum et~al.
 \newblock Factorie github page, 2009.
 
-\bibitem{OAEI2015}
-Daniel Faria, Catarina Martins, Amruta Nanavaty, Daniela Oliveira, Booma~S
-  Balasubramani, Aynaz Taheri, Catia Pesquita, Francisco~M Couto, and Isabel~F
-  Cruz.
-\newblock Aml results for oaei 2015.
-\newblock In {\em ISWC International Workshop on Ontology Matching (OM), CEUR
-  Workshop Proceedings}, 2015.
+\bibitem{euzenat2013ontology}
+J{\'e}r{\^o}me Euzenat, Maria-Elena Ro{\c{s}}oiu, and C{\'a}ssia Trojahn.
+\newblock Ontology matching benchmarks: generation, stability, and
+  discriminability.
+\newblock {\em Web Semantics: Science, Services and Agents on the World Wide
+  Web}, 21:30--48, 2013.
+
+\bibitem{fisher1925statistical}
+Ronald~Aylmer Fisher.
+\newblock {\em Statistical methods for research workers}.
+\newblock Genesis Publishing Pvt Ltd, 1925.
+
+\bibitem{ontologyGuru}
+Thomas~R Gruber.
+\newblock A translation approach to portable ontology specifications.
+\newblock {\em Knowledge acquisition}, 5(2):199--220, 1993.
+
+\bibitem{09ontology}
+Nicola Guarino, Daniel Oberle, and Steffen Staab.
+\newblock What is an ontology?
+\newblock In {\em Handbook on ontologies}, pages 1--17. Springer, 2009.
 
 \bibitem{le2002}
 Sophie Le~Moigno, Jean Charlet, Didier Bourigault, Patrice Degoulet, and
@@ -64,6 +85,11 @@ Wang Ling, Chris Dyer, Alan Black, and Isabel Trancoso.
   Chapter of the Association for Computational Linguistics: Human Language
   Technologies}, pages 1299--1304, 2015.
 
+\bibitem{aristotleplato}
+Alexander Maedche.
+\newblock {\em Ontology learning for the semantic web}, volume 665.
+\newblock Springer Science \& Business Media, 2012.
+
 \bibitem{rdf}
 Frank Manola, Eric Miller, Brian McBride, et~al.
 \newblock Rdf primer.
@@ -81,15 +107,25 @@ Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg~S Corrado, and Jeff Dean.
 \newblock In {\em Advances in neural information processing systems}, pages
   3111--3119, 2013.
 
-\bibitem{multisensecode}
-Arvind Neelakantan, Jeevan Shankar, Alexandre Passos, and Andrew McCallum.
-\newblock Multi-sense skipgram implementation, 2014.
+\bibitem{skos}
+Alistair Miles and Sean Bechhofer.
+\newblock Skos simple knowledge organization system reference.
+\newblock {\em W3C recommendation}, 18:W3C, 2009.
 
 \bibitem{multisense}
 Arvind Neelakantan, Jeevan Shankar, Alexandre Passos, and Andrew McCallum.
 \newblock Efficient non-parametric estimation of multiple embeddings per word
   in vector space.
-\newblock {\em arXiv preprint arXiv:1504.06654}, 2015.
+
+\bibitem{multisensecode}
+Arvind Neelakantan, Jeevan Shankar, Alexandre Passos, and Andrew McCallum.
+\newblock Multi-sense skipgram implementation, 2014.
+
+\bibitem{future}
+Pavel Shvaiko and J{\'e}r{\^o}me Euzenat.
+\newblock Ontology matching: state of the art and future challenges.
+\newblock {\em Knowledge and Data Engineering, IEEE Transactions on},
+  25(1):158--176, 2013.
 
 \bibitem{singh2014}
 Vikram Singh, Pradeep Joshi, and Shakti Mandhan.
