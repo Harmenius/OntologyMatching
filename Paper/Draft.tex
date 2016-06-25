@@ -7,6 +7,9 @@
  \usepackage{graphicx}
  \usepackage{float}
  \usepackage{caption}
+ \usepackage[export]{adjustbox}
+ \usepackage{url}
+\usepackage{subcaption}
 
  \title{Ontology Matching with word2vec}
  \author{Harmen Prins}
@@ -23,24 +26,31 @@
  \section*{Summary}
  %TODO Definitions
  %TODO Word index
+ %TODO Fix hoofdletters (bv ontology, kb)
+ %TODO spelling (database dataset)
  \tableofcontents
  \newpage
  
-%TODO \section{Motivation}
- 
  \pagenumbering{arabic}
  \section{Introduction} \label{intro}
- It is a Friday afternoon and you realise you want to watch a movie with some friends this weekend. So, what do you do? To achieve this goal you must take four steps.
+ It is a Friday afternoon and you realise you want to watch a movie with some friends this weekend. So, what do you do? To achieve this goal you must take three steps. These steps are also shown in Figure \ref{movies}.
  
- Firstly, you must open up an internet Movie Database, search for movies that you like that are also playing this weekend. To do this you must either manually go through the list of movies playing this weekend or movies the Database recommends for you and check if any movies on that list match your full criteria.
+ Firstly, search for movies that you like that are also playing this weekend. To do this you must either manually go through the list of movies playing this weekend and check if any movies on that list match your preferences.
  
- Once you have found one or more movies that match your search criteria, you have to select a time at which you can see the candidate movies, so you check for every movie every available time slot at every cinema near you. The number of time slots is equal to the number of movies you chose in the previous step, times the number of cinemas near you times the number of times every movie is shown at one cinema.
+ Once you have found one or more movies that you like, you have to select a time at which you can see the candidate movies, so you check for every movie every time slot at every cinema near you. The number of time slots is equal to the number of movies you chose in the previous step, times the number of cinemas near you times the number of times every movie is shown at one cinema. You also have to filter the out time slots based on your availability, so you cross-reference the available movie showtimes with your agenda.
  
- The next step is to filter the number of time slots based on your agenda, so you cross-reference the available movie times with the times you are available during the weekend.
+ Then onto the third and final step, getting friends to go with you. In this step you do not want to burden your friends too much by having them pick both the movie and the time, so you will have to decide which movie to watch or when, even though you do not know if your friends will like this movie or are available at that time. Once you contact your friends, most of them do not respond as they are not online at that time or they do not want to fill out an availability poll or movie choices.
  
- Then onto the last step, getting friends to go with you. In this step you do not want to burden your friends too much by having them pick both the movie and the time, so you will have to decide which movie to watch or when, even though you do not know if your friends will like this movie or are available at that time. Once you contact your friends, most of them do not respond as they are not online at that time or they do not feel like filling in a poll about availability or movie choices.
+ Most of the time people will limit themselves to suboptimal options by avoiding these steps, considering only a few movies, cinemas, time slots and friends. But limitations like this are not necessary. What would happen if the above process was automated? 
  
- Most of the time people will limit their options to avoid these steps, considering only a few movies, cinemas, time slots and friends. But this is not necessary. What would happen if the above process was automated? The first step, finding movies that match two criteria would be considered trivial with modern technology. One finds the two lists of movies that are recommended for you and movies that are playing this weekend and intersect them. A ranking can be added based on how expensive the tickets are, how certain it is that you may like the movie, and other factors.
+ \begin{figure}
+ \centering
+ \includegraphics[width=0.9\textwidth]{plots/select_movies}
+ \caption{To find the best movie, the shown movies need to be filtered by the ones you like and the showtimes need to be filtered by the times you are available. All remaining showtimes need to be cross-references with the preferences of your friends. This is a lot of work and can be automated on the Semantic Web.}
+ \label{movies}
+ \end{figure}
+ 
+The first step, finding movies that match two criteria would be considered trivial with modern technology. One finds the two lists of movies that are recommended for you and movies that are playing this weekend and intersect them. A ranking can be added based on how expensive the tickets are, how certain it is that you may like the movie, and other factors. 
  
  The second step, cross-referencing the list of movies with cinema play times, would already be harder. Most of the time the cinema play times are written in a human-readable format, something that is often hard to interpret for a computer. Either the play times have to be written in or transformed into a computer-readable format manually or a computer has to interpret the format and convert it into a computer-readable one. However, errors might occur because the local cinema labelled a sequel as "Movie II" whereas the list we have has it labelled as "Movie 2", for example.
  
@@ -54,44 +64,101 @@
  Firstly, the Semantic Web needs to be adopted by humans. They must see the value of these personal assistants that can schedule things for you, that take into account your personal context when searching the web, that understand questions and can ask you for more information that can improve the search. People have to realise that the current search engines are not good enough, and that having to read through many papers to find the one nugget of information or the one connection that you are looking for is not acceptable or necessary.
  But also, the different knowledge bases and unstructured texts need to be \emph{aligned}. Aligning means that softbots should be able to combine information that is contained in different domains, documents and databases. This last problem is the one that I will work on in this thesis. Once this problem has been solved, the Semantic Web is technically possible and only needs to be socially accepted before it will become the norm.
 
- \subsection{Motivation} %TODO aanleiding?
- At ICTIR 2015, McCallum ... kkeynot... titel \cite{mccallumweblecture}, McCallum talks about Universal schema. This system learns embeddings of entities and relations found in text and Knowledge Bases. These embeddings are then used to predict new relations for the knowledge bases. The system find embeddings such that the embeddings of entities and relations that co-occur are highly similar. If some entities and relations have similar embeddings but are not known to co-occur, they are flagged as being similar. Similarly, if two entities or two relations have similar embeddings, they are likely referring to the same thing. This can be used to infer even more similarities by collaborative filtering. The technique had very promising results in Knowledge Base completion tasks.
+ \subsection{Motivation}
+ In this section I will explain how the study came into existence.
  
- The embeddings are optimized by a model called the skip-gram word embedding model. It is a neural network model that learns to predict the context of a word (in this case the context of an entity is the relations it is co-occurs with and vice versa). McCallum discussed a new extension to the algorithm that allowed for homonyms and as such can deal with more ambiguous data\cite{mccallumweblecture}.
+ At the 14th International Semantic Web Conference McCallum presented his keynote on \emph{Representation and Reasoning with Universal Schema Embeddings}\cite{mccallumweblecture}. 
  
- If these embeddings can be used to predict new inter-knowledge base relations, it should also be possible to predict new intra-knowledge base relations. If these relations can be predicted, it is possible to use multiple knowledge bases together. Predicting these relations is called alignment.
+ \begin{figure}[H]
+ \begin{subfigure}{.475\textwidth}
+ \includegraphics[width=0.95\linewidth]{plots/McCallum_matrix}
+ \end{subfigure}
+ \begin{subfigure}{0.475\textwidth}
+ \includegraphics[width=0.95\linewidth]{plots/graaf1}
+ \end{subfigure}
+ \caption{The Universal Schema. Every row and every column is represented by an embedding (in purple). Green cells mean a row and column are in the context of the other. For example, the pair Bill and Microsoft are connected to \emph{chairman}.
+ The embeddings are then trained so that the context can be predicted. That means the embeddings of Bill \& Microsoft and \emph{chairman} will become more similar.}
+ \label{McCallum_matrix}
+ \end{figure}
+
+The Universal Schema uses two steps. Firstly, the system learns embeddings of entities and relations found in text and Knowledge Bases\cite{univeralschema}, see Figure \ref{McCallum_matrix}. Secondly, these embeddings are then used to predict new relations for the knowledge bases. The system finds embeddings such that the embeddings of entities and relations that co-occur are highly similar, see Figure \ref{McCallum_matrix}.
+
+ \begin{figure}[H]
+ \begin{subfigure}{0.475\textwidth}
+ \includegraphics[width=0.95\linewidth]{plots/McCallum_matrix2}
+ \end{subfigure}
+ \begin{subfigure}{0.475\textwidth}
+ \includegraphics[width=0.95\linewidth]{plots/graaf2}
+ \end{subfigure}
+ \caption{After the embeddings are learned, rows and columns with similar embeddings are connected (in light green).
+ For example, the embeddings of Melinda \& Seattle and \emph{lives in} may have become very similar. In that case, the system connects the pair with that relation.}
+ \label{McCallum_matrix2}
+ \end{figure}
+ 
+ If some entities and relations have similar embeddings but are not known to co-occur, they are flagged as being similar. Similarly, if two entities or two relations have similar embeddings, they are likely referring to the same or similar things. This can be used to infer even more similarities by collaborative filtering. The technique had very promising results in Knowledge Base completion tasks.
+  
+ \begin{figure}[H]
+ \centering
+ \includegraphics[width=0.8\textwidth]{plots/Skip-Gram}
+ \label{Skip-Gram-img}
+ \caption{The embedding of a row (in pink) is optimized to be close to its context embeddings (in purple) but far away from other embeddings (in red).}
+ \end{figure}
+ 
+ The embeddings are optimized by a model called the skip-gram word embedding model\cite{w2v}, a neural network model that learns to predict the context of a word. McCallum discussed a new extension to the algorithm that allowed for homonyms and as such can deal with more ambiguous data\cite{mccallumweblecture}.
+ 
+ McCallum plans on using these embeddings to predict new inter-knowledge base relations. However, from they keynote it is clear that this technique should work with multiple Knowledge Bases as the Universal Schema is applied to a set of Knowledge Bases including Freebase, knowledge extracted from text and the TAC Knowledge Bases Population Track Dataset. This means that intra-knowledge base relations can also be predicted using the Word Embedding Tensor Factorisation technique.
+ An example of an intra-knowledge base relation is shown in Figure \ref{merge_graph}. If these relations can be predicted, multiple knowledge bases can be aligned. Doing ontology alignment using these word embeddings is the goal of this work.
+ 
+ \begin{figure}[H]
+ \centering
+ \includegraphics[width=0.8\linewidth]{plots/graaf}
+ \caption{ Similar to how the embeddings are used to predict relations within an ontology, ontology matching can be done by predicting relations between two ontologies. For example, since Gates and Bill will have very similar sets of embeddings (as their contexts are very similar) the system will recognise they are the same entity.}
+ \label{merge_graph}
+ \end{figure}
  
  Currently, knowledge base and ontology alignment techniques do not make use of embeddings. Since embedding models have good performance on intra-knowledge base relation prediction, they should also work on ontology alignment.
  
- \subsection{Justification}
- On the Semantic Web, many relatively small knowledge bases will be combined temporarily so that it is possible to reason over the combined knowledge of those knowledge bases. To combine these knowledge bases, their ontologies first need to be aligned. This is an act that will happen very often on the Semantic Web, since every interaction with the Semantic Web will usually require information from multiple domains. Large domains may be stored over multiple devices, which can be viewed as different knowledge bases which also need to be aligned. Therefore, it is save to say that efficient ontology matching will be very valuable.
+ \subsection{Justification} 
+ This study is important to the future of the World Wide Web. The next goal of the Web is the Semantic Web, where computers can interact with web pages as humans do. It is necessary to build the Semantic Web as soon as possible, as the amount of information on the Web is growing so fast it will be infeasible for humans to handle\cite{overload}.
  
- Since most of the knowledge on the Semantic Web is automatically gathered, it may be unreliable and even wrong. Therefore, ontology matching that is capable of handling this uncertain knowledge is required. Word Embeddings and especially multi-sense Word Embeddings should be able to handle a high amount of uncertainty.
+ The core of the Semantic Web are Knowledge Bases with the corresponding Ontologies. Ontology Matching is essential for the Semantic Web to work, as the information contained in the Knowledge Bases has to be combined. Since the Semantic Web will have many small knowledge bases, they will be combined at the moment information from them is required. To combine these knowledge bases, their ontologies first need to be aligned. This is an act that will happen very often on the Semantic Web, since every interaction with the Semantic Web will usually require information from multiple domains. Large domains may be stored on multiple devices, which can be viewed as different knowledge bases which also need to be aligned. Therefore, it is save to say that efficient ontology matching will be very valuable.
  
- Calculating the distance between vectors can be done very efficiently, therefore ontology matching with distributed concept representations fits that efficiency criteria. Since these representations can use the context of a concept, they are also most robust than methods that do not take the context into account.
+ The most important goal of this study is to find an Ontology Matcher that is able to deal with ambiguous concepts. Since most of the knowledge on the Semantic Web is automatically gathered, it may be unreliable, ambiguous and even wrong. Therefore, ontology matching that is capable of handling this uncertain knowledge is required. Word Embeddings and especially multi-sense Word Embeddings should be able to handle a high amount of ambiguity, since multi-sense Word Embeddings are made to differentiate between different meanings of the same word.
  
- Distributed representation algorithms can be trained unsupervised on new domains, so they can be applied to those new domains without effort from humans, as opposed to for example the string edit distance. This is also an improvement for the semantic web.
+ Normally, the raw text representation of words is used for matching, for example to calculate the string distance. However, Word Embeddings Models use a vector representation, which should be more efficient.
+ Calculating the distance between vectors can be done very efficiently, therefore ontology matching with distributed concept representations fits that efficiency criteria. 
  
- Also, ontology matching is already used in areas other than the semantic web. It is, for example, used by companies for merging knowledge from different knowledge bases when merging with other companies. If the proposed matching algorithm is better than the current algorithms, or at least improves the performance when used in ensemble with the current algorithms, it will be useful immediately in these situations, not just in the future, on the Semantic Web.
+ I believe the algorithms proposed in this study will work on new data without the need for redesigning. This is because distributed representation algorithms can be trained unsupervised on new domains, so they can be applied to those new domains without effort from humans. As opposed to for example the string edit distance. This is also an improvement for the semantic web.
+ 
+ This study should be done now, as ontology matching is already used in areas other than the semantic web. It is, for example, used by companies for merging knowledge from different knowledge bases when merging with other companies. If the proposed matching algorithm is better than the current algorithms, or at least improves the performance when used in ensemble with the current algorithms, it will be useful immediately in these situations, not just in the future, on the Semantic Web.
+ 
+ In summary, Ontologies are the core of the I hope it is clear that ontology matching is an important area of study and that this study will contribute to it.
 
  \subsection{Context}
- In this section, I will give a short summary of the context for the problem. This will enable the reader to put the problem in perspective as well as understand the reasoning behind the solution to the problem. Everything that is mentioned in this section will be explained more in-depth further on.
- 
- On the Semantic Web, Ontologies are used to define and share knowledge. The term ontology will be properly defined later on, but for now it suffices to know that an ontology is a set of rules that determine what relations are allowed and required in a given domain of discourse. As a consequence, if two agents want to communicate in a given domain, they need to agree on the rules of that domain, or in other words, share the ontology of that domain.
+ This section will enable the reader to put the problem in perspective as well as understand the reasoning behind the solution to the problem. Everything that is mentioned in this section will be explained more in-depth further on.
+ Firstly, I will give a short summary of the context by explaining why the Semantic Web requires Ontology Matching. Then I will illustrate the problem of ambiguity. Lastly, I will describe the algorithm that this study is based on.
+
+ \subsubsection{Semantic Web}
+ On the Semantic Web, Ontologies are used to define knowledge\cite{fensel2001ontologies}.
+ The term ontology will be properly defined later on, but for now it suffices to know that an ontology is a set of rules that determine what relations are allowed and required in a given domain of discourse. As a consequence, if two agents want to communicate in a given domain, they need to agree on the rules of that domain, or in other words, share the ontology of that domain.
  
  However, it is unlikely that a conversation only covers one domain. To solve this, there are two potential solutions. Either you ensure that all possible combinations of domains are covered by an ontology, which means one ontology that covers all domains is required, or, alternatively, ontologies are combined on-the-fly.
  
- The first option, using one single ontology, is infeasible. This is due to the fact that inference and search time scales with Ontology size, and the number of concepts that are needed on the Semantic Web is enormous. Every single concept that is present in the billions of Terabytes of text, images and sounds that are on the web needs to be represented, for every professional domain and science, in every language. And all these concepts are related. Searching through this Ontology just to find one concept would be incredibly costly. And since every interaction on the Semantic Web requires lookups in an Ontology, these lookups need to be fast.
+ The first option, using one single ontology, is infeasible. This is due to the fact that inference and search time scales with Ontology size, %citaat
+ and the number of concepts that are needed on the Semantic Web is enormous. Every single concept that is present in the billions of terabytes of text, images and sounds that are on the web needs to be represented, for every professional domain and science, in every language. And all these concepts are related. Searching through this Ontology just to find one concept would be incredibly costly. And since every interaction on the Semantic Web requires lookups in an Ontology, these lookups need to be fast.
  
  The second option, the one I address in this thesis, is the problem of combining ontologies from multiple domains. Combining in this sense means connecting the related concepts from the different Ontologies. Some research has focused on Ontology Merging, with promising results. However, recently research has been slowing to the point where there is little improvement.
  
- One big problem in Ontology merging is the fact that in different domains, words can have different meanings. Common examples are synonyms like author and writer, homonyms like bank (for money or by a river) and ambiguity. Ambiguity means that similar words mean slightly different things, or a word might have multiple related meanings. There are a few ways to deal with these forms of ambiguity already in use, however they are not sufficient.
+ \subsubsection{Ontology Matching}
+ One big problem in Ontology matching is the fact that in different domains, words can have different meanings. Common examples are synonyms like author and writer, homonyms like bank (for money or by a river) and ambiguity. Ambiguity means that similar words mean slightly different things, or a word might have multiple related meanings. %cite
  
- A recently developed model for word embedding may be used to deal with ambiguity. It maps words to a vector space that has semantic properties, and thus can be used to calculate the relatedness of two words. There are a number of extensions that can deal with homonyms as well as data structured other than the continuous bag of words representation that the initial model was developed for. These facts show that it may be possible to make an embedding model for Ontologies and use the word relatedness to combine Ontologies.
+ A recently developed model for word embedding may be used to deal with ambiguity. It maps words to a vector space that has semantic properties, and thus can be used to calculate the relatedness of two words. There are a number of extensions that can deal with homonyms as well as data structured other than the continuous bag of words representation that the initial model was developed for. These facts show that it may be possible to make an embedding model for Ontologies and use the word relatedness to combine Ontologies\cite{multisense}.
+  
+  \subsubsection{Language}
+  Homonyms are two concepts that share a label, or in other words, a homonym is one word with multiple distinct meanings. As such, homonyms are inherently ambiguous, since the meaning is uncertain without context. This ambiguity is very hard for computers to deal with, as computers are used to dealing with absolute certainties.
   
  \subsection{Problem}
- We have seen that when information from multiple domains needs to be integrated so that it is possible to reason over them together, the ontologies of those domains need to be aligned or merged. % Waar?
-  Those ontologies contain rules about concepts and concept classes in the shape of triplets, with two concepts and a relation. For example, the rule {\tt Professors are humans} contains the concepts \emph{Professor} and \emph{human} and an \emph{is-a}-relationship.
+ We have seen that when information from multiple domains needs to be integrated so that it is possible to reason over them together, the ontologies of those domains need to be aligned or merged.
  
  If we want to merge two ontologies, we need to find the concepts from the different ontologies that are related by an 'is-same-as' or other rule.
  
@@ -101,11 +168,16 @@
  
  Then there is the problem of ambiguity, which encompasses many other problems. It encompasses the fact that some concepts are used wrongly by humans, but also the fact that some concepts are extremely similar, and may occur in the same context, but are still slightly different.
  
- Lastly, there is the problem of different types of alignment relations. For example, one concept can be a \emph{part of} another concept, or an example of one. These different relations all require a different approach and come with their own sets of problems. %Meronymy?
+ The problem is:
  
- In summary, ontology aligning is required for multi-domain communication but poses a number of problems that make it difficult for concepts, the building blocks of ontologies, to be matched.
- 
- \subsection{Research questions} \label{researchquestions}
+"" 
+  Matching ontologies and dealing with the ambiguity and homonymy contained in them.
+""
+
+  I will use distributed word representations to answer the above question, as McCallum suggested in his keynote. Distributed word representations, specifically multi-sense \emph{Word2vec}, should be used for this problem since multi-sense \emph{Word2vec} is specifically designed to combat homonymy while the neural networks in distributed word representations use the context to deal with ambiguity.
+  %TODO vraag Arjen of dit 'antwoord' in problem hoort
+  
+ \subsection{Research question} \label{researchquestion}
  The main question that I will answer with this work is the following research question:
  
  \begin{center}
@@ -113,19 +185,15 @@
  Can distributed representations of concepts be used to find relationships between concepts in ontologies better than existing matchers?
  }
  \end{center}
- % Alternatively, do my matcher add anything? i.e. does adding it to an ensemble of existing matchers increase performance?
+ % Andere scriptie kijken wat hier nog moet?
  
- I will also investigate the following related but different question:
+ \subsection{Hypothesis} \label{hypotheses}
+ % Waarom deze hypothesis? Sanna
+ % McCallum (hij is heel slim) zei het
+ % Waarom w2v? goeie resultaten recent
  
  \begin{center}
- \textit{
- Can distributed representations perform well in a domain it was not trained for?
- }
- \end{center}
- 
- \subsection{Hypotheses} \label{hypotheses}
- \begin{center}
- \textit{This specific matcher that uses a distributed representation of concepts can find relationships between concepts in ontologies better than the best existing matchers.}
+ \textit{Matchers that use a distributed representation of concepts can find relationships between concepts in ontologies better than the best existing matchers.}
  \end{center}
 
  To prove this hypothesis, I must proof the following points:
@@ -141,7 +209,7 @@
  This hypothesis is true for distributed representations matching in general if it is true for one distributed representation matcher. Therefore to test the hypothesis, I must test it for every distinct implementation of the matcher.
  
  \subsection{Overview} %TODO rewrite
- This thesis is structured as follows: firstly, I will describe the context of the problem, which includes the Semantic Web, Ontologies, Ontology matching and other relevant research. Secondly, I will outline the problem and research questions. Thirdly, I will describe the method I used to develop the solution, which includes the idea, challenges and considered implementations. The fourth section after this describes methods I used to evaluate the solution, with the fifth section showing the results, the sixth section the conclusions and the last and seventh section the discussion.
+
  
 \newpage
 \section{Background}
@@ -195,7 +263,9 @@ The Semantic Web, on the other hand, contains sources of \textit{information} th
  Concepts can be instantiated, which is done in a Knowledge Base (KB). KBs and Ontologies are often confused, and are indeed very similar in structure. The Knowledge Base in our example can contain actually existing birds or fictional birds, and refers to the Ontology concept of bird to embed the instantiations with meaning\cite{ontologyGuru}.
  
  \subsubsection{Example} \label{example}
- An example of an ontology or a knowledge base of mice and men would be the following:
+ In this section I will give an example of a pair of anatomical ontologies with their alignment. This example will be used throughout this work.
+ 
+\begin{minipage}{0.3\textwidth}
  A mouse consists of the following body parts:
  \begin{itemize}
  \item Head
@@ -205,9 +275,16 @@ The Semantic Web, on the other hand, contains sources of \textit{information} th
  \item Front paws
  \item Hind paws
  \end{itemize}
- 
- They are connected as follows: IMAGE
- 
+\end{minipage} \hfill
+\begin{minipage}{0.65\textwidth}
+ \begin{figure}[H]
+ \includegraphics[width=0.9\linewidth]{plots/muis1}
+ \label{mouse_example}
+ \caption{The different body parts of the mouse are connected as in this image.}
+ \end{figure}
+\end{minipage}
+
+\begin{minipage}{0.3\textwidth}
  Humans consist of:
  \begin{itemize}
  \item Head
@@ -215,9 +292,23 @@ The Semantic Web, on the other hand, contains sources of \textit{information} th
  \item Moustache
  \item Arms
  \item Legs
- \end{itemize} 
+ \end{itemize}
+\end{minipage} \hfill
+\begin{minipage}{0.7\textwidth}
+ \begin{figure}[H]
+ \includegraphics[width=0.7\linewidth]{plots/man}
+ \label{man_example}
+ \caption{The different body parts of the man are connected as in this image.}
+ \end{figure}
+\end{minipage}
+  
  
- Humans and mice are connected as follows: MATCHING IMAGE
+ \begin{figure}[H]
+ \includegraphics[width=0.7\linewidth]{plots/muisman}
+ \label{muis_man_example}
+ \caption{Humans and mice are connected as shown in this image.}
+ \end{figure}
+ 
  
  \subsubsection{OWL}
  OWL is a family of languages and syntaxes that can be used to create an ontology. The different languages are designed around requirements of possible relationships and concept definitions, and thus may differ a lot between them. The W3C has defined three variants which are the bases for all other adaptations. The variants trade off levels of expressiveness versus computability.
@@ -303,6 +394,7 @@ The Semantic Web, on the other hand, contains sources of \textit{information} th
  \emph{Word2vec} has been expanded in a number of different ways. For example, word order can be preserved, leading to a similarity measure that is closer to syntax, as syntax defines positional properties of words within a sentence\cite{ling2015}. To enable this alternative representation, the model had to be changed structurally. Rather than a single output layer generated by a single matrix, one layer per word in the context was used. As such, the model learns to predict the context words based on their position relative to the source word. More important than the fact that these models can be used for syntax is the fact that the research shows that the input does not have to be a continuous bag-of-words representation. This sparked the idea that it may also be possible to have a graph as the input to the network. This assumption is the basis of this study and will be tested thoroughly.
  
  \subsubsection{Multi-sense} \label{multisense}
+ %TODO Voorbeeld uit McCallum's slides kopieren en uitleggen
  Another interesting development is the multi-sense \emph{Word2vec}, which allows for multiple vector representations per word, depending on the number of different definitions a word has. For example, the word bank represents both the monetary institute and the riverside, which would both have a different representation in this extension. It can differentiate between two different meanings based on the context. The importance of allowing for multiple meanings is that between multiple ontologies, the same word can have different meanings and as such should not be matched. On the other hand, a concept in a single ontology can have multiple meanings and should therefore be matched with more than one concept from another ontology\cite{multisense}. This idea sparked the second reason why I started investigating semantic word representations for Ontology matching, since current methods do not allow for disambiguation.
  
  For example, string matchers only look at the phrases representing the concepts, and as such do not care about semantics. Structural matchers use the context, but do not use the meaning of the concept since they only look at the location of the concept within the graph. Lastly, lexical matchers do use synonyms and antonyms to see which different words could refer to the same concept, but if two concepts can be represented by one word. As such, initially the multi-sense representation seemed like a very strong candidate for improving matching results.
@@ -365,8 +457,11 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
  To solve these problems I will adapt \emph{Word2vec} to graphs to create an algorithm that converts nodes to vectors, in other words \emph{Node2vec}. It can be extended with multi-sense embeddings, different ways of considering the neighbourhood and hot-starting.
  
   \subsection{Data}
- The data used comes from a list of data sets that the OAEI provides\cite{euzenat2013ontology}.
+ The data used comes from a list of data sets that the OAEI provides\cite{euzenat2013ontology}. % OAEI en kleine data common in OM. Vergelijkbaar met andere resultaten. Kleine datasets zijn logisch want: oude tak van sport.
+ % Ik heb gekeken naar DeepWalk (nieuwe tak van sport)(gebruikt ook NN) OOK kleine data.
  Every data set contains two ontologies that need to be aligned and a ground truth alignment. The goal is straightforward: find the alignment given only the ontologies and whichever outside resources are needed.
+
+ \subsubsection{Preprocessing} \label{preprocessing}
 
  \subsubsection{Mice and men}
  The first data set considered consists of two anatomical ontologies. The first ontology describes the anatomy of mice and the second ontology the anatomy of men. Since they are similar creatures, there are many correspondences between the anatomy. The ontologies contain X and Y nodes, and X and Y edges, respectively. There are Z correspondences between the two ontologies.
@@ -495,12 +590,12 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
   
  \newpage
  \section{Conclusion and discussion}
- In this section I will consider the research questions and hypotheses as formulated in Sections \ref{researchquestions} and \ref{hypotheses}. In the second part of this section, I will discuss the implications of these results. In the third and last part of the section, I will describe a few avenues that might be interesting to explore further, including a number of implementations I did not consider and why.
+ In this section I will consider the research questions and hypotheses as formulated in Sections \ref{researchquestion} and \ref{hypotheses}. In the second part of this section, I will discuss the implications of these results. In the third and last part of the section, I will describe a few avenues that might be interesting to explore further, including a number of implementations I did not consider and why.
  
- %\subsection{Recap research questions} % Maak 'figure' van
+ %\subsection{Recap research question} % Maak 'figure' van
  %\subsection{Recap hypotheses}
  \subsection{Conclusions} \label{conclusions}
- The main research question from Section \ref{researchquestions} is
+ The main research question from Section \ref{researchquestion} is
  \begin{center}
  \textit{
  Can distributed representations of concepts be used to find relationships between concepts in ontologies better than existing matchers?
@@ -524,6 +619,11 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
   If the data set is the cause of the underperformance, logically switching to another data set will improve performance over the baseline. Possible reasons the data set causes underperformance include the data set being too small, labels that are not useful or the data set having a structure that does not work with the algorithm. For example, the pre-trained \emph{Word2vec} model is expected to work better on a data set that has commonly used words as labels. %Aanpassen als ik 3e dataset heb.
   
  The algorithm has been run on multiple data sets with no significant difference in performance. For example, compare the Average precision for the medical dataset with the anatomy dataset. The %TODO AP is between baseline en AML for both?
+ 
+ %Ik heb bewust gekozen voor kleine data zodat het te vergelijken was met andere matchers. Want iedereen in OM gebruikt kleine datasets.
+ %Deepwalk paper ook kleine data
+ %Misschien heb ik te weinig data gebruikt maar er is geen grote dataset met ground truth beschikbaar.
+ %Further research: grote dataset maken door LOD te pakken, 10% weg te gooien en kijken of je dat reconstruct. 
   \subsubsection{The system}
   If any of the steps in the software system contains an error, the whole system may fail. This could cause all algorithms to learn badly or the results to be misinterpreted. The system consists of a data loader, preprocessor, context extractor, the algorithm, the matcher and multiple visualizers. 
   
@@ -560,6 +660,10 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
   
   \subsubsection{The algorithm}
   At the beginning of this section, I reasoned that there are four possible causes for the underperformance of the system. The first three being bad data, bad code and bad context extraction. I have shown that all three are very unlikely to be the cause of the underperformance. Since those three possibilities have been excluded, the most likely conclusion is last remaining possibility: the set of distributed embedding algorithms do not work well on Ontology data.
+  
+  % Uit mijn onderzoek blijkt dat McCallum's algoritme niet werkt op SW. Als ik terugkijk naar zijn keynote, is dat wel logisch, want in zijn voorbeeld heeft hij een dataset gegeven waar de KBs toevallig dezelfde Named Entities hebben (perfect zijn). In de echte wereld is dit met de meeste data niet zo, helemaal in het SW omdat veel ambiguiteit door auatomatscih maken.
+  
+ % Plaatje van mccallum matrix. Kijk, Steve heet Steven in alle drie de KBs. Dit is in het echt dus niet zo.
  \subsection{Future research}
  
  

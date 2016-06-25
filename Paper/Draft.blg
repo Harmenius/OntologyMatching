@@ -7,7 +7,14 @@ Warning--entry type for "multisensecode" isn't style-file defined
 --line 139 of file bibliography.bib
 Warning--entry type for "git-factorie" isn't style-file defined
 --line 147 of file bibliography.bib
-Warning--I didn't find a database entry for "mccallumweblecture"
+Warning--entry type for "mccallumweblecture" isn't style-file defined
+--line 240 of file bibliography.bib
+Illegal end of database file---line 249 of file bibliography.bib
+ : 
+ : 
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--I didn't find a database entry for "univeralschema"
 Warning--I didn't find a database entry for "scala"
 Warning--I didn't find a database entry for "vowlview"
 Warning--I didn't find a database entry for "mice_ontology"
@@ -16,45 +23,45 @@ Warning--empty journal in byrne
 Warning--can't use both volume and number fields in levenshtein
 Warning--empty journal in multisense
 Warning--empty year in multisense
-You've used 24 entries,
+You've used 25 entries,
             2118 wiz_defined-function locations,
-            636 strings with 7990 characters,
-and the built_in function-call counts, 8818 in all, are:
-= -- 844
-> -- 475
+            641 strings with 8164 characters,
+and the built_in function-call counts, 9026 in all, are:
+= -- 864
+> -- 482
 < -- 9
-+ -- 190
-- -- 164
-* -- 619
-:= -- 1456
-add.period$ -- 73
-call.type$ -- 24
-change.case$ -- 148
++ -- 193
+- -- 166
+* -- 625
+:= -- 1491
+add.period$ -- 76
+call.type$ -- 25
+change.case$ -- 152
 chr.to.int$ -- 0
-cite$ -- 29
-duplicate$ -- 336
-empty$ -- 653
-format.name$ -- 164
-if$ -- 1846
+cite$ -- 30
+duplicate$ -- 343
+empty$ -- 675
+format.name$ -- 166
+if$ -- 1892
 int.to.chr$ -- 0
-int.to.str$ -- 24
+int.to.str$ -- 25
 missing$ -- 24
-newline$ -- 120
-num.names$ -- 48
-pop$ -- 175
+newline$ -- 125
+num.names$ -- 50
+pop$ -- 183
 preamble$ -- 1
-purify$ -- 126
+purify$ -- 129
 quote$ -- 0
-skip$ -- 252
+skip$ -- 259
 stack$ -- 0
-substring$ -- 461
-swap$ -- 88
+substring$ -- 466
+swap$ -- 89
 text.length$ -- 9
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 92
+type$ -- 96
 warning$ -- 5
-while$ -- 81
-width$ -- 26
-write$ -- 256
-(There were 11 warnings)
+while$ -- 83
+width$ -- 27
+write$ -- 266
+(There was 1 error message)

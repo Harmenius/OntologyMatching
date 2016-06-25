@@ -95,6 +95,13 @@ Frank Manola, Eric Miller, Brian McBride, et~al.
 \newblock Rdf primer.
 \newblock {\em W3C recommendation}, 10(1-107):6, 2004.
 
+\bibitem{mccallumweblecture}
+Andrew McCallum.
+\newblock Representation and reasoning with universal schema embeddings
+  presentation.
+\newblock \url{http://videolectures.net/iswc2015_mccallum_universal_schema/},
+  2016.
+
 \bibitem{owl}
 Deborah~L McGuinness, Frank Van~Harmelen, et~al.
 \newblock Owl web ontology language overview.

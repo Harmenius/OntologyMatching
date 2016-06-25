@@ -1,73 +1,80 @@
 \contentsline {section}{\numberline {1}Introduction}{1}
-\contentsline {subsection}{\numberline {1.1}Motivation}{2}
-\contentsline {subsection}{\numberline {1.2}Justification}{3}
-\contentsline {subsection}{\numberline {1.3}Context}{3}
-\contentsline {subsection}{\numberline {1.4}Problem}{4}
-\contentsline {subsection}{\numberline {1.5}Research questions}{5}
-\contentsline {subsection}{\numberline {1.6}Hypotheses}{5}
-\contentsline {subsection}{\numberline {1.7}Overview}{6}
-\contentsline {section}{\numberline {2}Background}{7}
-\contentsline {subsection}{\numberline {2.1}The Semantic Web}{7}
-\contentsline {subsubsection}{\numberline {2.1.1}The current Web}{7}
-\contentsline {subsubsection}{\numberline {2.1.2}Goal}{8}
-\contentsline {subsubsection}{\numberline {2.1.3}Current state}{9}
-\contentsline {subsubsection}{\numberline {2.1.4}Technologies}{10}
-\contentsline {subsection}{\numberline {2.2}Ontologies}{10}
-\contentsline {subsubsection}{\numberline {2.2.1}Example}{10}
-\contentsline {subsubsection}{\numberline {2.2.2}OWL}{11}
-\contentsline {subsubsection}{\numberline {2.2.3}Uses of Ontologies}{11}
-\contentsline {subsubsection}{\numberline {2.2.4}Aristotle and Plato}{12}
-\contentsline {subsection}{\numberline {2.3}Current alignment strategies}{12}
-\contentsline {subsubsection}{\numberline {2.3.1}Problems in ontology alignment}{13}
-\contentsline {subsection}{\numberline {2.4}Word representation}{14}
-\contentsline {subsubsection}{\numberline {2.4.1}Skip-gram models}{14}
-\contentsline {subsubsection}{\numberline {2.4.2}The state of the art}{15}
-\contentsline {subsubsection}{\numberline {2.4.3}Word order}{15}
-\contentsline {subsubsection}{\numberline {2.4.4}Multi-sense}{15}
-\contentsline {subsection}{\numberline {2.5}Used technology}{16}
-\contentsline {subsubsection}{\numberline {2.5.1}Factorie}{16}
-\contentsline {subsubsection}{\numberline {2.5.2}Jena}{17}
-\contentsline {section}{\numberline {3}Method}{18}
-\contentsline {subsection}{\numberline {3.1}Idea}{18}
-\contentsline {subsection}{\numberline {3.2}Challenges}{18}
-\contentsline {subsection}{\numberline {3.3}Data}{19}
-\contentsline {subsubsection}{\numberline {3.3.1}Mice and men}{19}
-\contentsline {subsubsection}{\numberline {3.3.2}Medical}{19}
-\contentsline {subsection}{\numberline {3.4}Considered implementations}{20}
-\contentsline {subsubsection}{\numberline {3.4.1}Node vectorisation}{20}
-\contentsline {subsubsection}{\numberline {3.4.2}Combine with neighbours}{20}
-\contentsline {subsubsection}{\numberline {3.4.3}Select from senses}{20}
-\contentsline {subsubsection}{\numberline {3.4.4}Adding edge labels}{20}
-\contentsline {subsubsection}{\numberline {3.4.5}Select from senses}{21}
-\contentsline {subsubsection}{\numberline {3.4.6}Combining edges with nodes}{21}
-\contentsline {subsubsection}{\numberline {3.4.7}Hot start}{21}
-\contentsline {subsubsection}{\numberline {3.4.8}Training corpus}{22}
-\contentsline {subsubsection}{\numberline {3.4.9}DeepWalk}{22}
-\contentsline {subsection}{\numberline {3.5}Implementation}{22}
-\contentsline {subsection}{\numberline {3.6}Evaluation}{23}
-\contentsline {subsubsection}{\numberline {3.6.1}Evaluation methods}{23}
-\contentsline {section}{\numberline {4}Results}{24}
-\contentsline {subsection}{\numberline {4.1}Precision versus recall}{24}
-\contentsline {subsubsection}{\numberline {4.1.1}Mice and men data}{24}
-\contentsline {subsubsection}{\numberline {4.1.2}Medical data}{26}
-\contentsline {subsection}{\numberline {4.2}F-score}{26}
-\contentsline {subsection}{\numberline {4.3}Jaccard}{26}
-\contentsline {subsection}{\numberline {4.4}Examples to illustrate the differences}{26}
-\contentsline {subsection}{\numberline {4.5}Interpretation}{27}
-\contentsline {subsubsection}{\numberline {4.5.1}Unexpected results}{27}
-\contentsline {subsubsection}{\numberline {4.5.2}Expected results}{27}
-\contentsline {section}{\numberline {5}Conclusion and discussion}{28}
-\contentsline {subsection}{\numberline {5.1}Conclusions}{28}
-\contentsline {subsection}{\numberline {5.2}Discussion}{28}
-\contentsline {subsubsection}{\numberline {5.2.1}The data}{28}
-\contentsline {subsubsection}{\numberline {5.2.2}The system}{29}
-\contentsline {subsubsection}{\numberline {5.2.3}Context extraction}{29}
-\contentsline {subsubsection}{\numberline {5.2.4}The algorithm}{30}
-\contentsline {subsection}{\numberline {5.3}Future research}{30}
-\contentsline {subsection}{\numberline {5.4}Discarded implementations}{30}
-\contentsline {subsubsection}{\numberline {5.4.1}Just context nodes}{30}
-\contentsline {subsubsection}{\numberline {5.4.2}Just edges}{30}
-\contentsline {subsubsection}{\numberline {5.4.3}Context matrix representation}{30}
-\contentsline {section}{\numberline {6}Lists of figures and tables}{30}
-\contentsline {section}{\numberline {7}Bibliography}{31}
+\contentsline {paragraph}{}{1}
+\contentsline {paragraph}{}{1}
+\contentsline {paragraph}{}{1}
+\contentsline {subsection}{\numberline {1.1}Motivation}{3}
+\contentsline {subsection}{\numberline {1.2}Justification}{6}
+\contentsline {subsection}{\numberline {1.3}Context}{7}
+\contentsline {subsubsection}{\numberline {1.3.1}Semantic Web}{7}
+\contentsline {subsubsection}{\numberline {1.3.2}Ontology Matching}{8}
+\contentsline {subsubsection}{\numberline {1.3.3}Language}{8}
+\contentsline {subsection}{\numberline {1.4}Problem}{9}
+\contentsline {subsection}{\numberline {1.5}Research question}{9}
+\contentsline {subsection}{\numberline {1.6}Hypothesis}{9}
+\contentsline {subsection}{\numberline {1.7}Overview}{10}
+\contentsline {section}{\numberline {2}Background}{11}
+\contentsline {subsection}{\numberline {2.1}The Semantic Web}{11}
+\contentsline {subsubsection}{\numberline {2.1.1}The current Web}{11}
+\contentsline {subsubsection}{\numberline {2.1.2}Goal}{12}
+\contentsline {subsubsection}{\numberline {2.1.3}Current state}{13}
+\contentsline {subsubsection}{\numberline {2.1.4}Technologies}{14}
+\contentsline {subsection}{\numberline {2.2}Ontologies}{14}
+\contentsline {subsubsection}{\numberline {2.2.1}Example}{14}
+\contentsline {subsubsection}{\numberline {2.2.2}OWL}{16}
+\contentsline {subsubsection}{\numberline {2.2.3}Uses of Ontologies}{16}
+\contentsline {subsubsection}{\numberline {2.2.4}Aristotle and Plato}{17}
+\contentsline {subsection}{\numberline {2.3}Current alignment strategies}{17}
+\contentsline {subsubsection}{\numberline {2.3.1}Problems in ontology alignment}{18}
+\contentsline {subsection}{\numberline {2.4}Word representation}{19}
+\contentsline {subsubsection}{\numberline {2.4.1}Skip-gram models}{19}
+\contentsline {subsubsection}{\numberline {2.4.2}The state of the art}{20}
+\contentsline {subsubsection}{\numberline {2.4.3}Word order}{20}
+\contentsline {subsubsection}{\numberline {2.4.4}Multi-sense}{20}
+\contentsline {subsection}{\numberline {2.5}Used technology}{21}
+\contentsline {subsubsection}{\numberline {2.5.1}Factorie}{21}
+\contentsline {subsubsection}{\numberline {2.5.2}Jena}{22}
+\contentsline {section}{\numberline {3}Method}{23}
+\contentsline {subsection}{\numberline {3.1}Idea}{23}
+\contentsline {subsection}{\numberline {3.2}Challenges}{23}
+\contentsline {subsection}{\numberline {3.3}Data}{24}
+\contentsline {subsubsection}{\numberline {3.3.1}Preprocessing}{24}
+\contentsline {subsubsection}{\numberline {3.3.2}Mice and men}{24}
+\contentsline {subsubsection}{\numberline {3.3.3}Medical}{24}
+\contentsline {subsection}{\numberline {3.4}Considered implementations}{25}
+\contentsline {subsubsection}{\numberline {3.4.1}Node vectorisation}{25}
+\contentsline {subsubsection}{\numberline {3.4.2}Combine with neighbours}{25}
+\contentsline {subsubsection}{\numberline {3.4.3}Select from senses}{25}
+\contentsline {subsubsection}{\numberline {3.4.4}Adding edge labels}{25}
+\contentsline {subsubsection}{\numberline {3.4.5}Select from senses}{26}
+\contentsline {subsubsection}{\numberline {3.4.6}Combining edges with nodes}{26}
+\contentsline {subsubsection}{\numberline {3.4.7}Hot start}{26}
+\contentsline {subsubsection}{\numberline {3.4.8}Training corpus}{27}
+\contentsline {subsubsection}{\numberline {3.4.9}DeepWalk}{27}
+\contentsline {subsection}{\numberline {3.5}Implementation}{27}
+\contentsline {subsection}{\numberline {3.6}Evaluation}{28}
+\contentsline {subsubsection}{\numberline {3.6.1}Evaluation methods}{28}
+\contentsline {section}{\numberline {4}Results}{29}
+\contentsline {subsection}{\numberline {4.1}Precision versus recall}{29}
+\contentsline {subsubsection}{\numberline {4.1.1}Mice and men data}{29}
+\contentsline {subsubsection}{\numberline {4.1.2}Medical data}{31}
+\contentsline {subsection}{\numberline {4.2}F-score}{31}
+\contentsline {subsection}{\numberline {4.3}Jaccard}{31}
+\contentsline {subsection}{\numberline {4.4}Examples to illustrate the differences}{31}
+\contentsline {subsection}{\numberline {4.5}Interpretation}{32}
+\contentsline {subsubsection}{\numberline {4.5.1}Unexpected results}{32}
+\contentsline {subsubsection}{\numberline {4.5.2}Expected results}{32}
+\contentsline {section}{\numberline {5}Conclusion and discussion}{33}
+\contentsline {subsection}{\numberline {5.1}Conclusions}{33}
+\contentsline {subsection}{\numberline {5.2}Discussion}{33}
+\contentsline {subsubsection}{\numberline {5.2.1}The data}{33}
+\contentsline {subsubsection}{\numberline {5.2.2}The system}{34}
+\contentsline {subsubsection}{\numberline {5.2.3}Context extraction}{34}
+\contentsline {subsubsection}{\numberline {5.2.4}The algorithm}{35}
+\contentsline {subsection}{\numberline {5.3}Future research}{35}
+\contentsline {subsection}{\numberline {5.4}Discarded implementations}{35}
+\contentsline {subsubsection}{\numberline {5.4.1}Just context nodes}{35}
+\contentsline {subsubsection}{\numberline {5.4.2}Just edges}{35}
+\contentsline {subsubsection}{\numberline {5.4.3}Context matrix representation}{35}
+\contentsline {section}{\numberline {6}Lists of figures and tables}{35}
+\contentsline {section}{\numberline {7}Bibliography}{37}
 \contentsline {section}{\numberline {8}Appendices}{I}

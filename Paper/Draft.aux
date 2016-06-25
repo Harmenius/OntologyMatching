@@ -1,21 +1,44 @@
 \relax 
+\providecommand \oddpage@label [2]{}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}}
 \newlabel{intro}{{1}{1}}
+\@writefile{toc}{\contentsline {paragraph}{}{1}}
+\@writefile{toc}{\contentsline {paragraph}{}{1}}
+\@writefile{toc}{\contentsline {paragraph}{}{1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces To find the best movie, the shown movies need to be filtered by the ones you like and the showtimes need to be filtered by the times you are available. All remaining showtimes need to be cross-references with the preferences of your friends. This is a lot of work and can be automated on the Semantic Web.\relax }}{2}}
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{movies}{{1}{2}}
 \citation{mccallumweblecture}
+\citation{univeralschema}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Motivation}{3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces The Universal Schema. Every row and every column is represented by an embedding (in purple). Green cells mean a row and column are in the context of the other. For example, the pair Bill and Microsoft are connected to \emph  {chairman}. The embeddings are then trained so that the context can be predicted. That means the embeddings of Bill \& Microsoft and \emph  {chairman} will become more similar.\relax }}{3}}
+\newlabel{McCallum_matrix}{{2}{3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces After the embeddings are learned, rows and columns with similar embeddings are connected (in light green). For example, the embeddings of Melinda \& Seattle and \emph  {lives in} may have become very similar. In that case, the system connects the pair with that relation.\relax }}{4}}
+\newlabel{McCallum_matrix2}{{3}{4}}
+\citation{w2v}
 \citation{mccallumweblecture}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Motivation}{2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Justification}{3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Context}{3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.4}Problem}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.5}Research questions}{5}}
-\newlabel{researchquestions}{{1.5}{5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.6}Hypotheses}{5}}
-\newlabel{hypotheses}{{1.6}{5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.7}Overview}{6}}
-\@writefile{toc}{\contentsline {section}{\numberline {2}Background}{7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}The Semantic Web}{7}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.1}The current Web}{7}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.2}Goal}{8}}
+\newlabel{Skip-Gram-img}{{\caption@xref {Skip-Gram-img}{ on input line 103}}{5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The embedding of a row (in pink) is optimized to be close to its context embeddings (in purple) but far away from other embeddings (in red).\relax }}{5}}
+\citation{overload}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces  Similar to how the embeddings are used to predict relations within an ontology, ontology matching can be done by predicting relations between two ontologies. For example, since Gates and Bill will have very similar sets of embeddings (as their contexts are very similar) the system will recognise they are the same entity.\relax }}{6}}
+\newlabel{merge_graph}{{5}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Justification}{6}}
+\citation{fensel2001ontologies}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Context}{7}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.3.1}Semantic Web}{7}}
+\citation{multisense}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.3.2}Ontology Matching}{8}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.3.3}Language}{8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4}Problem}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5}Research question}{9}}
+\newlabel{researchquestion}{{1.5}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.6}Hypothesis}{9}}
+\newlabel{hypotheses}{{1.6}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.7}Overview}{10}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Background}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}The Semantic Web}{11}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.1}The current Web}{11}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.2}Goal}{12}}
 \citation{byrne}
 \citation{le2002}
 \citation{zhou2007}
@@ -26,107 +49,114 @@
 \citation{lod}
 \citation{schreiber}
 \citation{future}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.3}Current state}{9}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.3}Current state}{13}}
 \citation{ontologyGuru}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.4}Technologies}{10}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Ontologies}{10}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}Example}{10}}
-\newlabel{example}{{2.2.1}{10}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.4}Technologies}{14}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Ontologies}{14}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}Example}{14}}
+\newlabel{example}{{2.2.1}{14}}
+\newlabel{mouse_example}{{\caption@xref {mouse_example}{ on input line 282}}{14}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces The different body parts of the mouse are connected as in this image.\relax }}{14}}
+\newlabel{man_example}{{\caption@xref {man_example}{ on input line 300}}{15}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces The different body parts of the man are connected as in this image.\relax }}{15}}
+\newlabel{muis_man_example}{{\caption@xref {muis_man_example}{ on input line 308}}{15}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Humans and mice are connected as shown in this image.\relax }}{15}}
 \citation{09ontology}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}OWL}{11}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.3}Uses of Ontologies}{11}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}OWL}{16}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.3}Uses of Ontologies}{16}}
 \citation{aristotleplato}
 \citation{future}
 \citation{lin2008}
 \citation{singh2014}
 \citation{levenshtein}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.4}Aristotle and Plato}{12}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Current alignment strategies}{12}}
-\newlabel{strategies}{{2.3}{12}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.1}Problems in ontology alignment}{13}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Word representation}{14}}
-\newlabel{w2v}{{2.4}{14}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.1}Skip-gram models}{14}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.4}Aristotle and Plato}{17}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Current alignment strategies}{17}}
+\newlabel{strategies}{{2.3}{17}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.1}Problems in ontology alignment}{18}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Word representation}{19}}
+\newlabel{w2v}{{2.4}{19}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.1}Skip-gram models}{19}}
 \citation{w2v}
 \citation{ling2015}
 \citation{multisense}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.2}The state of the art}{15}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.3}Word order}{15}}
-\newlabel{wordorder}{{2.4.3}{15}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.4}Multi-sense}{15}}
-\newlabel{multisense}{{2.4.4}{15}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.2}The state of the art}{20}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.3}Word order}{20}}
+\newlabel{wordorder}{{2.4.3}{20}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.4}Multi-sense}{20}}
+\newlabel{multisense}{{2.4.4}{20}}
 \citation{git-factorie}
 \citation{w2v}
 \citation{scala}
 \citation{jena}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Used technology}{16}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.5.1}Factorie}{16}}
-\newlabel{factorie}{{2.5.1}{16}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.5.2}Jena}{17}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Method}{18}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Idea}{18}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Challenges}{18}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Used technology}{21}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.5.1}Factorie}{21}}
+\newlabel{factorie}{{2.5.1}{21}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.5.2}Jena}{22}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Method}{23}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Idea}{23}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Challenges}{23}}
 \citation{euzenat2013ontology}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Data}{19}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Mice and men}{19}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Medical}{19}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Considered implementations}{20}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}Node vectorisation}{20}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2}Combine with neighbours}{20}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.3}Select from senses}{20}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.4}Adding edge labels}{20}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.5}Select from senses}{21}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.6}Combining edges with nodes}{21}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.7}Hot start}{21}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Data}{24}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Preprocessing}{24}}
+\newlabel{preprocessing}{{3.3.1}{24}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Mice and men}{24}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}Medical}{24}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Considered implementations}{25}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}Node vectorisation}{25}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2}Combine with neighbours}{25}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.3}Select from senses}{25}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.4}Adding edge labels}{25}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.5}Select from senses}{26}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.6}Combining edges with nodes}{26}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.7}Hot start}{26}}
 \citation{multisensecode}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.8}Training corpus}{22}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.9}DeepWalk}{22}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Implementation}{22}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.8}Training corpus}{27}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.9}DeepWalk}{27}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Implementation}{27}}
 \citation{fisher1925statistical}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Evaluation}{23}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.6.1}Evaluation methods}{23}}
-\newlabel{EvaluationMethods}{{3.6.1}{23}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Results}{24}}
-\newlabel{results}{{4}{24}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Precision versus recall}{24}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.1}Mice and men data}{24}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The precision and recall trade-off for the results of the untrained Node2vec. $AP = 0.04194$\relax }}{24}}
-\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{ROC_untrained}{{1}{24}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces The precision and recall trade-off for the results of the Word2vec algorithm. $AP: 0.04636$\relax }}{25}}
-\newlabel{ROC_generic}{{2}{25}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces The precision and recall trade-off for the results of the bidirectional Node2vec. $AP = 0.04198$\relax }}{25}}
-\newlabel{ROC_trained}{{3}{25}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The precision and recall trade-off for the results of the alternative DeepWalk algorithm. $AP = 0.04193$\relax }}{26}}
-\newlabel{ROC_alternative}{{4}{26}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.2}Medical data}{26}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}F-score}{26}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces The $F_1$-scores for the different matchers for the mice dataset\relax }}{26}}
-\newlabel{fscores}{{1}{26}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Jaccard}{26}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Examples to illustrate the differences}{26}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Interpretation}{27}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.1}Unexpected results}{27}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.2}Expected results}{27}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion and discussion}{28}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Conclusions}{28}}
-\newlabel{conclusions}{{5.1}{28}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Discussion}{28}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.1}The data}{28}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Evaluation}{28}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.6.1}Evaluation methods}{28}}
+\newlabel{EvaluationMethods}{{3.6.1}{28}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Results}{29}}
+\newlabel{results}{{4}{29}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Precision versus recall}{29}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.1}Mice and men data}{29}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces The precision and recall trade-off for the results of the untrained Node2vec. $AP = 0.04194$\relax }}{29}}
+\newlabel{ROC_untrained}{{9}{29}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces The precision and recall trade-off for the results of the Word2vec algorithm. $AP: 0.04636$\relax }}{30}}
+\newlabel{ROC_generic}{{10}{30}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces The precision and recall trade-off for the results of the bidirectional Node2vec. $AP = 0.04198$\relax }}{30}}
+\newlabel{ROC_trained}{{11}{30}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces The precision and recall trade-off for the results of the alternative DeepWalk algorithm. $AP = 0.04193$\relax }}{31}}
+\newlabel{ROC_alternative}{{12}{31}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.2}Medical data}{31}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}F-score}{31}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces The $F_1$-scores for the different matchers for the mice dataset\relax }}{31}}
+\newlabel{fscores}{{1}{31}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Jaccard}{31}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Examples to illustrate the differences}{31}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Interpretation}{32}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.1}Unexpected results}{32}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.2}Expected results}{32}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion and discussion}{33}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Conclusions}{33}}
+\newlabel{conclusions}{{5.1}{33}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Discussion}{33}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.1}The data}{33}}
 \citation{vowlview}
 \citation{mice_ontology}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.2}The system}{29}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.3}Context extraction}{29}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces The number of edges compared to show that edge parsing was successful.\relax }}{30}}
-\newlabel{edgecounts}{{2}{30}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.4}The algorithm}{30}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Future research}{30}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Discarded implementations}{30}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.4.1}Just context nodes}{30}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.4.2}Just edges}{30}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.4.3}Context matrix representation}{30}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Lists of figures and tables}{30}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Bibliography}{31}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.2}The system}{34}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.3}Context extraction}{34}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces The number of edges compared to show that edge parsing was successful.\relax }}{35}}
+\newlabel{edgecounts}{{2}{35}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.4}The algorithm}{35}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Future research}{35}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Discarded implementations}{35}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.4.1}Just context nodes}{35}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.4.2}Just edges}{35}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.4.3}Context matrix representation}{35}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Lists of figures and tables}{35}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Bibliography}{37}}
 \bibstyle{plain}
 \bibdata{bibliography}
 \bibcite{schreiber}{1}
@@ -145,12 +175,13 @@
 \bibcite{ling2015}{14}
 \bibcite{aristotleplato}{15}
 \bibcite{rdf}{16}
-\bibcite{owl}{17}
-\bibcite{w2v}{18}
-\bibcite{skos}{19}
-\bibcite{multisense}{20}
-\bibcite{multisensecode}{21}
-\bibcite{future}{22}
-\bibcite{singh2014}{23}
-\bibcite{zhou2007}{24}
+\bibcite{mccallumweblecture}{17}
+\bibcite{owl}{18}
+\bibcite{w2v}{19}
+\bibcite{skos}{20}
+\bibcite{multisense}{21}
+\bibcite{multisensecode}{22}
+\bibcite{future}{23}
+\bibcite{singh2014}{24}
+\bibcite{zhou2007}{25}
 \@writefile{toc}{\contentsline {section}{\numberline {8}Appendices}{I}}
