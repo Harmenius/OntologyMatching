@@ -9,7 +9,7 @@
  \usepackage{caption}
  \usepackage[export]{adjustbox}
  \usepackage{url}
-\usepackage{subcaption}
+ \usepackage{subcaption}
 
  \title{Ontology Matching with word2vec}
  \author{Harmen Prins}
@@ -28,42 +28,43 @@
  %TODO Word index
  %TODO Fix hoofdletters (bv ontology, kb)
  %TODO spelling (database dataset)
+ %TODO volgorde bieb (APA?)
  \tableofcontents
  \newpage
  
  \pagenumbering{arabic}
  \section{Introduction} \label{intro}
  It is a Friday afternoon and you realise you want to watch a movie with some friends this weekend. So, what do you do? To achieve this goal you must take three steps. These steps are also shown in Figure \ref{movies}.
- \paragraph{}
- Firstly, search for movies that you like that are also playing this weekend. To do this you must either manually go through the list of movies playing this weekend and check if any movies on that list match your preferences.
- 
- Once you have found one or more movies that you like, you have to select a time at which you can see the candidate movies, so you check for every movie every time slot at every cinema near you. The number of time slots is equal to the number of movies you chose in the previous step, times the number of cinemas near you times the number of times every movie is shown at one cinema. You also have to filter the out time slots based on your availability, so you cross-reference the available movie showtimes with your agenda.
- \paragraph{}
- Then onto the third and final step, getting friends to go with you. In this step you do not want to burden your friends too much by having them pick both the movie and the time, so you will have to decide which movie to watch or when, even though you do not know if your friends will like this movie or are available at that time. Once you contact your friends, most of them do not respond as they are not online at that time or they do not want to fill out an availability poll or movie choices.
- \paragraph{}
- Most of the time people will limit themselves to suboptimal options by avoiding these steps, considering only a few movies, cinemas, time slots and friends. But limitations like this are not necessary. What would happen if the above process was automated? 
- 
- \begin{figure}
+  
+ \begin{figure}[H]
  \centering
  \includegraphics[width=0.9\textwidth]{plots/select_movies}
- \caption{To find the best movie, the shown movies need to be filtered by the ones you like and the showtimes need to be filtered by the times you are available. All remaining showtimes need to be cross-references with the preferences of your friends. This is a lot of work and can be automated on the Semantic Web.}
+ \caption{To find the best movie, the shown movies need to be filtered by the ones you like and the showtimes need to be filtered by the times you are available. All remaining showtimes need to be cross-references with the preferences of your friends.}
  \label{movies}
  \end{figure}
  
+ Firstly, search for movies that you like that are also playing this weekend. To do this you must either manually go through the list of movies playing this weekend and check if any movies on that list match your preferences.
+ 
+ Once you have found one or more movies that you like, you have to select a time at which you can see the candidate movies, so you check for every movie every time slot at every cinema near you. The number of time slots is equal to the number of movies you chose in the previous step, times the number of cinemas near you times the number of times every movie is shown at one cinema. You also have to filter the out time slots based on your availability, so you cross-reference the available movie showtimes with your agenda.
+ 
+ Then onto the third and final step, getting friends to go with you. In this step you do not want to burden your friends too much by having them pick both the movie and the time, so you will have to decide which movie to watch or when, even though you do not know if your friends will like this movie or are available at that time. Once you contact your friends, most of them do not respond as they are not online at that time or they do not want to fill out an availability poll or movie choices.
+ \paragraph{}
+ Most of the time people will limit themselves to suboptimal options by avoiding these steps, considering only a few movies, cinemas, time slots and friends. But limitations like this are not necessary. What would happen if the above process was automated?
+ 
 The first step, finding movies that match two criteria would be considered trivial with modern technology. One finds the two lists of movies that are recommended for you and movies that are playing this weekend and intersect them. A ranking can be added based on how expensive the tickets are, how certain it is that you may like the movie, and other factors. 
- \paragraph{}
+
  The second step, cross-referencing the list of movies with cinema play times, would already be harder. Most of the time the cinema play times are written in a human-readable format, something that is often hard to interpret for a computer. Either the play times have to be written in or transformed into a computer-readable format manually or a computer has to interpret the format and convert it into a computer-readable one. However, errors might occur because the local cinema labelled a sequel as "Movie II" whereas the list we have has it labelled as "Movie 2", for example.
- \paragraph{}
+ 
  Checking an agenda to find an appropriate time would be easy if the times from the cinemas can be transformed to the same format as your agenda. If we are automating the process, we may be able to add more features, like changing standing appointments (of course incurring a penalty to the score of that time spot) and such.
- \paragraph{}
+ 
  The last step, contacting friends can be done in one click. Let us call the program that automated the first three steps a \emph{softbot} and assume they are universal, i.e. everyone has one. Rather than bothering your friends with scheduling, your softbot can contact the softbots of your friends and find the movie and time slot that optimize a cost function, taking into account which friends you like the most, which movie everybody likes the most and at which time the fewest dinners with wives need to be moved. Once this best time slot is chosen, everyone gets an invite to see the movie and once it is known who will go, a car pooling route is calculated and you can sit back an enjoy your Friday afternoon with no planning or scheduling required.
  \paragraph{}
  The most amazing thing about this story, is that it is already possible with the current technology. The algorithms to convert for example cinema website text to a computer-readable format exist. Many open databases already contain a lot of structured data that can be used to reason about data. And algorithms to combine these pieces of information to make decisions already exist and work.
  \paragraph{}
  Two things are required before this web of computers that communicate and understand, this Semantic Web, will come into existence.
  Firstly, the Semantic Web needs to be adopted by humans. They must see the value of these personal assistants that can schedule things for you, that take into account your personal context when searching the web, that understand questions and can ask you for more information that can improve the search. People have to realise that the current search engines are not good enough, and that having to read through many papers to find the one nugget of information or the one connection that you are looking for is not acceptable or necessary.
- But also, the different knowledge bases and unstructured texts need to be \emph{aligned}. Aligning means that softbots should be able to combine information that is contained in different domains, documents and databases. This last problem is the one that I will work on in this thesis. Once this problem has been solved, the Semantic Web is technically possible and only needs to be socially accepted before it will become the norm.
-
+ But also, the different knowledge bases and unstructured texts need to be \emph{aligned}. Aligning means that softbots should be able to combine information that is contained in different domains, documents and databases. This last problem is the one that I will work on in this thesis. Once this problem has been solved, the Semantic Web is technically possible and only needs to be socially accepted before it will become the norm. %cite microformats.org
+ %TODO per stap refereren naar plaatje
  \subsection{Motivation}
  In this section I will explain how the study came into existence.
  \paragraph{}
@@ -95,7 +96,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \label{McCallum_matrix2}
  \end{figure}
  
- If some entities and relations have similar embeddings but are not known to co-occur, they are flagged as being similar. Similarly, if two entities or two relations have similar embeddings, they are likely referring to the same or similar things. This can be used to infer even more similarities by collaborative filtering. The technique had very promising results in Knowledge Base completion tasks.
+ If some entities and relations have similar embeddings but are not known to co-occur, they are flagged as being similar. Similarly, if two entities or two relations have similar embeddings, they are likely referring to the same or similar things, see Figure \ref{McCallum_matrix2}. This can be used to infer even more similarities by collaborative filtering. The technique had very promising results in Knowledge Base completion tasks.
   
  \begin{figure}[H]
  \centering
@@ -104,11 +105,8 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \caption{The embedding of a row (in pink) is optimized to be close to its context embeddings (in purple) but far away from other embeddings (in red).}
  \end{figure}
  
- The embeddings are optimized by a model called the skip-gram word embedding model\cite{w2v}, a neural network model that learns to predict the context of a word. McCallum discussed a new extension to the algorithm that allowed for homonyms and as such can deal with more ambiguous data\cite{mccallumweblecture}.
- \paragraph{}
- McCallum plans on using these embeddings to predict new inter-knowledge base relations. However, from they keynote it is clear that this technique should work with multiple Knowledge Bases as the Universal Schema is applied to a set of Knowledge Bases including Freebase, knowledge extracted from text and the TAC Knowledge Bases Population Track Dataset. This means that intra-knowledge base relations can also be predicted using the Word Embedding Tensor Factorisation technique.
- An example of an intra-knowledge base relation is shown in Figure \ref{merge_graph}. If these relations can be predicted, multiple knowledge bases can be aligned. Doing ontology alignment using these word embeddings is the goal of this work.
- 
+ The embeddings are optimized by a model called the skip-gram word embedding model\cite{w2v}, a neural network model that learns to predict the context of a word, see Figure \ref{Skip-Gram-img}. McCallum discussed a new extension to the algorithm that allowed for homonyms and as such can deal with more ambiguous data\cite{mccallumweblecture}.
+  
  \begin{figure}[H]
  \centering
  \includegraphics[width=0.8\linewidth]{plots/graaf}
@@ -116,7 +114,11 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \label{merge_graph}
  \end{figure}
  
- Currently, knowledge base and ontology alignment techniques do not make use of embeddings. Since embedding models have good performance on intra-knowledge base relation prediction, they should also work on ontology alignment.
+ McCallum plans on using these embeddings to predict new intra-knowledge base relations. However, from they keynote it is clear that this technique should work with multiple Knowledge Bases as the Universal Schema is applied to a set of Knowledge Bases including Freebase, knowledge extracted from text and the TAC Knowledge Bases Population Track Dataset. This means that inter-knowledge base relations can also be predicted using the Word Embedding Tensor Factorisation technique.
+ 
+ An example of an inter-knowledge base relation is shown in Figure \ref{merge_graph}. If these relations can be predicted, multiple knowledge bases can be aligned. Doing ontology alignment using these word embeddings is the goal of this work.
+ \paragraph{}
+ Currently, knowledge base and ontology alignment techniques do not make use of embeddings. Since embedding models have good performance on intra-knowledge base relation prediction, they should also work well on ontology alignment.
  
  \subsection{Justification} 
  This study is important to the future of the World Wide Web. The next goal of the Web is the Semantic Web, where computers can interact with web pages as humans do. It is necessary to build the Semantic Web as soon as possible, as the amount of information on the Web is growing so fast it will be infeasible for humans to handle\cite{overload}.
@@ -131,14 +133,11 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  I believe the algorithms proposed in this study will work on new data without the need for redesigning. This is because distributed representation algorithms can be trained unsupervised on new domains, so they can be applied to those new domains without effort from humans. As opposed to for example the string edit distance. This is also an improvement for the semantic web.
  \paragraph{}
  This study should be done now, as ontology matching is already used in areas other than the semantic web. It is, for example, used by companies for merging knowledge from different knowledge bases when merging with other companies. If the proposed matching algorithm is better than the current algorithms, or at least improves the performance when used in ensemble with the current algorithms, it will be useful immediately in these situations, not just in the future, on the Semantic Web.
- \paragraph{}
- In summary, Ontologies are the core of the I hope it is clear that ontology matching is an important area of study and that this study will contribute to it.
 
  \subsection{Context}
  This section will enable the reader to put the problem in perspective as well as understand the reasoning behind the solution to the problem. Everything that is mentioned in this section will be explained more in-depth further on.
  Firstly, I will give a short summary of the context by explaining why the Semantic Web requires Ontology Matching. Then I will illustrate the problem of ambiguity. Lastly, I will describe the algorithm that this study is based on.
-
- \subsubsection{Semantic Web}
+ \paragraph{}
  On the Semantic Web, Ontologies are used to define knowledge\cite{fensel2001ontologies}.
  The term ontology will be properly defined later on, but for now it suffices to know that an ontology is a set of rules that determine what relations are allowed and required in a given domain of discourse. As a consequence, if two agents want to communicate in a given domain, they need to agree on the rules of that domain, or in other words, share the ontology of that domain.
  \paragraph{}
@@ -148,20 +147,16 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  and the number of concepts that are needed on the Semantic Web is enormous. Every single concept that is present in the billions of terabytes of text, images and sounds that are on the web needs to be represented, for every professional domain and science, in every language. And all these concepts are related. Searching through this Ontology just to find one concept would be incredibly costly. And since every interaction on the Semantic Web requires lookups in an Ontology, these lookups need to be fast.
  \paragraph{}
  The second option, the one I address in this thesis, is the problem of combining ontologies from multiple domains. Combining in this sense means connecting the related concepts from the different Ontologies. Some research has focused on Ontology Merging, with promising results. However, recently research has been slowing to the point where there is little improvement.
- 
- \subsubsection{Ontology Matching}
+ \paragraph{}
  One big problem in Ontology matching is the fact that in different domains, words can have different meanings. Common examples are synonyms like author and writer, homonyms like bank (for money or by a river) and ambiguity. Ambiguity means that similar words mean slightly different things, or a word might have multiple related meanings.
  \paragraph{}
  A recently developed model for word embedding may be used to deal with ambiguity. It maps words to a vector space that has semantic properties, and thus can be used to calculate the relatedness of two words. There are a number of extensions that can deal with homonyms as well as data structured other than the continuous bag of words representation that the initial model was developed for. These facts show that it may be possible to make an embedding model for Ontologies and use the word relatedness to combine Ontologies\cite{multisense}.
-  \paragraph{}
-  \subsubsection{Language}
-  Homonyms are two concepts that share a label, or in other words, a homonym is one word with multiple distinct meanings. As such, homonyms are inherently ambiguous, since the meaning is uncertain without context. This ambiguity is very hard for computers to deal with, as computers are used to dealing with absolute certainties.
+ \paragraph{}
+ Homonyms are two concepts that share a label, or in other words, a homonym is one word with multiple distinct meanings. As such, homonyms are inherently ambiguous, since the meaning is uncertain without context. This ambiguity is very hard for computers to deal with, as computers are used to dealing with absolute certainties.
   
  \subsection{Problem}
  We have seen that when information from multiple domains needs to be integrated so that it is possible to reason over them together, the ontologies of those domains need to be aligned or merged.
- \paragraph{}
  If we want to merge two ontologies, we need to find the concepts from the different ontologies that are related by an 'is-same-as' or other rule.
- \paragraph{}
  However, since the ontologies are made for different domains, the same concept can be represented by different labels in the two ontologies. This problem is called the synonymy problem, as synonyms are two words that refer to the same concepts.
  \paragraph{}
  The opposite problem is called the homonymy problem, in which two concepts are represented by the same label. Since they have the same label, naive algorithms might align the concepts as being the same, when they are not.
@@ -172,7 +167,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  
 "" 
   Matching ontologies and dealing with the ambiguity and homonymy contained in them.
-""
+"" %TODO mooier
 
   I will use distributed word representations to answer the above question, as McCallum suggested in his keynote. Distributed word representations, specifically multi-sense \emph{Word2vec}, should be used for this problem since multi-sense \emph{Word2vec} is specifically designed to combat homonymy while the neural networks in distributed word representations use the context to deal with ambiguity.
   %TODO vraag Arjen of dit 'antwoord' in problem hoort
@@ -185,7 +180,6 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  Can distributed representations of concepts be used to find relationships between concepts in ontologies better than existing matchers?
  }
  \end{center}
- % Andere scriptie kijken wat hier nog moet?
  
  \subsection{Hypothesis} \label{hypotheses}
  
@@ -214,15 +208,36 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \subsection{The Semantic Web}
   The first concept I will discuss is the Semantic Web, also called Web 3.0, a vision of a Web that enhances the User Experience in ways that the current Web can not provide.
  \subsubsection{Progression of the Web}
- The original Web connected authors to readers. It allowed authors to create content, mostly static websites. Readers, however, could not change anything, merely read the sites and click on links. In this iteration of the Web there was no interaction. %cite web1.0?
- \paragraph{}
- Web 2.0, the current Web, models the internet as \textit{hubs} (or sites) with a specific purpose and interaction between users. However, there is only limited interconnectivity between those hubs\footnote{For example, Facebook is a hub for sharing content with people you consider friends, but if you want to share that content with more people you will have to go to another hub, like Imgur or Pinterest.}. %cite web2.0
+ The original Web connected authors to readers. It allowed authors to create content, mostly static websites. Readers, however, could not change anything, merely read the sites and click on links. In this iteration of the Web there was no interaction. See Figure \ref{web1}. %cite web1.0? 
+ 
+ \begin{figure}[H]
+ \centering
+ \includegraphics[width=0.8\linewidth]{plots/pijl1}
+ \caption{The first iteration of the Web consisted of static content, written by authors and read by readers.}
+ \label{web1}
+ \end{figure}
+ 
+ Web 2.0, the current Web, models the internet as \textit{hubs} (or sites) with a specific purpose and interaction between users, who can also add content, as in Figure \ref{web2}. However, there is only limited interconnectivity between those hubs\footnote{For example, Facebook is a hub for sharing content with people you consider friends, but if you want to share that content with more people you will have to go to another hub, like Imgur or Pinterest.}. %cite web2.0
  It is possible to link to content from other hubs using URLs, but this moves the user to another hub, rather than connecting the content present in the hubs.
- \paragraph{}
- We are currently progressing towards Web 3.0, where not only users interact, but also virtual agents. The so-called Semantic Web contains sources of \textit{information} which can be combined whenever the user needs it. 
+ 
+ \begin{figure}[H]
+ \centering
+ \includegraphics[width=0.8\linewidth]{plots/pijl2}
+ \caption{In the second iteration of the Web, readers have become users that can alter and add to the content found on the interactive hubs. This also allows users to interact with each other.}
+ \label{web2}
+ \end{figure}
+ 
+ We are currently progressing towards Web 3.0, where not only users interact, but also virtual agents, see Figure \ref{web3}. The so-called Semantic Web contains sources of \textit{information} which can be combined whenever the user needs it. 
  If someone wants to find information on a certain topic, the virtual agent can collect all documents that are relevant to that topic, summarize each document in a way that is relevant to the search request and provide sources for every fact it finds. It would even be possible to have a question answering session on that specific topic, where the agent finds the answer to every question posed in the material that is linked to the topic.
- \paragraph{}
- Another possibility is the scenario from the introduction (Section \ref{intro}), where a user wanted to see a movie, and ordered his softbot, to find him a suitable time and movie to see. This was shown to reduce a lot of planning and allow for much more favourable decisions since many more variables can be taken into account.
+ 
+ \begin{figure}[H]
+ \centering
+ \includegraphics[width=0.8\linewidth]{plots/pijl3}
+ \caption{On the third iteration of the Web, virtual agents are also able to read and write content and interact with humans (through question answering as an example). Virtual agents may also work together.}
+ \label{web3}
+ \end{figure}
+ 
+ Another possibility on the Semantic Web is the scenario from the introduction (Section \ref{intro}), where a user wanted to see a movie, and ordered his softbot, to find him a suitable time and movie to see. This was shown to reduce a lot of planning and allow for much more favourable decisions since many more variables can be taken into account.
  \paragraph{}
  All of this is possible if the softbots can access all of the information reliably. In the current Web, this is not possible, as all information is written in an ambiguous, unstructured format called natural language. To allow softbots to access the same information that we can, the Semantic Web proposes to add a layer to the internet where all information is saved in a unified format that is unambiguous, robot-interpretable and can be used to store any type of knowledge.
  \paragraph{}
@@ -236,9 +251,73 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  To provide these tools to the user, an agent uses many different sources. For example, if the need of a researcher is knowledge on a certain topic, the agent must chart relevant topics, map relations between different domains and connect these new ideas to topics that the researcher is already familiar with. In fact, the largest part of the job an agent has to carry out on the Semantic Web is finding relationships between pieces of information on the Web. Based on this observation, we can state that Ontology and Knowledge Base Alignment is the cornerstone  of the Semantic Web, since without this vital system the Web is merely a collection of separate pieces of information. Only when those pieces are aligned can we talk of knowledge, of semantics.
  \paragraph{}
  To summarize, the goal of the Semantic Web is to connect all online information to help humans. Only when all information can be connected will it be possible to aid humans in their needs. But humans will only accept the Semantic Web if it is useful to them, so the Semantic Web must show its applications and usefulness before it will be used in daily life.
- \subsubsection{Workings} % Technisch uitleg. Veel voorbeelden, veel citaties. Hoe komt er info in. Hoe eruit. Hoe gaat een mens om met de SW (visie). Tags: grafen, ontologien,  
+ \subsubsection{Workings} % Technisch uitleg. Veel voorbeelden, veel citaties. Hoe komt er info in. Hoe eruit. Hoe gaat een mens om met de SW (visie). Tags: grafen, ontologien.
+ %Dit is belangrijk voor mij want... 
+ \begin{figure}[H]
+ \centering
+ \includegraphics[width=0.8\linewidth]{plots/SW}
+ \caption{An example of the Semantic Web represented as a graph of entities (in black) and relationships (in red). It contains many different kinds of entities, including countries and people.}
+ \label{semantic_web}
+ \end{figure}
+ 
+ The Semantic Web is one big graph of entities and relationships between those entities, containing information about, amongst others, people and countries as in Figure \ref{semantic_web}.
+ 
+ \begin{figure}[H]
+ \centering
+ \includegraphics[width=0.5\linewidth]{plots/kb}
+ \caption{New information to be added to the Semantic Web.}
+ \label{kb}
+ \end{figure}
+ 
+ If new information is added to the Semantic Web, a new concept or connection is added to this graph. In Figure \ref{kb} a whole set of related entities and their connections are shown. These entities are also connected to the rest of the Semantic Web graph so that it stays one connected web, as in Figure \ref{combine}.
+ 
+ \begin{figure}[H]
+ \centering
+ \makebox[\textwidth][c]{
+   \includegraphics[width=1.2\linewidth]{plots/combine}
+ }
+ \caption{The new information is connected to the rest of the Semantic Web by connecting the new entities with entities in the Semantic Web.}
+ \label{combine}
+ \end{figure}
+ 
+ \paragraph{}
+ This big graph covers many different domains, and every domain is covered by a part of the graph, a sub-graph. For example, all people are in the same sub-graph, as are countries and the recently added foods. Every such sub-graph is one Knowledge Base that covers that specific domain. See Figure \ref{kbs} for the Knowledge Bases in the example.
+ 
+ \begin{figure}[H]
+ \centering
+ \makebox[\textwidth][c]{
+   \includegraphics[width=1.2\linewidth]{plots/kb1}
+ }
+ \caption{The different sub-graphs in the Semantic Web graph. They are contained in different Knowledge Bases and connected by URIs.}
+ \label{kbs}
+ \end{figure}
+ 
+ To ensure that the Semantic Web is one big connected Web, the knowledge bases are connected by inter-knowledge base relations. The relations are made by referring to the URI of that entity. The URI consists of a link to the knowledge base and then the identifier of the entity. For example, the people are connected to their country of origin, so in the people Knowledge Base there is a reference from Obama to \emph{countries\#USA}.
+ \paragraph{}
+ In this paragraph I will explain the use of ontologies on the Semantic Web. Ontologies describe the rules by which the Knowledge Bases must play. For example, every food must have a country of origin, and those countries of origin need to be of the Country \emph{Class}. This rule enables search algorithms to limit search to the countries Knowledge Base, as it is the only Knowledge Base that contains countries\cite{whyontologies}. This is just one example of a constraint that improves the work of one system. There are many more reasons, for example adding the rule "all mothers are parents" allows inference systems to reason about richer information without having to explicitly write down every relationship.
+ 
+ \begin{figure}[H]
+ \centering
+ \makebox[\textwidth][c]{
+   \includegraphics[width=1.2\linewidth]{plots/vraag1}
+ }
+ \caption{}
+ \label{question_graph}
+ \end{figure}
+ 
+ There are many ways of interacting with the Semantic Web, but they all interact with the graph in some way. For example, a user can ask a question "What food does President Obama like?" Firstly, this question is converted into a format that can be used by a search system. Then, information from the ontologies is added so that the search can be performed more efficiently. Then the pattern is matched in the Semantic Web graph, listing all results. The results are then combined or filtered such that one answer pattern remains, and that pattern is converted to natural text. This process is depicted in Figure \ref{question_graph}.
+
+ \begin{figure}[H]
+ \centering
+ \makebox[\textwidth][c]{
+   \includegraphics[width=1.2\linewidth]{plots/vraag2}
+ }
+ \caption{}
+ \label{question_graph2}
+ \end{figure}
  
  \subsubsection{Current state} %TODO This bit can use some work
+ % Tip: google wie schreef Harry Potter
  Currently, people are not aware of the Semantic Web. Either websites and applications do not use any semantic information, or it is used on the back-end, hidden with other complex programs that users will not understand. So what is the Semantic Web used for nowadays, if at all? In this section, I will list a number of general ways people use Semantic Web technologies as well as specific applications. Note that these are Semantic Web technologies, i.e. technologies that came into existence through Semantic Web research and can eventually be used in the Semantic Web, but currently are not used for the Semantic Web since it does not exist yet.
  \paragraph{}
  Semantic Web systems are currently divided into two groups: the systems that need high accuracy and the ones that need high recall. The first group are deployed in domains that require exact knowledge, whereas the second group are systems that must make available a big amount of data. In the past it was not possible to extract information from texts and other sources automatically, so all systems were hand-crafted and thus highly accurate but very small. This also impacted research, which did not focus on scaling ontologies until recently.
