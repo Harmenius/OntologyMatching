@@ -2,7 +2,7 @@
 \providecommand \oddpage@label [2]{}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}}
 \newlabel{intro}{{1}{1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces To find the best movie, the shown movies need to be filtered by the ones you like and the showtimes need to be filtered by the times you are available. All remaining showtimes need to be cross-references with the preferences of your friends.\relax }}{1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Movie selection process}}{1}}
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
 \newlabel{movies}{{1}{1}}
 \@writefile{toc}{\contentsline {paragraph}{}{2}}
@@ -12,16 +12,16 @@
 \citation{univeralschema}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Motivation}{3}}
 \@writefile{toc}{\contentsline {paragraph}{}{3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces The Universal Schema. Every row and every column is represented by an embedding (in purple). Green cells mean a row and column are in the context of the other. For example, the pair Bill and Microsoft are connected to \emph  {chairman}. The embeddings are then trained so that the context can be predicted. That means the embeddings of Bill \& Microsoft and \emph  {chairman} will become more similar.\relax }}{3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Universal Schema}}{3}}
 \newlabel{McCallum_matrix}{{2}{3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces After the embeddings are learned, rows and columns with similar embeddings are connected (in light green). For example, the embeddings of Melinda \& Seattle and \emph  {lives in} may have become very similar. In that case, the system connects the pair with that relation.\relax }}{4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Universal Schema predictions}}{4}}
 \newlabel{McCallum_matrix2}{{3}{4}}
 \citation{w2v}
 \citation{mccallumweblecture}
-\newlabel{Skip-Gram-img}{{\caption@xref {Skip-Gram-img}{ on input line 104}}{5}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The embedding of a row (in pink) is optimized to be close to its context embeddings (in purple) but far away from other embeddings (in red).\relax }}{5}}
+\newlabel{Skip-Gram-img}{{\caption@xref {Skip-Gram-img}{ on input line 105}}{5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Skip-Gram Model}}{5}}
 \citation{overload}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces  Similar to how the embeddings are used to predict relations within an ontology, ontology matching can be done by predicting relations between two ontologies. For example, since Gates and Bill will have very similar sets of embeddings (as their contexts are very similar) the system will recognise they are the same entity.\relax }}{6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Ontology Matching graph example}}{6}}
 \newlabel{merge_graph}{{5}{6}}
 \@writefile{toc}{\contentsline {paragraph}{}{6}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Justification}{6}}
@@ -54,11 +54,11 @@
 \@writefile{toc}{\contentsline {section}{\numberline {2}Background}{11}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1}The Semantic Web}{11}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.1}Progression of the Web}{11}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces The first iteration of the Web consisted of static content, written by authors and read by readers.\relax }}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Web 1.0}}{11}}
 \newlabel{web1}{{6}{11}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces In the second iteration of the Web, readers have become users that can alter and add to the content found on the interactive hubs. This also allows users to interact with each other.\relax }}{12}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Web 2.0}}{12}}
 \newlabel{web2}{{7}{12}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces On the third iteration of the Web, virtual agents are also able to read and write content and interact with humans (through question answering as an example). Virtual agents may also work together.\relax }}{12}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Web 3.0}}{12}}
 \newlabel{web3}{{8}{12}}
 \@writefile{toc}{\contentsline {paragraph}{}{13}}
 \@writefile{toc}{\contentsline {paragraph}{}{13}}
@@ -67,22 +67,21 @@
 \@writefile{toc}{\contentsline {paragraph}{}{13}}
 \@writefile{toc}{\contentsline {paragraph}{}{14}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.3}Workings}{14}}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces An example of the Semantic Web represented as a graph of entities (in black) and relationships (in red). It contains many different kinds of entities, including countries and people.\relax }}{14}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Semantic Web graph}}{14}}
 \newlabel{semantic_web}{{9}{14}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces New information to be added to the Semantic Web.\relax }}{15}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Knowledge Base graph}}{15}}
 \newlabel{kb}{{10}{15}}
-\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces The new information is connected to the rest of the Semantic Web by connecting the new entities with entities in the Semantic Web.\relax }}{16}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Linking the Knowledge Base}}{16}}
 \newlabel{combine}{{11}{16}}
 \@writefile{toc}{\contentsline {paragraph}{}{16}}
 \citation{whyontologies}
-\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces The different sub-graphs in the Semantic Web graph. They are contained in different Knowledge Bases and connected by URIs.\relax }}{17}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Semantic Web Knowledge Base view}}{17}}
 \newlabel{kbs}{{12}{17}}
 \@writefile{toc}{\contentsline {paragraph}{}{17}}
-\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces \relax }}{18}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Graph question example}}{18}}
 \newlabel{question_graph}{{13}{18}}
-\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces \relax }}{18}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Graph biography example}}{18}}
 \newlabel{question_graph2}{{14}{18}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.4}Current state}{18}}
 \citation{mika2015schema}
 \citation{byrne}
 \citation{le2002}
@@ -94,25 +93,26 @@
 \citation{lod}
 \citation{schreiber}
 \citation{future}
-\@writefile{toc}{\contentsline {paragraph}{}{19}}
-\@writefile{toc}{\contentsline {paragraph}{}{19}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.4}Current state}{19}}
 \@writefile{toc}{\contentsline {paragraph}{}{19}}
 \@writefile{toc}{\contentsline {paragraph}{}{19}}
 \@writefile{toc}{\contentsline {paragraph}{}{19}}
 \@writefile{toc}{\contentsline {paragraph}{}{19}}
 \@writefile{toc}{\contentsline {paragraph}{}{19}}
 \citation{ontologyGuru}
+\@writefile{toc}{\contentsline {paragraph}{}{20}}
+\@writefile{toc}{\contentsline {paragraph}{}{20}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.5}Technologies}{20}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Ontologies}{20}}
 \@writefile{toc}{\contentsline {paragraph}{}{20}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}Example}{20}}
 \newlabel{example}{{2.2.1}{20}}
-\newlabel{mouse_example}{{\caption@xref {mouse_example}{ on input line 362}}{20}}
-\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces The different body parts of the mouse are connected as in this image.\relax }}{20}}
-\newlabel{man_example}{{\caption@xref {man_example}{ on input line 380}}{21}}
-\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces The different body parts of the man are connected as in this image.\relax }}{21}}
-\newlabel{muis_man_example}{{\caption@xref {muis_man_example}{ on input line 388}}{21}}
-\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces Humans and mice are connected as shown in this image.\relax }}{21}}
+\newlabel{mouse_example}{{\caption@xref {mouse_example}{ on input line 364}}{20}}
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Mouse Ontology}}{20}}
+\newlabel{man_example}{{\caption@xref {man_example}{ on input line 382}}{21}}
+\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Human Ontology}}{21}}
+\newlabel{muis_man_example}{{\caption@xref {muis_man_example}{ on input line 390}}{21}}
+\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces Aligned Ontologies}}{21}}
 \citation{09ontology}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}OWL}{22}}
 \@writefile{toc}{\contentsline {paragraph}{}{22}}
@@ -211,17 +211,17 @@
 \newlabel{results}{{4}{37}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Precision versus recall}{37}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.1}Mice and men data}{37}}
-\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces The precision and recall trade-off for the results of the untrained Node2vec. $AP = 0.04194$\relax }}{37}}
+\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces Precision-recall curve untrained mice}}{37}}
 \newlabel{ROC_untrained}{{18}{37}}
-\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces The precision and recall trade-off for the results of the Word2vec algorithm. $AP: 0.04636$\relax }}{38}}
+\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces Precision-recall curve pre-trained mice}}{38}}
 \newlabel{ROC_generic}{{19}{38}}
-\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces The precision and recall trade-off for the results of the bidirectional Node2vec. $AP = 0.04198$\relax }}{38}}
+\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces Precision-recall curve trained mice model}}{38}}
 \newlabel{ROC_trained}{{20}{38}}
-\@writefile{lof}{\contentsline {figure}{\numberline {21}{\ignorespaces The precision and recall trade-off for the results of the alternative DeepWalk algorithm. $AP = 0.04193$\relax }}{39}}
+\@writefile{lof}{\contentsline {figure}{\numberline {21}{\ignorespaces Precision-recall curve DeepWalk mice}}{39}}
 \newlabel{ROC_alternative}{{21}{39}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.2}Medical data}{39}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}F-score}{39}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces The $F_1$-scores for the different matchers for the mice dataset\relax }}{39}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces $F_1$ mice}}{39}}
 \newlabel{fscores}{{1}{39}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Jaccard}{39}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Examples to illustrate the differences}{39}}
@@ -231,30 +231,38 @@
 \@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion and discussion}{41}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Conclusions}{41}}
 \newlabel{conclusions}{{5.1}{41}}
+\@writefile{toc}{\contentsline {paragraph}{The algorithm uses distributed representations of concepts}{41}}
+\@writefile{toc}{\contentsline {paragraph}{The algorithm finds relationships between concepts in ontologies}{41}}
+\@writefile{toc}{\contentsline {paragraph}{The algorithm has been compared to the currently best matchers}{41}}
+\@writefile{toc}{\contentsline {paragraph}{The algorithm performs better}{41}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Discussion}{41}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.1}The data}{41}}
-\citation{vowlview}
-\citation{mice_ontology}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.1}The data}{42}}
 \@writefile{toc}{\contentsline {paragraph}{}{42}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.2}The system}{42}}
-\@writefile{toc}{\contentsline {paragraph}{}{42}}
-\@writefile{toc}{\contentsline {paragraph}{}{42}}
-\@writefile{toc}{\contentsline {paragraph}{}{42}}
-\@writefile{toc}{\contentsline {paragraph}{}{42}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.3}Context extraction}{42}}
-\@writefile{toc}{\contentsline {paragraph}{}{42}}
-\@writefile{toc}{\contentsline {paragraph}{}{42}}
+\newlabel{program}{{\caption@xref {program}{ on input line 750}}{43}}
+\@writefile{lof}{\contentsline {figure}{\numberline {22}{\ignorespaces Program diagram}}{43}}
+\@writefile{toc}{\contentsline {paragraph}{Data loading}{43}}
+\@writefile{toc}{\contentsline {paragraph}{Preprocessing}{43}}
+\@writefile{toc}{\contentsline {paragraph}{Matcher}{43}}
+\@writefile{toc}{\contentsline {paragraph}{Statistics and visualisation}{43}}
 \@writefile{toc}{\contentsline {paragraph}{}{43}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces The number of edges compared to show that edge parsing was successful.\relax }}{43}}
-\newlabel{edgecounts}{{2}{43}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.4}The algorithm}{43}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Future research}{43}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Discarded implementations}{43}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.4.1}Just context nodes}{43}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.4.2}Just edges}{43}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.4.3}Context matrix representation}{43}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Lists of figures and tables}{43}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Bibliography}{45}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.3}Context extraction}{43}}
+\citation{vowlview}
+\citation{mice_ontology}
+\@writefile{toc}{\contentsline {paragraph}{}{44}}
+\@writefile{toc}{\contentsline {paragraph}{}{44}}
+\@writefile{toc}{\contentsline {paragraph}{}{44}}
+\@writefile{toc}{\contentsline {paragraph}{}{44}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Edge comparison}}{44}}
+\newlabel{edgecounts}{{2}{44}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.4}The algorithm}{44}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Future research}{45}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Discarded implementations}{45}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.4.1}Just context nodes}{45}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.4.2}Just edges}{45}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.4.3}Context matrix representation}{45}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Lists of figures and tables}{45}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Bibliography}{46}}
 \bibstyle{plain}
 \bibdata{bibliography}
 \bibcite{schreiber}{1}

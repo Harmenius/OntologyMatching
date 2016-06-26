@@ -29,6 +29,7 @@
  %TODO Fix hoofdletters (bv ontology, kb)
  %TODO spelling (database dataset)
  %TODO volgorde bieb (APA?)
+ %TODO \caption[DIT DOEN]{te lang}
  \tableofcontents
  \newpage
  
@@ -39,7 +40,7 @@
  \begin{figure}[H]
  \centering
  \includegraphics[width=0.9\textwidth]{plots/select_movies}
- \caption{To find the best movie, the shown movies need to be filtered by the ones you like and the showtimes need to be filtered by the times you are available. All remaining showtimes need to be cross-references with the preferences of your friends.}
+ \caption[Movie selection process]{To find the best movie, the shown movies need to be filtered by the ones you like and the showtimes need to be filtered by the times you are available. All remaining showtimes need to be cross-references with the preferences of your friends.}
  \label{movies}
  \end{figure}
  
@@ -77,7 +78,7 @@ The first step, finding movies that match two criteria would be considered trivi
  \begin{subfigure}{0.475\textwidth}
  \includegraphics[width=0.95\linewidth]{plots/graaf1}
  \end{subfigure}
- \caption{The Universal Schema. Every row and every column is represented by an embedding (in purple). Green cells mean a row and column are in the context of the other. For example, the pair Bill and Microsoft are connected to \emph{chairman}.
+ \caption[Universal Schema]{The Universal Schema. Every row and every column is represented by an embedding (in purple). Green cells mean a row and column are in the context of the other. For example, the pair Bill and Microsoft are connected to \emph{chairman}.
  The embeddings are then trained so that the context can be predicted. That means the embeddings of Bill \& Microsoft and \emph{chairman} will become more similar.}
  \label{McCallum_matrix}
  \end{figure}
@@ -91,7 +92,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \begin{subfigure}{0.475\textwidth}
  \includegraphics[width=0.95\linewidth]{plots/graaf2}
  \end{subfigure}
- \caption{After the embeddings are learned, rows and columns with similar embeddings are connected (in light green).
+ \caption[Universal Schema predictions]{After the embeddings are learned, rows and columns with similar embeddings are connected (in light green).
  For example, the embeddings of Melinda \& Seattle and \emph{lives in} may have become very similar. In that case, the system connects the pair with that relation.}
  \label{McCallum_matrix2}
  \end{figure}
@@ -102,7 +103,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \centering
  \includegraphics[width=0.8\textwidth]{plots/Skip-Gram}
  \label{Skip-Gram-img}
- \caption{The embedding of a row (in pink) is optimized to be close to its context embeddings (in purple) but far away from other embeddings (in red).}
+ \caption[Skip-Gram Model]{The embedding of a row (in pink) is optimized to be close to its context embeddings (in purple) but far away from other embeddings (in red).}
  \end{figure}
  
  The embeddings are optimized by a model called the skip-gram word embedding model\cite{w2v}, a neural network model that learns to predict the context of a word, see Figure \ref{Skip-Gram-img}. McCallum discussed a new extension to the algorithm that allowed for homonyms and as such can deal with more ambiguous data\cite{mccallumweblecture}.
@@ -110,7 +111,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \begin{figure}[H]
  \centering
  \includegraphics[width=0.8\linewidth]{plots/graaf}
- \caption{ Similar to how the embeddings are used to predict relations within an ontology, ontology matching can be done by predicting relations between two ontologies. For example, since Gates and Bill will have very similar sets of embeddings (as their contexts are very similar) the system will recognise they are the same entity.}
+ \caption[Ontology Matching graph example]{Similar to how the embeddings are used to predict relations within an ontology, ontology matching can be done by predicting relations between two ontologies. For example, since Gates and Bill will have very similar sets of embeddings (as their contexts are very similar) the system will recognise they are the same entity.}
  \label{merge_graph}
  \end{figure}
  
@@ -195,7 +196,6 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \item The algorithm performs better.
  \end{itemize} 
  
- The first three points will be shown in Section \ref{proofs}, whereas the last point is evaluated in Section \ref{conclusions}.
  \paragraph{}
  This hypothesis is true for distributed representations matching in general if it is true for one distributed representation matcher. Therefore to test the hypothesis, I must test it for every distinct implementation of the matcher.
  
@@ -213,7 +213,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \begin{figure}[H]
  \centering
  \includegraphics[width=0.8\linewidth]{plots/pijl1}
- \caption{The first iteration of the Web consisted of static content, written by authors and read by readers.}
+ \caption[Web 1.0]{The first iteration of the Web consisted of static content, written by authors and read by readers.}
  \label{web1}
  \end{figure}
  
@@ -223,7 +223,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \begin{figure}[H]
  \centering
  \includegraphics[width=0.8\linewidth]{plots/pijl2}
- \caption{In the second iteration of the Web, readers have become users that can alter and add to the content found on the interactive hubs. This also allows users to interact with each other.}
+ \caption[Web 2.0]{In the second iteration of the Web, readers have become users that can alter and add to the content found on the interactive hubs. This also allows users to interact with each other.}
  \label{web2}
  \end{figure}
  
@@ -233,7 +233,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \begin{figure}[H]
  \centering
  \includegraphics[width=0.8\linewidth]{plots/pijl3}
- \caption{On the third iteration of the Web, virtual agents are also able to read and write content and interact with humans (through question answering as an example). Virtual agents may also work together.}
+ \caption[Web 3.0]{On the third iteration of the Web, virtual agents are also able to read and write content and interact with humans (through question answering as an example). Virtual agents may also work together.}
  \label{web3}
  \end{figure}
  
@@ -256,7 +256,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \begin{figure}[H]
  \centering
  \includegraphics[width=0.8\linewidth]{plots/SW}
- \caption{An example of the Semantic Web represented as a graph of entities (in black) and relationships (in red). It contains many different kinds of entities, including countries and people.}
+ \caption[Semantic Web graph]{An example of the Semantic Web represented as a graph of entities (in black) and relationships (in red). It contains many different kinds of entities, including countries and people.}
  \label{semantic_web}
  \end{figure}
  
@@ -265,7 +265,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \begin{figure}[H]
  \centering
  \includegraphics[width=0.5\linewidth]{plots/kb}
- \caption{New information to be added to the Semantic Web.}
+ \caption[Knowledge Base graph]{New information to be added to the Semantic Web.}
  \label{kb}
  \end{figure}
  
@@ -276,7 +276,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \makebox[\textwidth][c]{
    \includegraphics[width=1.2\linewidth]{plots/combine}
  }
- \caption{The new information is connected to the rest of the Semantic Web by connecting the new entities with entities in the Semantic Web.}
+ \caption[Linking the Knowledge Base]{The new information is connected to the rest of the Semantic Web by connecting the new entities with entities in the Semantic Web.}
  \label{combine}
  \end{figure}
  
@@ -288,7 +288,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \makebox[\textwidth][c]{
    \includegraphics[width=1.2\linewidth]{plots/kb1}
  }
- \caption{The different sub-graphs in the Semantic Web graph. They are contained in different Knowledge Bases and connected by URIs.}
+ \caption[Semantic Web Knowledge Base view]{The different sub-graphs in the Semantic Web graph. They are contained in different Knowledge Bases and connected by URIs.}
  \label{kbs}
  \end{figure}
  
@@ -301,20 +301,22 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \makebox[\textwidth][c]{
    \includegraphics[width=1.2\linewidth]{plots/vraag1}
  }
- \caption{}
+ \caption[Graph question example]{The question posed in a) is converted to a query pattern b). Ontology information is added in c). The result is found after pattern matching in d) and then converted to a natural language answer in e).}
  \label{question_graph}
  \end{figure}
  
- There are many ways of interacting with the Semantic Web, but they all interact with the graph in some way. For example, a user can ask a question "What food does President Obama like?" Firstly, this question is converted into a format that can be used by a search system. Then, information from the ontologies is added so that the search can be performed more efficiently. Then the pattern is matched in the Semantic Web graph, listing all results. The results are then combined or filtered such that one answer pattern remains, and that pattern is converted to natural text. This process is depicted in Figure \ref{question_graph}.
+ There are many ways of interacting with the Semantic Web, but they all interact with the graph in some way. For example, a user can ask a question "What is Obama's favorite food?" Firstly, this question is converted into a format that can be used by a search system. Then, information from the ontologies is added so that the search can be performed more efficiently. Then the pattern is matched in the Semantic Web graph, listing all results. The results are then combined or filtered such that one answer pattern remains, and that pattern is converted to natural text. This process is depicted in Figure \ref{question_graph}.
 
  \begin{figure}[H]
  \centering
  \makebox[\textwidth][c]{
    \includegraphics[width=1.2\linewidth]{plots/vraag2}
  }
- \caption{}
+ \caption[Graph biography example]{Similarly to a question with a single answer, the question in a) is converted to the pattern in b). The answers that match b) are combined in c) and converted to natural language in d).}
  \label{question_graph2}
  \end{figure}
+ 
+ More complex question can be posed, although they do not need to be longer. If the question can be mapped to more parts of the Semantic Web, the answer will be longer. In this case all knowledge of Barack Obama is extracted, combined and converted into an answer.
  
  \subsubsection{Current state} %TODO This bit can use some work
  % Tip: google wie schreef Harry Potter
@@ -360,7 +362,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \begin{figure}[H]
  \includegraphics[width=0.9\linewidth]{plots/muis1}
  \label{mouse_example}
- \caption{The different body parts of the mouse are connected as in this image.}
+ \caption[Mouse Ontology]{The different body parts of the mouse are connected as in this image.}
  \end{figure}
 \end{minipage}
 
@@ -378,7 +380,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \begin{figure}[H]
  \includegraphics[width=0.7\linewidth]{plots/man}
  \label{man_example}
- \caption{The different body parts of the man are connected as in this image.}
+ \caption[Human Ontology]{The different body parts of the man are connected as in this image.}
  \end{figure}
 \end{minipage}
   
@@ -386,7 +388,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \begin{figure}[H]
  \includegraphics[width=0.7\linewidth]{plots/muisman}
  \label{muis_man_example}
- \caption{Humans and mice are connected as shown in this image.}
+ \caption[Aligned Ontologies]{Humans and mice are connected as shown in this image.}
  \end{figure}
  
  
@@ -538,6 +540,7 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
  To solve these problems I will adapt \emph{Word2vec} to graphs to create an algorithm that converts nodes to vectors, in other words \emph{Node2vec}. It can be extended with multi-sense embeddings, different ways of considering the neighbourhood and hot-starting.
  
   \subsection{Data}
+  % Uitleggen wat het verschil is en dus waarom handig in onderzoek (verschillen in grootte structuur en labels? zie conclusie)
  The data used comes from a list of data sets that the OAEI provides\cite{euzenat2013ontology}. % OAEI en kleine data common in OM. Vergelijkbaar met andere resultaten. Kleine datasets zijn logisch want: oude tak van sport.
  % Ik heb gekeken naar DeepWalk (nieuwe tak van sport)(gebruikt ook NN) OOK kleine data.
  Every data set contains two ontologies that need to be aligned and a ground truth alignment. The goal is straightforward: find the alignment given only the ontologies and whichever outside resources are needed.
@@ -582,6 +585,8 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
  \subsection{Implementation}
  The foundation the algorithm has been build and tested on is Factorie, described in \ref{factorie}. Earlier work on a forked branch of factorie was done by \cite{multisensecode} to implement multi-sense \emph{Word2vec}.
  
+ % Hier de pipeline omschrijven zoals in discussie.system
+ 
  \newpage
  \subsection{Evaluation}
  The goal of the research is to find an ontology alignment algorithm $A$ and prove that it performs better than current techniques. However, as current techniques may combine many different algorithms and sources of information, maybe such a comparison is not fair, nor is a comparison with individual algorithms as they may be optimised for being combined. So, instead we may want to see if performance is improved when adding $A$ to an ensemble of algorithms $E=(A_1,..,A_n)$.
@@ -618,28 +623,28 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
   \begin{figure}[H]
    \centering
    \includegraphics[width=\textwidth]{plots/untrained_ROC}
-   \caption{The precision and recall trade-off for the results of the untrained Node2vec. $AP = 0.04194$}
+   \caption[Precision-recall curve untrained mice]{The precision and recall trade-off for the results of the untrained Node2vec. $AP = 0.04194$}
    \label{ROC_untrained}
   \end{figure}
  
   \begin{figure}[H]
    \centering
    \includegraphics[width=\textwidth]{plots/Generic_ROC}
-   \caption{The precision and recall trade-off for the results of the Word2vec algorithm. $AP: 0.04636$}
+   \caption[Precision-recall curve pre-trained mice]{The precision and recall trade-off for the results of the Word2vec algorithm. $AP: 0.04636$}
    \label{ROC_generic}
   \end{figure}
  
   \begin{figure}[H]
    \centering
    \includegraphics[width=\textwidth]{plots/trained_ROC}
-   \caption{The precision and recall trade-off for the results of the bidirectional Node2vec. $AP = 0.04198$}
+   \caption[Precision-recall curve trained mice model]{The precision and recall trade-off for the results of the bidirectional Node2vec. $AP = 0.04198$}
    \label{ROC_trained}
   \end{figure}
   
   \begin{figure}[H]
    \centering
    \includegraphics[width=\textwidth]{plots/Alternative_ROC}
-   \caption{The precision and recall trade-off for the results of the alternative DeepWalk algorithm. $AP = 0.04193$}
+   \caption[Precision-recall curve DeepWalk mice]{The precision and recall trade-off for the results of the alternative DeepWalk algorithm. $AP = 0.04193$}
    \label{ROC_alternative}
   \end{figure}
    \subsubsection{Medical data}
@@ -654,9 +659,10 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
   Bidirectional & 0.4245\\
   Untrained & 0.4245\\
   Generic & 0.4245\\
-  \textbf{AML} & \textbf{0.94}\\ %http://disi.unitn.it/~pavel/om2015/papers/om2015_proceedings.pdf#page=125
+  \textbf{AML} & \textbf{0.94}\\ %http://disi.unitn.it/~pavel/om2015/
+  %papers/om2015_proceedings.pdf#page=125
   \end{tabular}
-  \caption{The $F_1$-scores for the different matchers for the mice dataset}
+  \caption[$F_1$ mice]{The $F_1$-scores for the different matchers for the mice dataset}
   \label{fscores}
   \end{table}
   \subsection{Jaccard}
@@ -671,57 +677,100 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
   
  \newpage
  \section{Conclusion and discussion}
- In this section I will consider the research questions and hypotheses as formulated in Sections \ref{researchquestion} and \ref{hypotheses}. In the second part of this section, I will discuss the implications of these results. In the third and last part of the section, I will describe a few avenues that might be interesting to explore further, including a number of implementations I did not consider and why.
+ In this section I will draw conclusions from the results, answer the research question and give a verdict on the hypothesis. In the second part of this section I will discuss these conclusions. In the third and last part of the section, I will describe a few avenues that might be interesting to explore further, including a number of implementations I did not consider and why.
  
  %\subsection{Recap research question} % Maak 'figure' van
  %\subsection{Recap hypotheses}
  \subsection{Conclusions} \label{conclusions}
- The main research question from Section \ref{researchquestion} is
+
+ 
+ The goal of this study was to answer the research question from Section \ref{researchquestion}:
  \begin{center}
  \textit{
  Can distributed representations of concepts be used to find relationships between concepts in ontologies better than existing matchers?
  }
  \end{center}
  
- The results from all the different evaluation measures are in agreement. From those results we can conclude that the distributed word representations system is currently \textbf{not} able to find relationships between concepts in ontologies better than existing matchers.
+ To answer this question I have examined the following points from Section \ref{hypotheses}:
+ 
+\paragraph{The algorithm uses distributed representations of concepts}
+\paragraph{The algorithm finds relationships between concepts in ontologies}
+\paragraph{The algorithm has been compared to the currently best matchers}
+\paragraph{The algorithm performs better}
+ I performed empirical research where I made the algorithm, applied it to different datasets and compared the results with existing methods.
+ 
 
+ Because the last point is not true, the answer is not in agreement with my hypothesis from Section \ref{hypotheses}:
+ 
+ \begin{center}
+ \textit{Matchers that use a distributed representation of concepts can find relationships between concepts in ontologies better than the best existing matchers.}
+ \end{center}
+ 
+The results from all the different evaluation measures are in agreement. From those results we can conclude the following:
+
+ \begin{center}
+ \textit{
+ The distributed word representations system is currently \textbf{not} able to find relationships between concepts in ontologies better than existing matchers.
+ }
+ \end{center}
+
+ 
+ 
+ 
+ 
+ 
+ 
  \subsection{Discussion}
   The system underperforms on the provided data. This can have one or more of the following four potential causes:
-  \begin{itemize}
+  \begin{enumerate}
   \item The data breaks the considered algorithms.
   \item There are bugs in the developed system unrelated to the algorithms.
   \item The considered context extraction does not work.
   \item The considered algorithms are not suited for Ontology matching.
-  \end{itemize}
+  \end{enumerate}
   
-  I will investigate all four of these causes to see which is the most likely. If potential cause one is the case, the study is invalid and should be repeated on one or more different data sets. If potential cause two is the actual cause or potential cause three is the actual cause, the study is invalid and the results should not be published until the system is fixed and the results do not change. If it is the case that none of these three potential causes is the actual cause, by elimination the fourth potential cause must be the actual cause. In that case the study is valid and it will be possible to draw the final conclusion.
+  I will investigate all four of these causes to see which is the most likely. If potential cause one is the case, the study is invalid and should be repeated on one or more different data sets. If either potential cause two or three is the actual cause, the study is invalid and the results should not be published until the system is fixed and the results do not change. If it is the case that none of these three potential causes is the actual cause, by elimination the fourth potential cause must be the actual cause. In that case the study is valid and it will be possible to draw the final conclusion.
   
   \subsubsection{The data}
-  If the data set is the cause of the underperformance, logically switching to another data set will improve performance over the baseline. Possible reasons the data set causes underperformance include the data set being too small, labels that are not useful or the data set having a structure that does not work with the algorithm. For example, the pre-trained \emph{Word2vec} model is expected to work better on a data set that has commonly used words as labels. %Aanpassen als ik 3e dataset heb.
+  If the data set is the cause of the underperformance, switching to another data set will improve performance over the baseline. Possible reasons the data set causes underperformance include the data set being too small, labels that are not useful or the data set having a structure that does not work with the algorithm. For example, the pre-trained \emph{Word2vec} model is expected to work better on a data set that has commonly used words as labels. %Aanpassen als ik 3e dataset heb.
   \paragraph{}
- The algorithm has been run on multiple data sets with no significant difference in performance. For example, compare the Average precision for the medical dataset with the anatomy dataset. The %TODO AP is between baseline en AML for both?
+ The algorithm has been run on multiple data sets which are different. Despite that there is no significant difference in performance. For example, compare the Average precision for the medical dataset with the anatomy dataset. The %TODO AP is between baseline en AML for both?
+ So the data does not cause the underperformance of the system.
  
  %Ik heb bewust gekozen voor kleine data zodat het te vergelijken was met andere matchers. Want iedereen in OM gebruikt kleine datasets.
  %Deepwalk paper ook kleine data
  %Misschien heb ik te weinig data gebruikt maar er is geen grote dataset met ground truth beschikbaar.
  %Further research: grote dataset maken door LOD te pakken, 10% weg te gooien en kijken of je dat reconstruct. 
   \subsubsection{The system}
-  If any of the steps in the software system contains an error, the whole system may fail. This could cause all algorithms to learn badly or the results to be misinterpreted. The system consists of a data loader, preprocessor, context extractor, the algorithm, the matcher and multiple visualizers. 
-  \paragraph{}
-  All other steps I have replaced by another piece of software that does the preprocessing, context extraction and the algorithm. The results are titled "alternative DeepWalk" in the results Section. Since that software has been used in other projects and is written by someone else, it can be concluded that it works. Since the results are the same as with my system, it can be concluded that the corresponding parts of my system work.
-  \paragraph{}
+  % Sectie maken waar ik het systeem beschrijf
+  If any of the steps in the software system contains an error, the whole system would fail. This could cause all algorithms to learn badly or the results to be misinterpreted. The system consists of a data loader, preprocessor, context extractor, the algorithm, the matcher and multiple visualizers. If all of these systems work properly, the system is not the reason for the underperformance.
+  
+  \begin{figure}[H]
+  \includegraphics[width=0.9\textwidth]{plots/programdiagram}
+  \label{program}
+  \caption[Program diagram]{The program is structured in sequence, except the visualisers which are structured in parallel.}
+  \end{figure}
+  
+  \paragraph{Data loading}
+  \paragraph{Preprocessing}
   The preprocessing works, as described in Section \ref{preprocessing}.  The matcher is a simple KD-tree that finds the nearest neighbours of every node in the opposing Ontology. This is unlikely to contain errors.
-  \paragraph{}
+  \paragraph{Matcher}
+  \paragraph{Statistics and visualisation}
   Since the visualizers work in parallel, errors in them would not cascade to the others, so they are all faulty or none of them are.
   \paragraph{}
-  As such, it is safe to conclude that the system has been thoroughly tested and is not faulty.
+  Since every part works, the system is not faulty. %TODO kan beter
+  
+  Secondly, all steps have been replicated by another piece of software that does the data loading, preprocessing, context extraction and the algorithm. The results of that system are titled "alternative DeepWalk" in the results Section. As system has been used in other projects and is written by someone else, it can be concluded that it works. This is more proof that the system indeed works as intended.
+  
   \subsubsection{Context extraction}
-  The context extraction for DeepWalk works, as described in Section \ref{sentences}.
+  There are different context extractors for some of the different algorithms. I will research every one: the sentence generator of DeepWalk, the context extractor for the graph-based models and the context extractor for the pre-trained model. If all three work well, the context extractors are not the cause of the underperformance.
+  \paragraph{}
+  The context extractor for DeepWalk works as generates sentences as described in Section \ref{sentences}. Since the sentences are generated properly and DeepWalk only requires sentences, the context extraction for DeepWalk works.
+  \paragraph{}
+  For the Node2vec algorithms, the context extraction is more advanced. All edges are extracted from the Ontology using Jena. Then, for every node the context is decided as every node it has an edge with. In the case of the bidirectional algorithm, both outgoing and ingoing edges count as being connected, whereas in the monodirectional algorithm only outgoing edges count as the connectedness. For the algorithms that also use the edge labels for context, double the context size is expected.
   \paragraph{}
   The context extraction of the pre-trained Word2vec consists of splitting up every label into multiple words which can be looked up. For example "Adrenal vein" can be split up into "Adrenal" and "vein".
   The pre-trained model does not use any other form of context integration.
-  \paragraph{}
-  For the Node2vec algorithms, the context extraction is more advanced. All edges are extracted from the Ontology using Jena. Then, for every node the context is decided as every node it has an edge with. In the case of the bidirectional algorithm, both outgoing and ingoing edges count as being connected, whereas in the monodirectional algorithm only outgoing edges count as the connectedness. For the algorithms that also use the edge labels for context, double the context size is expected.
   \paragraph{}
   First, I obtained the number of edges from VOWLview\cite{vowlview}, an Ontology graphing program. This was necessary since the creators of the data did not share how many edges were in the database. With the actual number of edges, obtained, it is possible to compare them with the number of edges found. If these match, the context extraction works.
   \begin{table}[H]
@@ -734,7 +783,7 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
   Bidirectional & & & &\\
   Bidirectional \& edges & & & &\\
   \end{tabular}
-  \caption{The number of edges compared to show that edge parsing was successful.}
+  \caption[Edge comparison]{The number of edges compared to show that edge parsing was successful.}
   \label{edgecounts}
   \end{table}
   Since the expected number of edges and actual number of edges match, we can conclude that the context extraction works.

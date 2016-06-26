@@ -39,14 +39,14 @@
 \contentsline {subsubsection}{\numberline {2.1.3}Workings}{14}
 \contentsline {paragraph}{}{16}
 \contentsline {paragraph}{}{17}
-\contentsline {subsubsection}{\numberline {2.1.4}Current state}{18}
+\contentsline {subsubsection}{\numberline {2.1.4}Current state}{19}
 \contentsline {paragraph}{}{19}
 \contentsline {paragraph}{}{19}
 \contentsline {paragraph}{}{19}
 \contentsline {paragraph}{}{19}
 \contentsline {paragraph}{}{19}
-\contentsline {paragraph}{}{19}
-\contentsline {paragraph}{}{19}
+\contentsline {paragraph}{}{20}
+\contentsline {paragraph}{}{20}
 \contentsline {subsubsection}{\numberline {2.1.5}Technologies}{20}
 \contentsline {subsection}{\numberline {2.2}Ontologies}{20}
 \contentsline {paragraph}{}{20}
@@ -134,24 +134,30 @@
 \contentsline {subsubsection}{\numberline {4.5.2}Expected results}{40}
 \contentsline {section}{\numberline {5}Conclusion and discussion}{41}
 \contentsline {subsection}{\numberline {5.1}Conclusions}{41}
+\contentsline {paragraph}{The algorithm uses distributed representations of concepts}{41}
+\contentsline {paragraph}{The algorithm finds relationships between concepts in ontologies}{41}
+\contentsline {paragraph}{The algorithm has been compared to the currently best matchers}{41}
+\contentsline {paragraph}{The algorithm performs better}{41}
 \contentsline {subsection}{\numberline {5.2}Discussion}{41}
-\contentsline {subsubsection}{\numberline {5.2.1}The data}{41}
+\contentsline {subsubsection}{\numberline {5.2.1}The data}{42}
 \contentsline {paragraph}{}{42}
 \contentsline {subsubsection}{\numberline {5.2.2}The system}{42}
-\contentsline {paragraph}{}{42}
-\contentsline {paragraph}{}{42}
-\contentsline {paragraph}{}{42}
-\contentsline {paragraph}{}{42}
-\contentsline {subsubsection}{\numberline {5.2.3}Context extraction}{42}
-\contentsline {paragraph}{}{42}
-\contentsline {paragraph}{}{42}
+\contentsline {paragraph}{Data loading}{43}
+\contentsline {paragraph}{Preprocessing}{43}
+\contentsline {paragraph}{Matcher}{43}
+\contentsline {paragraph}{Statistics and visualisation}{43}
 \contentsline {paragraph}{}{43}
-\contentsline {subsubsection}{\numberline {5.2.4}The algorithm}{43}
-\contentsline {subsection}{\numberline {5.3}Future research}{43}
-\contentsline {subsection}{\numberline {5.4}Discarded implementations}{43}
-\contentsline {subsubsection}{\numberline {5.4.1}Just context nodes}{43}
-\contentsline {subsubsection}{\numberline {5.4.2}Just edges}{43}
-\contentsline {subsubsection}{\numberline {5.4.3}Context matrix representation}{43}
-\contentsline {section}{\numberline {6}Lists of figures and tables}{43}
-\contentsline {section}{\numberline {7}Bibliography}{45}
+\contentsline {subsubsection}{\numberline {5.2.3}Context extraction}{43}
+\contentsline {paragraph}{}{44}
+\contentsline {paragraph}{}{44}
+\contentsline {paragraph}{}{44}
+\contentsline {paragraph}{}{44}
+\contentsline {subsubsection}{\numberline {5.2.4}The algorithm}{44}
+\contentsline {subsection}{\numberline {5.3}Future research}{45}
+\contentsline {subsection}{\numberline {5.4}Discarded implementations}{45}
+\contentsline {subsubsection}{\numberline {5.4.1}Just context nodes}{45}
+\contentsline {subsubsection}{\numberline {5.4.2}Just edges}{45}
+\contentsline {subsubsection}{\numberline {5.4.3}Context matrix representation}{45}
+\contentsline {section}{\numberline {6}Lists of figures and tables}{45}
+\contentsline {section}{\numberline {7}Bibliography}{46}
 \contentsline {section}{\numberline {8}Appendices}{I}
