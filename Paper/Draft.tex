@@ -38,13 +38,14 @@
  %TODO Results interpretation: uitleg waarom hoger en lager
  %TODO Plaatje VOWL
  %TODO Verbeteringen discussieren
- %TODO 
+ %TODO Verwijder ensemble uit evaluation
+ %TODO F-measure aan evluation
  \tableofcontents
  \newpage
  
  %Vragen
- % Hypothese waarom ik dat denk?
- % extra hypothese
+ % Hypothese waarom ik dat denk? Antwoord see Arjen notes
+ % extra hypothese. Antwoord see Arjen notes (I think? otherwise its: don't add ensemble hypothesis)
  
  \pagenumbering{arabic}
  \section{Introduction} \label{intro}
@@ -82,7 +83,7 @@ The first step, finding movies that match two criteria would be considered trivi
  \subsection{Motivation}
  In this section I will explain how the study came into existence.
  \paragraph{}
- At the 14th International Semantic Web Conference McCallum presented his keynote on \emph{Representation and Reasoning with Universal Schema Embeddings}\cite{mccallumweblecture}. 
+ At the 14th International Semantic Web Conference McCallum presented his keynote on \emph{Representation and Reasoning with Universal Schema embeddings}\cite{mccallumweblecture}. 
  
  \begin{figure}[H]
  \begin{subfigure}{.475\textwidth}
@@ -96,7 +97,7 @@ The first step, finding movies that match two criteria would be considered trivi
  \label{McCallum_matrix}
  \end{figure}
 
-The Universal Schema uses two steps. Firstly, the system learns embeddings of entities and relations found in text and Knowledge Bases\cite{universalschema}, see Figure \ref{McCallum_matrix}. Secondly, these embeddings are then used to predict new relations for the knowledge bases. The system finds embeddings such that the embeddings of entities and relations that co-occur are highly similar, see Figure \ref{McCallum_matrix}.
+The Universal Schema uses two steps. Firstly, the system learns embeddings of entities and relations found in text and knowledge bases\cite{universalschema}, see Figure \ref{McCallum_matrix}. Secondly, these embeddings are then used to predict new relations for the knowledge bases. The system finds embeddings such that the embeddings of entities and relations that co-occur are highly similar, see Figure \ref{McCallum_matrix}.
 
  \begin{figure}[H]
  \begin{subfigure}{0.475\textwidth}
@@ -110,12 +111,12 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \label{McCallum_matrix2}
  \end{figure}
  
- If some entities and relations have similar embeddings but are not known to co-occur, they are flagged as being similar. Similarly, if two entities or two relations have similar embeddings, they are likely referring to the same or similar things, see Figure \ref{McCallum_matrix2}. This can be used to infer even more similarities by collaborative filtering. The technique had very promising results in Knowledge Base completion tasks.
+ If some entities and relations have similar embeddings but are not known to co-occur, they are flagged as being similar. Similarly, if two entities or two relations have similar embeddings, they are likely referring to the same or similar things, see Figure \ref{McCallum_matrix2}. This can be used to infer even more similarities by collaborative filtering. The technique had very promising results in knowledge kase completion tasks.
   
  \begin{figure}[H]
  \centering
  \includegraphics[width=0.8\textwidth]{plots/Skip-Gram}
- \caption[Skip-Gram Model]{The embedding of a row (in pink) is optimized to be close to its context embeddings (in purple) but far away from other embeddings (in red).}
+ \caption[Skip-Gram model]{The embedding of a row (in pink) is optimized to be close to its context embeddings (in purple) but far away from other embeddings (in red).}
  \label{Skip-Gram-img}
  \end{figure}
  
@@ -124,11 +125,11 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \begin{figure}[H]
  \centering
  \includegraphics[width=0.8\linewidth]{plots/graaf}
- \caption[Ontology Matching graph example]{Similar to how the embeddings are used to predict relations within an ontology, ontology matching can be done by predicting relations between two ontologies. For example, since Gates and Bill will have very similar sets of embeddings (as their contexts are very similar) the system will recognise they are the same entity.}
+ \caption[Ontology matching graph example]{Similar to how the embeddings are used to predict relations within an ontology, ontology matching can be done by predicting relations between two ontologies. For example, since Gates and Bill will have very similar sets of embeddings (as their contexts are very similar) the system will recognise they are the same entity.}
  \label{merge_graph}
  \end{figure}
  
- McCallum plans on using these embeddings to predict new intra-knowledge base relations. However, from the keynote it is clear that this technique should work with multiple Knowledge Bases as the Universal Schema is applied to a set of Knowledge Bases including Freebase, knowledge extracted from text and the TAC Knowledge Bases Population Track Dataset. This means that inter-knowledge base relations can also be predicted using the Word Embedding Tensor Factorisation technique.
+ McCallum plans on using these embeddings to predict new intra-knowledge base relations. However, from the keynote it is clear that this technique should work with multiple knowledge bases as the Universal Schema is applied to a set of knowledge bases including Freebase, knowledge extracted from text and the TAC knowledge base population track dataset. This means that inter-knowledge base relations can also be predicted using the word embedding tensor factorisation technique.
  
  An example of an inter-knowledge base relation is shown in Figure \ref{merge_graph}. If these relations can be predicted, multiple knowledge bases can be aligned. Doing ontology alignment using these word embeddings is the goal of this work.
  \paragraph{}
@@ -137,11 +138,11 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \subsection{Justification} 
  This study is important to the future of the World Wide Web. The next goal of the Web is the Semantic Web, where computers can interact with web pages as humans do. It is necessary to build the Semantic Web as soon as possible, as the amount of information on the Web is growing so fast it will be infeasible for humans to handle\cite{overload}.
  \paragraph{}
- The core of the Semantic Web are Knowledge Bases with the corresponding Ontologies. Ontology Matching is essential for the Semantic Web to work, as the information contained in the Knowledge Bases has to be combined. Since the Semantic Web will have many small knowledge bases, they will be combined at the moment information from them is required. To combine these knowledge bases, their ontologies first need to be aligned. This is an act that will happen very often on the Semantic Web, since every interaction with the Semantic Web will usually require information from multiple domains. Large domains may be stored on multiple devices, which can be viewed as different knowledge bases which also need to be aligned. Therefore, it is save to say that efficient ontology matching will be very valuable.
+ The core of the Semantic Web are knowledge bases with the corresponding ontologies. Ontology matching is essential for the Semantic Web to work, as the information contained in the knowledge bases has to be combined. Since the Semantic Web will have many small knowledge bases, they will be combined at the moment information from them is required. To combine these knowledge bases, their ontologies first need to be aligned. This is an act that will happen very often on the Semantic Web, since every interaction with the Semantic Web will usually require information from multiple domains. Large domains may be stored on multiple devices, which can be viewed as different knowledge bases which also need to be aligned. Therefore, it is save to say that efficient ontology matching will be very valuable.
  \paragraph{}
- The most important goal of this study is to find an Ontology Matcher that is able to deal with ambiguous concepts. Since most of the knowledge on the Semantic Web is automatically gathered, it may be unreliable, ambiguous and even wrong. Therefore, ontology matching that is capable of handling this uncertain knowledge is required. Word Embeddings and especially multi-sense Word Embeddings should be able to handle a high amount of ambiguity, since multi-sense Word Embeddings are made to differentiate between different meanings of the same word.
+ The most important goal of this study is to find an ontology matcher that is able to deal with ambiguous concepts. Since most of the knowledge on the Semantic Web is automatically gathered, it may be unreliable, ambiguous and even wrong. Therefore, ontology matching that is capable of handling this uncertain knowledge is required. Word embeddings and especially multi-sense word embeddings should be able to handle a high amount of ambiguity, since multi-sense word embeddings are made to differentiate between different meanings of the same word.
  \paragraph{}
- Normally, the raw text representation of words is used for matching, for example to calculate the string distance. However, Word Embeddings Models use a vector representation, which should be more efficient.
+ Normally, the raw text representation of words is used for matching, for example to calculate the string distance. However, word embeddings models use a vector representation, which should be more efficient.
  Calculating the distance between vectors can be done very efficiently, therefore ontology matching with distributed concept representations fits that efficiency criteria. 
  \paragraph{}
  I believe the algorithms proposed in this study will work on new data without the need for redesigning. This is because distributed representation algorithms can be trained unsupervised on new domains, so they can be applied to those new domains without effort from humans. As opposed to for example the string edit distance. This is also an improvement for the semantic web.
@@ -150,21 +151,21 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
 
  \subsection{Context}
  This section will enable the reader to put the problem in perspective as well as understand the reasoning behind the solution to the problem. Everything that is mentioned in this section will be explained more in-depth further on.
- Firstly, I will give a short summary of the context by explaining why the Semantic Web requires Ontology Matching. Then I will illustrate the problem of ambiguity. Lastly, I will describe the algorithm that this study is based on.
+ Firstly, I will give a short summary of the context by explaining why the Semantic Web requires ontology matching. Then I will illustrate the problem of ambiguity. Lastly, I will describe the algorithm that this study is based on.
  \paragraph{}
- On the Semantic Web, Ontologies are used to define knowledge\cite{fensel2001ontologies}.
+ On the Semantic Web, ontologies are used to define knowledge\cite{fensel2001ontologies}.
  The term ontology will be properly defined later on, but for now it suffices to know that an ontology is a set of rules that determine what relations are allowed and required in a given domain of discourse. As a consequence, if two agents want to communicate in a given domain, they need to agree on the rules of that domain, or in other words, share the ontology of that domain.
  \paragraph{}
  However, it is unlikely that a conversation only covers one domain. To solve this, there are two potential solutions. Either you ensure that all possible combinations of domains are covered by an ontology, which means one ontology that covers all domains is required, or, alternatively, ontologies are combined on-the-fly.
  \paragraph{}
- The first option, using one single ontology, is infeasible. This is due to the fact that inference and search time scales with Ontology size\cite{complexity},
- and the number of concepts that are needed on the Semantic Web is enormous. Every single concept that is present in the billions of terabytes of text, images and sounds that are on the web needs to be represented, for every professional domain and science, in every language. And all these concepts are related. Searching through this Ontology just to find one concept would be incredibly costly. And since every interaction on the Semantic Web requires lookups in an Ontology, these lookups need to be fast.
+ The first option, using one single ontology, is infeasible. This is due to the fact that inference and search time scales with ontology size\cite{complexity},
+ and the number of concepts that are needed on the Semantic Web is enormous. Every single concept that is present in the billions of terabytes of text, images and sounds that are on the web needs to be represented, for every professional domain and science, in every language. And all these concepts are related. Searching through this ontology just to find one concept would be incredibly costly. And since every interaction on the Semantic Web requires lookups in an ontology, these lookups need to be fast.
  \paragraph{}
- The second option, the one I address in this thesis, is the problem of combining ontologies from multiple domains. Combining in this sense means connecting the related concepts from the different Ontologies. Some research has focused on Ontology Merging, with promising results. However, recently research has been slowing to the point where there is little improvement.
+ The second option, the one I address in this thesis, is the problem of combining ontologies from multiple domains. Combining in this sense means connecting the related concepts from the different ontologies. Some research has focused on ontology merging, with promising results. However, recently research has been slowing to the point where there is little improvement.
  \paragraph{}
- One big problem in Ontology matching is the fact that in different domains, words can have different meanings. Common examples are synonyms like author and writer, homonyms like bank (for money or by a river) and ambiguity. Ambiguity means that similar words mean slightly different things, or a word might have multiple related meanings.
+ One big problem in ontology matching is the fact that in different domains, words can have different meanings. Common examples are synonyms like author and writer, homonyms like bank (for money or by a river) and ambiguity. Ambiguity means that similar words mean slightly different things, or a word might have multiple related meanings.
  \paragraph{}
- A recently developed model for word embedding may be used to deal with ambiguity. It maps words to a vector space that has semantic properties, and thus can be used to calculate the relatedness of two words. There are a number of extensions that can deal with homonyms as well as data structured other than the continuous bag of words representation that the initial model was developed for. These facts show that it may be possible to make an embedding model for Ontologies and use the word relatedness to combine Ontologies\cite{multisense}.
+ A recently developed model for word embedding may be used to deal with ambiguity. It maps words to a vector space that has semantic properties, and thus can be used to calculate the relatedness of two words. There are a number of extensions that can deal with homonyms as well as data structured other than the continuous bag of words representation that the initial model was developed for. These facts show that it may be possible to make an embedding model for ontologies and use the word relatedness to combine ontologies\cite{multisense}.
  \paragraph{}
  Homonyms are two concepts that share a label, or in other words, a homonym is one word with multiple distinct meanings. As such, homonyms are inherently ambiguous, since the meaning is uncertain without context. This ambiguity is very hard for computers to deal with, as computers are used to dealing with absolute certainties.
   
@@ -217,9 +218,9 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  
 \newpage
 \section{Background}
- In this section I will discuss all concepts that are required to understand the study. Firstly, the Semantic Web, the key technology that depends very strongly on Ontology matching, will be discussed. Secondly, the concept of the Ontology itself will be addressed. Thirdly, current alignment strategies and their their problems are discussed. Lastly, other related research and technologies will be discussed. Later sections will refer back to the concepts discussed in this section.
+ In this section I will discuss all concepts that are required to understand the study. Firstly, the Semantic Web, the key technology that depends very strongly on ontology matching, will be discussed. Secondly, the concept of the ontology itself will be addressed. Thirdly, current alignment strategies and their their problems are discussed. Lastly, other related research and technologies will be discussed. Later sections will refer back to the concepts discussed in this section.
  \subsection{The Semantic Web}
-  The first concept I will discuss is the Semantic Web, also called Web 3.0, a vision of a Web that enhances the User Experience in ways that the current Web can not provide.
+  The first concept I will discuss is the Semantic Web, also called Web 3.0, a vision of a Web that enhances the user experience in ways that the current Web can not provide.
  \subsubsection{Progression of the Web}
  The original Web connected authors to readers. It allowed authors to create content, mostly static websites. Readers, however, could not change anything, merely read the sites and click on links. In this iteration of the Web there was no interaction. See Figure \ref{web1}. %cite web1.0? 
  
@@ -261,7 +262,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \paragraph{}
  Ultimately, the goal is to leverage all information that is available to an entity on the internet to improve the lives of humans. This information is not limited to the information that is online \emph{now}, but can include sensor data from the Internet of Things, data from robots, facts deduced or statistically inferred from existing data and so on. All this information can be used to accommodate the wants and needs of humans, when asked for it \textit{and} before the users are aware of their needs. The personal agent should be able to predict the users need and provide the tools that can satisfy the need.
  \paragraph{}
- To provide these tools to the user, an agent uses many different sources. For example, if the need of a researcher is knowledge on a certain topic, the agent must chart relevant topics, map relations between different domains and connect these new ideas to topics that the researcher is already familiar with. In fact, the largest part of the job an agent has to carry out on the Semantic Web is finding relationships between pieces of information on the Web. Based on this observation, we can state that Ontology and Knowledge Base Alignment is the cornerstone  of the Semantic Web, since without this vital system the Web is merely a collection of separate pieces of information. Only when those pieces are aligned can we talk of knowledge, of semantics.
+ To provide these tools to the user, an agent uses many different sources. For example, if the need of a researcher is knowledge on a certain topic, the agent must chart relevant topics, map relations between different domains and connect these new ideas to topics that the researcher is already familiar with. In fact, the largest part of the job an agent has to carry out on the Semantic Web is finding relationships between pieces of information on the Web. Based on this observation, we can state that ontology and knowledge base alignment is the cornerstone  of the Semantic Web, since without this vital system the Web is merely a collection of separate pieces of information. Only when those pieces are aligned can we talk of knowledge, of semantics.
  \paragraph{}
  To summarize, the goal of the Semantic Web is to connect all online information to help humans. Only when all information can be connected will it be possible to aid humans in their needs. But humans will only accept the Semantic Web if it is useful to them, so the Semantic Web must show its applications and usefulness before it will be used in daily life.
  \subsubsection{Workings} % Technisch uitleg. Veel voorbeelden, veel citaties. Hoe komt er info in. Hoe eruit. Hoe gaat een mens om met de SW (visie). Tags: grafen, ontologien.
@@ -278,7 +279,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \begin{figure}[H]
  \centering
  \includegraphics[width=0.5\linewidth]{plots/kb}
- \caption[Knowledge Base graph]{New information to be added to the Semantic Web.}
+ \caption[Knowledge base graph]{New information to be added to the Semantic Web.}
  \label{kb}
  \end{figure}
  
@@ -289,25 +290,25 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \makebox[\textwidth][c]{
    \includegraphics[width=1.2\linewidth]{plots/combine}
  }
- \caption[Linking the Knowledge Base]{The new information is connected to the rest of the Semantic Web by connecting the new entities with entities in the Semantic Web.}
+ \caption[Linking the knowledge base]{The new information is connected to the rest of the Semantic Web by connecting the new entities with entities in the Semantic Web.}
  \label{combine}
  \end{figure}
  
  \paragraph{}
- This big graph covers many different domains, and every domain is covered by a part of the graph, a sub-graph. For example, all people are in the same sub-graph, as are countries and the recently added foods. Every such sub-graph is one Knowledge Base that covers that specific domain. See Figure \ref{kbs} for the Knowledge Bases in the example.
+ This big graph covers many different domains, and every domain is covered by a part of the graph, a sub-graph. For example, all people are in the same sub-graph, as are countries and the recently added foods. Every such sub-graph is one knowledge base that covers that specific domain. See Figure \ref{kbs} for the knowledge bases in the example.
  
  \begin{figure}[H]
  \centering
  \makebox[\textwidth][c]{
    \includegraphics[width=1.2\linewidth]{plots/kb1}
  }
- \caption[Semantic Web Knowledge Base view]{The different sub-graphs in the Semantic Web graph. They are contained in different Knowledge Bases and connected by URIs.}
+ \caption[Semantic Web knowledge base view]{The different sub-graphs in the Semantic Web graph. They are contained in different knowledge bases and connected by URIs.}
  \label{kbs}
  \end{figure}
  
- To ensure that the Semantic Web is one big connected Web, the knowledge bases are connected by inter-knowledge base relations. The relations are made by referring to the URI of that entity. The URI consists of a link to the knowledge base and then the identifier of the entity. For example, the people are connected to their country of origin, so in the people Knowledge Base there is a reference from Obama to \emph{countries\#USA}.
+ To ensure that the Semantic Web is one big connected Web, the knowledge bases are connected by inter-knowledge base relations. The relations are made by referring to the URI of that entity. The URI consists of a link to the knowledge base and then the identifier of the entity. For example, the people are connected to their country of origin, so in the people knowledge base there is a reference from Obama to \emph{countries\#USA}.
  \paragraph{}
- In this paragraph I will explain the use of ontologies on the Semantic Web. Ontologies describe the rules by which the Knowledge Bases must play. For example, every food must have a country of origin, and those countries of origin need to be of the Country \emph{Class}. This rule enables search algorithms to limit search to the countries Knowledge Base, as it is the only Knowledge Base that contains countries\cite{whyontologies}. This is just one example of a constraint that improves the work of one system. There are many more reasons, for example adding the rule "all mothers are parents" allows inference systems to reason about richer information without having to explicitly write down every relationship.
+ In this paragraph I will explain the use of ontologies on the Semantic Web. Ontologies describe the rules by which the knowledge bases must play. For example, every food must have a country of origin, and those countries of origin need to be of the Country \emph{Class}. This rule enables search algorithms to limit search to the countries knowledge base, as it is the only knowledge base that contains countries\cite{whyontologies}. This is just one example of a constraint that improves the work of one system. There are many more reasons, for example adding the rule "all mothers are parents" allows inference systems to reason about richer information without having to explicitly write down every relationship.
  
  \begin{figure}[H]
  \centering
@@ -355,7 +356,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  Earlier, ontologies were referred to as `a set of rules that determine what relations are allowed and required.' Now, the term will be defined more extensively, the standard format will be described and the uses of ontologies will be discussed.
  \paragraph{}
  An ontology describes concepts as their relationships to other concepts. The concepts that are described determine the domain the ontology covers, and the relationships determine the rules the ontology imposes on the domain. For example, a hierarchy is an ontology that describes concepts that are subclasses of other concepts. Therefore the relationships are 'is-a' relationships: a bird \emph{is an} animal.
- Concepts can be instantiated, which is done in a Knowledge Base (KB). KBs and Ontologies are often confused, and are indeed very similar in structure. The Knowledge Base in our example can contain actually existing birds or fictional birds, and refers to the Ontology concept of bird to embed the instantiations with meaning\cite{ontologyGuru}.
+ Concepts can be instantiated, which is done in a knowledge base (KB). KBs and ontologies are often confused, and are indeed very similar in structure. The knowledge base in our example can contain actually existing birds or fictional birds, and refers to the ontology concept of bird to embed the instantiations with meaning\cite{ontologyGuru}.
  
  \subsubsection{Example} \label{example}
  In this section I will give an example of a pair of anatomical ontologies with their alignment. This example will be used throughout this work.
@@ -375,7 +376,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \begin{figure}[H]
  \includegraphics[width=0.9\linewidth]{plots/muis1}
  \label{mouse_example}
- \caption[Mouse Ontology]{The different body parts of the mouse are connected as in this image.}
+ \caption[Mouse ontology]{The different body parts of the mouse are connected as in this image.}
  \end{figure}
 \end{minipage}
 
@@ -393,7 +394,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \begin{figure}[H]
  \includegraphics[width=0.7\linewidth]{plots/man}
  \label{man_example}
- \caption[Human Ontology]{The different body parts of the man are connected as in this image.}
+ \caption[Human ontology]{The different body parts of the man are connected as in this image.}
  \end{figure}
 \end{minipage}
   
@@ -401,7 +402,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \begin{figure}[H]
  \includegraphics[width=0.7\linewidth]{plots/muisman}
  \label{muis_man_example}
- \caption[Aligned Ontologies]{Humans and mice are connected as shown in this image.}
+ \caption[Aligned ontologies]{Humans and mice are connected as shown in this image.}
  \end{figure}
  
  
@@ -417,8 +418,8 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  </owl:Class>
  \end{lstlisting}
  
- \subsubsection{Uses of Ontologies}
- There are three main reasons Ontologies are used. Firstly, it allows querying languages to optimize the search process. Secondly, it allows expansion of information on a node. Thirdly, it allows for consistency checking a Knowledge Base. Lastly, it allows merging of knowledge bases.
+ \subsubsection{Uses of ontologies}
+ There are three main reasons ontologies are used. Firstly, it allows querying languages to optimize the search process. Secondly, it allows expansion of information on a node. Thirdly, it allows for consistency checking a knowledge base. Lastly, it allows merging of knowledge bases.
  \paragraph{}
  Search can be optimized by taking into account constraints the ontology provides. For example, no professor is a student, therefore no professor can be connected to a course with 'follows' predicate. This allows a search algorithm to skip all professors when looking for people that might follow a certain course.
  \paragraph{}
@@ -461,9 +462,9 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  When these problems are solved, ontology matching has matured enough to be used in Semantic Web applications. Then it is merely the challenge to have the public adopt these technologies.
  
  \subsection{Word representation} \label{w2v}
- An important area of research in Natural Language Process is the representation of words. The most obvious representation is the collection of characters humans are used to. However, this is not useful for computers as these characters do not say anything about the meaning of the words, nor is it a representation that computers can quickly do calculations on.
+ An important area of research in Natural Language Processing is the representation of words. The most obvious representation is the collection of characters humans are used to. However, this is not useful for computers as these characters do not say anything about the meaning of the words, nor is it a representation that computers can quickly do calculations on.
  \paragraph{}
- Many different representations have been proposed. The main purpose of word representations in NLP is to represent the meaning of the word. One way to represent a word is the term frequency. This representation counts the number of occurrences of a word per document in a set of documents. The resulting vector of occurrence counts is then used to represent the words. Since the documents have a subject, there is some meaning embedded in the vector representation. However, the representation is very sparse and the semantics or meaning of the word are not captured very well. Also, the method requires many discrete documents to train on, which are not available in Ontology matching.
+ Many different representations have been proposed. The main purpose of word representations in NLP is to represent the meaning of the word. One way to represent a word is the term frequency. This representation counts the number of occurrences of a word per document in a set of documents. The resulting vector of occurrence counts is then used to represent the words. Since the documents have a subject, there is some meaning embedded in the vector representation. However, the representation is very sparse and the semantics or meaning of the word are not captured very well. Also, the method requires many discrete documents to train on, which are not available in ontology matching.
  \paragraph{}
  The rest of this subsection will describe the latest word representation model which has very interesting results in NLP. It will cover the history and the most recent advances that are relevant to this study.
  
@@ -490,7 +491,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  
  \subsubsection{Multi-sense} \label{multisense}
  %TODO Voorbeeld uit McCallum's slides kopieren en uitleggen
- Another interesting development is the multi-sense \emph{Word2vec}, which allows for multiple vector representations per word, depending on the number of different definitions a word has. For example, the word bank represents both the monetary institute and the riverside, which would both have a different representation in this extension. It can differentiate between two different meanings based on the context. The importance of allowing for multiple meanings is that between multiple ontologies, the same word can have different meanings and as such should not be matched. On the other hand, a concept in a single ontology can have multiple meanings and should therefore be matched with more than one concept from another ontology\cite{multisense}. This idea sparked the second reason why I started investigating semantic word representations for Ontology matching, since current methods do not allow for disambiguation.
+ Another interesting development is the multi-sense \emph{Word2vec}, which allows for multiple vector representations per word, depending on the number of different definitions a word has. For example, the word bank represents both the monetary institute and the riverside, which would both have a different representation in this extension. It can differentiate between two different meanings based on the context. The importance of allowing for multiple meanings is that between multiple ontologies, the same word can have different meanings and as such should not be matched. On the other hand, a concept in a single ontology can have multiple meanings and should therefore be matched with more than one concept from another ontology\cite{multisense}. This idea sparked the second reason why I started investigating semantic word representations for ontology matching, since current methods do not allow for disambiguation.
  \paragraph{}
  For example, string matchers only look at the phrases representing the concepts, and as such do not care about semantics. Structural matchers use the context, but do not use the meaning of the concept since they only look at the location of the concept within the graph. Lastly, lexical matchers do use synonyms and antonyms to see which different words could refer to the same concept, but if two concepts can be represented by one word. As such, initially the multi-sense representation seemed like a very strong candidate for improving matching results.
  
@@ -579,7 +580,7 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
   Another way to take into account the influence of neighbouring nodes is to train a multi-sense node embedding model as described in Section \ref{multisense}, and selecting from the different node senses based on which is closest to the context average.
   \subsubsection{Adding edge labels}
   To add more information to the model, edge labels can also be added to the context of a node. This method effectively doubles the training data and context size when creating the context average. This should make the model more robust, although edge labels may be duplicate (one has many unique family members) and less informative in general, so a lower weight may be appropriate. A different possible problem with this method is that the relation between a neighbour node and its corresponding edge may be lost, since they are just treated as independent contexts.
-  In the case of the mouse Ontology, the \emph{head} is above the \emph{torso} so \emph{isAbove} will be added to the context of \emph{head}. The same goes for the \emph{human head}, which will make them more similar.
+  In the case of the mouse ontology, the \emph{head} is above the \emph{torso} so \emph{isAbove} will be added to the context of \emph{head}. The same goes for the \emph{human head}, which will make them more similar.
   \subsubsection{Select from senses}
   This method is exactly the same as the selecting from node senses with just the neighbour nodes except that you now also take into account the edge labels.
   \subsubsection{Combining edges with nodes}
@@ -616,7 +617,7 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
 
   Possible reasons for the data causing bad results include the data set being too small, labels that are not useful or the data set having a structure that does not work with the algorithm. For example, the pre-trained \emph{Word2vec} model is expected to work better on a data set that has commonly used words as labels. %TODO sowieso aanpassen maar ook aanpassen als ik 3e dataset heb.
   \paragraph{}
- The algorithm has been run on multiple data sets which are different. Despite that there is no significant difference in performance. For example, compare the Average precision for the medical dataset with the anatomy dataset. The [...] %TODO AP is between baseline en AML for both?
+ The algorithm has been run on multiple data sets which are different. Despite that there is no significant difference in performance. For example, compare the Average Precision for the medical dataset with the anatomy dataset. The [...] %TODO AP is between baseline en AML for both?
  So the data does not cause the underperformance of the system.
  
  %Ik heb bewust gekozen voor kleine data zodat het te vergelijken was met andere matchers. Want iedereen in OM gebruikt kleine datasets.
@@ -634,7 +635,7 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
   
   \paragraph{Preprocessing}
 %  The preprocessing works as described in Section \ref{preprocessing}. 
-  \paragraph{Matcher}The matcher is a simple KD-tree that finds the nearest neighbours of every node in the opposing Ontology. This is unlikely to contain errors.
+  \paragraph{Matcher}The matcher is a simple KD-tree that finds the nearest neighbours of every node in the opposing ontology. This is unlikely to contain errors.
   \paragraph{Data loading}
   Since the preprocessing and context extraction works, we can conclude that the data is also loaded properly.
   \paragraph{Statistics and visualisation}
@@ -649,12 +650,12 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
   \paragraph{}
   The context extractor for DeepWalk works as generates sentences as described in Section \ref{sentences}. Since the sentences are generated properly and DeepWalk only requires sentences, the context extraction for DeepWalk works.
   \paragraph{}
-  For the Node2vec algorithms, the context extraction is more advanced. All edges are extracted from the Ontology using Jena. Then, for every node the context is decided as every node it has an edge with. In the case of the bidirectional algorithm, both outgoing and ingoing edges count as being connected, whereas in the monodirectional algorithm only outgoing edges count as the connectedness. For the algorithms that also use the edge labels for context, double the context size is expected.
+  For the Node2vec algorithms, the context extraction is more advanced. All edges are extracted from the ontology using Jena. Then, for every node the context is decided as every node it has an edge with. In the case of the bidirectional algorithm, both outgoing and ingoing edges count as being connected, whereas in the monodirectional algorithm only outgoing edges count as the connectedness. For the algorithms that also use the edge labels for context, double the context size is expected.
   \paragraph{}
   The context extraction of the pre-trained Word2vec consists of splitting up every label into multiple words which can be looked up. For example "Adrenal vein" can be split up into "Adrenal" and "vein".
   The pre-trained model does not use any other form of context integration.
   \paragraph{}
-  First, I obtained the number of edges from VOWLview\cite{vowlview}, an Ontology graphing program, which looks like Figure \ref{vowlfig}. This was necessary since the creators of the data did not share how many edges were in the database. With the actual number of edges, obtained, it is possible to compare them with the number of edges found. If these match, the context extraction works.
+  First, I obtained the number of edges from VOWLview\cite{vowlview}, an ontology graphing program, which looks like Figure \ref{vowlfig}. This was necessary since the creators of the data did not share how many edges were in the database. With the actual number of edges, obtained, it is possible to compare them with the number of edges found. If these match, the context extraction works.
   
   \begin{figure}
   \includegraphics[width=0.7\textwidth]{vowlview}
@@ -824,11 +825,11 @@ The results from all the different evaluation measures are in agreement. From th
  
  \subsection{Discussion}
  %TODO gooi weg wat niet meer waar is
-  This study shows that the algorithm of McCallum et al as shown in \cite{mccallumweblecture} does not help improve the results of ontology alignment over the straightforward baseline of simply pairing labels based on their syntactic similarity in the area of Ontology Matching. 
+  This study shows that the algorithm of McCallum et al as shown in \cite{mccallumweblecture} does not help improve the results of ontology alignment over the straightforward baseline of simply pairing labels based on their syntactic similarity in the area of ontology matching. 
 
   The results show that one assumption that was made by the developers of the Universal Schema was incorrect, namely the assumption that when combining knowledge bases matching labels refer to the same entity and vice versa. For example, Bill Gates is called Bill Gates in FreeBase as well as retrieved from unstructured text. In reality, there may be multiple entities named Bill Gates and the same entity may be labelled differently. 
   
-  This assumption will weaken further as an increasingly growing part of the Semantic Web is automatically generated and as such different labels can be assigned to the same entity. One of the goals of Ontology Matching is to link those differently labelled entities.
+  This assumption will weaken further as an increasingly growing part of the Semantic Web is automatically generated and as such different labels can be assigned to the same entity. One of the goals of ontology matching is to link those differently labelled entities.
   
   %In de presentatie zegt hij ook dat hij niet gaat proberen dingen meteen op elkaar te matchen maar gewoon alles houdt zoals het gelezen is/in de KB staat. Toch haalt hij goede resultaten met rule discovery e.d.
  \subsection{Future research}
