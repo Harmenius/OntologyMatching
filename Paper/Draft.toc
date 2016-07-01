@@ -116,48 +116,49 @@
 \contentsline {subsubsection}{\numberline {3.4.8}Training corpus}{34}
 \contentsline {subsubsection}{\numberline {3.4.9}DeepWalk}{34}
 \contentsline {subsection}{\numberline {3.5}Implementation}{34}
-\contentsline {subsection}{\numberline {3.6}Evaluation}{35}
-\contentsline {subsubsection}{\numberline {3.6.1}Evaluation methods}{35}
+\contentsline {subsection}{\numberline {3.6}System check}{34}
+\contentsline {subsubsection}{\numberline {3.6.1}The data}{35}
 \contentsline {paragraph}{}{35}
-\contentsline {paragraph}{}{35}
-\contentsline {paragraph}{}{35}
+\contentsline {subsubsection}{\numberline {3.6.2}The system}{35}
+\contentsline {paragraph}{Preprocessing}{36}
+\contentsline {paragraph}{Matcher}{36}
+\contentsline {paragraph}{Data loading}{36}
+\contentsline {paragraph}{Statistics and visualisation}{36}
 \contentsline {paragraph}{}{36}
-\contentsline {section}{\numberline {4}Results}{37}
-\contentsline {subsection}{\numberline {4.1}Precision versus recall}{37}
-\contentsline {subsubsection}{\numberline {4.1.1}Mice and men data}{37}
-\contentsline {subsubsection}{\numberline {4.1.2}Medical data}{39}
-\contentsline {subsection}{\numberline {4.2}F-score}{39}
-\contentsline {subsection}{\numberline {4.3}Jaccard}{39}
-\contentsline {subsection}{\numberline {4.4}Examples to illustrate the differences}{39}
-\contentsline {subsection}{\numberline {4.5}Interpretation}{40}
-\contentsline {subsubsection}{\numberline {4.5.1}Unexpected results}{40}
-\contentsline {subsubsection}{\numberline {4.5.2}Expected results}{40}
-\contentsline {section}{\numberline {5}Conclusion and discussion}{41}
-\contentsline {subsection}{\numberline {5.1}Conclusions}{41}
-\contentsline {paragraph}{The algorithm uses distributed representations of concepts}{41}
-\contentsline {paragraph}{The algorithm finds relationships between concepts in ontologies}{41}
-\contentsline {paragraph}{The algorithm has been compared to the currently best matchers}{41}
-\contentsline {paragraph}{The algorithm performs better}{41}
-\contentsline {subsection}{\numberline {5.2}Discussion}{41}
-\contentsline {subsubsection}{\numberline {5.2.1}The data}{42}
-\contentsline {paragraph}{}{42}
-\contentsline {subsubsection}{\numberline {5.2.2}The system}{42}
-\contentsline {paragraph}{Data loading}{43}
-\contentsline {paragraph}{Preprocessing}{43}
-\contentsline {paragraph}{Matcher}{43}
-\contentsline {paragraph}{Statistics and visualisation}{43}
-\contentsline {paragraph}{}{43}
-\contentsline {subsubsection}{\numberline {5.2.3}Context extraction}{43}
-\contentsline {paragraph}{}{44}
-\contentsline {paragraph}{}{44}
-\contentsline {paragraph}{}{44}
-\contentsline {paragraph}{}{44}
-\contentsline {subsubsection}{\numberline {5.2.4}The algorithm}{44}
-\contentsline {subsection}{\numberline {5.3}Future research}{45}
-\contentsline {subsection}{\numberline {5.4}Discarded implementations}{45}
-\contentsline {subsubsection}{\numberline {5.4.1}Just context nodes}{45}
-\contentsline {subsubsection}{\numberline {5.4.2}Just edges}{45}
-\contentsline {subsubsection}{\numberline {5.4.3}Context matrix representation}{45}
-\contentsline {section}{\numberline {6}Lists of figures and tables}{45}
-\contentsline {section}{\numberline {7}Bibliography}{46}
+\contentsline {subsubsection}{\numberline {3.6.3}Context extraction}{36}
+\contentsline {paragraph}{}{37}
+\contentsline {paragraph}{}{37}
+\contentsline {paragraph}{}{37}
+\contentsline {paragraph}{}{37}
+\contentsline {subsubsection}{\numberline {3.6.4}The algorithm}{37}
+\contentsline {subsubsection}{\numberline {3.6.5}Example: DeepWalk sentences}{38}
+\contentsline {subsection}{\numberline {3.7}Evaluation}{39}
+\contentsline {subsubsection}{\numberline {3.7.1}Evaluation methods}{39}
+\contentsline {paragraph}{}{39}
+\contentsline {paragraph}{}{39}
+\contentsline {paragraph}{}{39}
+\contentsline {paragraph}{}{40}
+\contentsline {section}{\numberline {4}Results}{41}
+\contentsline {subsection}{\numberline {4.1}Precision versus recall}{41}
+\contentsline {subsubsection}{\numberline {4.1.1}Mice and men data}{41}
+\contentsline {subsubsection}{\numberline {4.1.2}Medical data}{43}
+\contentsline {subsection}{\numberline {4.2}F-score}{43}
+\contentsline {subsection}{\numberline {4.3}Examples to illustrate the differences}{43}
+\contentsline {subsection}{\numberline {4.4}Interpretation}{44}
+\contentsline {subsubsection}{\numberline {4.4.1}Unexpected results}{44}
+\contentsline {subsubsection}{\numberline {4.4.2}Expected results}{44}
+\contentsline {section}{\numberline {5}Conclusion and discussion}{45}
+\contentsline {subsection}{\numberline {5.1}Conclusions}{45}
+\contentsline {paragraph}{The algorithm uses distributed representations of concepts}{45}
+\contentsline {paragraph}{The algorithm finds relationships between concepts in ontologies}{45}
+\contentsline {paragraph}{The algorithm has been compared to the currently best matchers}{45}
+\contentsline {paragraph}{The algorithm performs better}{45}
+\contentsline {subsection}{\numberline {5.2}Discussion}{45}
+\contentsline {subsection}{\numberline {5.3}Future research}{46}
+\contentsline {subsection}{\numberline {5.4}Discarded implementations}{46}
+\contentsline {subsubsection}{\numberline {5.4.1}Just context nodes}{46}
+\contentsline {subsubsection}{\numberline {5.4.2}Just edges}{46}
+\contentsline {subsubsection}{\numberline {5.4.3}Context matrix representation}{46}
+\contentsline {section}{\numberline {6}Lists of figures and tables}{46}
+\contentsline {section}{\numberline {7}Bibliography}{47}
 \contentsline {section}{\numberline {8}Appendices}{I}
