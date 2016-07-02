@@ -1,8 +1,9 @@
 import cc.factorie.app.nlp.embeddings.{EmbeddingOpts, TensorUtils, WordEmbeddingModel, LiteHogwildTrainer => HogWildTrainer}
-import cc.factorie.model.Weights
+import cc.factorie.model.{Weights, Weights1}
 import cc.factorie.optimize.AdaGradRDA
 import cc.factorie.la.DenseTensor1
 import java.io._
+import java.util
 import java.util.zip.{GZIPInputStream, GZIPOutputStream}
 
 import scala.collection.JavaConverters._
@@ -148,16 +149,20 @@ abstract class NodeEmbeddingModel extends WordEmbeddingModel(WordSenseOpts) {
     // <word>[<space><embedding(word)(d)>]*dim-size<newline>
     in.readLine() // Skip header
     var line : String = ""
-    val weights = new Array[Weights](vocab.size)
+    val weights: util.ArrayList[Weights1] = new util.ArrayList((0 until V).map(i => Weights(TensorUtils.setToRandom1(new DenseTensor1(D, 0)))).asJava) // initialized using wordvec random
+    var i = 0
     while({line = in.readLine; line != null}) {
       val word_ = line.split(" ").apply(0)
       val word = if(mapping == null) word_ else mapping(word_)
       val weight : Array[String] = line.split(" ").drop(1)
       val weightTensor = new DenseTensor1(weight.length)
       weight.zipWithIndex foreach (t => weightTensor.update(t._2, t._1.toDouble))
-      weights(vocab.getId(word)) = Weights(weightTensor)
+      val i = vocab.getId(word)
+      if (i > 0) {
+        weights.add(vocab.getId(word), Weights(weightTensor))
+      }
     }
-    this.weights = weights
+    this.weights = weights.asScala.toList
     in.close()
   }
 
@@ -182,10 +187,11 @@ abstract class NodeEmbeddingModel extends WordEmbeddingModel(WordSenseOpts) {
     val threadIds = (0 until threads).map(i => i)
     //val fileLen = new File(current_corpus).length
     val fileLen = ontology.getEdges.size
-    for (it <- 0 to nIts) {
+    for (it <- 0 until nIts) {
       println("Iteration: " + it)
-      threadIds.par.foreach(workerThread(_, fileLen, 300))
-      store()
+      threadIds.par.foreach(workerThread(_, fileLen, 30))
+      //if (it % 10 == 0)
+        store()
     }
     println("Done learning embeddings.")
     if (!WordSenseOpts.embeddingOutFile.value.isEmpty && (WordSenseOpts.inputFilename.value.isEmpty || WordSenseOpts.continue.value))

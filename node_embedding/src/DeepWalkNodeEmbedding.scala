@@ -10,7 +10,7 @@ import scala.collection.mutable.ArrayBuffer
 /**
   * Created by harmen on 16-6-16.
   */
-class DeepWalkNodeEmbedding extends NodeEmbeddingModel {
+class DeepWalkNodeEmbedding extends SkipGramNodeEmbedding {
 
   val URIs = Array("http://mouse.owl#",
                    "http://human.owl#")
@@ -114,7 +114,7 @@ class DeepWalkNodeEmbedding extends NodeEmbeddingModel {
       process(sentence.toString())
       if (ndoc % printAfterNDoc == 0 && id == 0) {
         printf("Progress: %d/%d%n", ndoc, nIts)
-        store()
+        //store()
       }
       work = check_finished(ndoc)
       curOnt = maybeSwitch(curOnt)
@@ -122,11 +122,11 @@ class DeepWalkNodeEmbedding extends NodeEmbeddingModel {
   }
 
   // Stuff copied from SkipGramNodeEmbedding
-  def getVector(node: RDFNode) : Array[Double] = {
+  override def getVector(node: RDFNode) : Array[Double] = {
     getVector(ontology.toString(node))
   }
 
-  def getVector(index: Int) : Array[Double] = {
+  override def getVector(index: Int) : Array[Double] = {
     if (vocab == null) {
       this.buildVocab()
     }
@@ -137,7 +137,7 @@ class DeepWalkNodeEmbedding extends NodeEmbeddingModel {
     Array.tabulate(weight.value.size)(i => weight.value(i))
   }
 
-  def getVector(name: String) : Array[Double] = {
+  override def getVector(name: String) : Array[Double] = {
     if (vocab == null) {
       this.buildVocab()
     }
@@ -148,12 +148,13 @@ class DeepWalkNodeEmbedding extends NodeEmbeddingModel {
   }
 
   // Stuff copied from SKipGramEmbeddingModel
-  val negative = opts.negative.value
-  val window = opts.window.value
-  val rng = new util.Random(5) // set rng seed
-  val sample = opts.sample.value.toDouble
+  // Probably can be removed now that it extends it
+  override val negative = opts.negative.value
+  override val window = opts.window.value
+  override val rng = new java.util.Random(5) // set rng seed
+  override val sample = opts.sample.value.toDouble
 
-  def process(doc: String): Int = {
+  override def process(doc: String): Int = {
     // given a document, below line splits by space and converts each word to Int (by vocab.getId) and filters out words not in vocab
     var sen = doc.stripLineEnd.split(' ').map(word => vocab.getId(word)).filter(id => id != -1)
     val wordCount = sen.size

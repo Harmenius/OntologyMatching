@@ -1,17 +1,20 @@
 import cc.factorie.app.nlp.embeddings.FastLineReader
 import com.hp.hpl.jena.graph.Node_Literal
+import com.hp.hpl.jena.ontology.OntResource
+import com.hp.hpl.jena.ontology.impl.OntModelImpl
 import com.hp.hpl.jena.rdf.model._
 import com.hp.hpl.jena.rdf.model.impl.LiteralImpl
 import com.hp.hpl.jena.util.FileManager
+import com.hp.hpl.jena.vocabulary.RDFS
 
 import scala.collection.JavaConverters._
 import scala.collection.immutable.HashMap
 
 abstract class Ontology {
   val LABEL_URI = "http://www.w3.org/2000/01/rdf-schema#label"
-  val EDGE_URIS = Array(//"http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym",
-                        "http://www.w3.org/2000/01/rdf-schema#subClassOf"
-  )// "http://www.geneontology.org/formats/oboInOwl#hasDefinition")
+  val EDGE_URIS = Array("http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym",
+                        "http://www.w3.org/2000/01/rdf-schema#subClassOf",
+                        "http://www.geneontology.org/formats/oboInOwl#hasDefinition")
   val REF_URIS = Array("http://knowledgeweb.semanticweb.org/heterogeneity/alignmententity1",
                        "http://knowledgeweb.semanticweb.org/heterogeneity/alignmententity2",
                        "http://knowledgeweb.semanticweb.org/heterogeneity/alignmentmeasure")
@@ -52,6 +55,7 @@ abstract class Ontology {
 }
 
 class RDFOntology (filename: String, reference: Boolean = false) extends Ontology {
+  val LABEL_PROPERTY = RDFS.label
   def get_label(uri: String) : String = {
     val n = model.getResource(uri)
     val e = model.listStatements(n, model.getProperty(LABEL_URI), null).nextStatement()
@@ -60,21 +64,36 @@ class RDFOntology (filename: String, reference: Boolean = false) extends Ontolog
   }
 
   val model : Model = FileManager.get.loadModel(filename)
+  printf("%s contains %d nodes and %d edges%n", filename, getNodes.size, getEdges.size)
 
   def getNodes: Iterator[String] = {
     val nodes = getEdges.map(_.split(" ")).flatMap[String](a => Array(a(0),a(2)))
     if(this.reference)
       return nodes
     else
-      return nodes.toSet.toIterator//.filterNot(_.contains("blank:")).toSet.toIterator
+      return nodes.toSet.toIterator.filterNot(_.contains("blank:")).toSet.toIterator
+  }
+
+
+  def filterlabelless(strings: Iterator[String]): Iterator[String] = {
+    val stringlist = strings.toList
+    val prefix = "http://" + filename.split("/").last + "#"
+    val fullstrings = stringlist.map(str => str.split(" ").map(prefix + _))
+
+    val nodes = fullstrings.map(uris => (model.getResource(uris(0)), model.getResource(uris(2))))
+    stringlist.iterator
+  }
+
+  def filterblank(strings: Iterator[String]): Iterator[String] = {
+    strings.toSet.toIterator.filterNot(s => s.contains("blank:") || s.contains("Thing")).toSet.toIterator
   }
 
   def getEdges: Iterator[String] = {
     val stmtit = reference match {
       case false =>
- //       model.listStatements(null, model.getProperty(EDGE_URIS(0)), null) andThen
- //       model.listStatements(null, model.getProperty(EDGE_URIS(1)), null) andThen
-        model.listStatements(null, model.getProperty(EDGE_URIS(0)), null)
+        //model.listStatements(null, model.getProperty(EDGE_URIS(0)), null) andThen
+        model.listStatements(null, model.getProperty(EDGE_URIS(1)), null) //andThen
+        //model.listStatements(null, model.getProperty(EDGE_URIS(2)), null)
       case true =>
         model.listStatements(null, model.getProperty(REF_URIS(0)), null) andThen
         model.listStatements(null, model.getProperty(REF_URIS(1)), null) andThen
@@ -84,7 +103,7 @@ class RDFOntology (filename: String, reference: Boolean = false) extends Ontolog
     if(this.reference)
       return edges
     else
-      return edges.filterNot(_.contains("blank:"))
+      return filterblank(filterlabelless(edges))
   }
 }
 

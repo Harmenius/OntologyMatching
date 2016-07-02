@@ -8,6 +8,7 @@ import cc.factorie.model.Weights
 import com.hp.hpl.jena.rdf.model.RDFNode
 
 import math.sqrt
+import scala.collection.mutable
 import scala.util.Try
 
 /**
@@ -21,18 +22,19 @@ object Normal_W2V {
 
   def main(args: Array[String]): Unit = {
     model.buildVocab()
-    model.loadEmbeddings()
+    model.learnEmbeddings()
+    Evaluator.model = model
     val alignment = align()
 
     //Visualizer.hist_alignment(alignment)
     //alignment.set_threshold(0.075)
     val truth = Evaluator.loadTruth()
-    Visualizer.compare_hist(alignment, truth, calc)
+    //Visualizer.compare_hist(alignment, truth, calc)
     val dice = Evaluator.compare(alignment, truth)
-    val synonyms = Evaluator.loadTruth(WordSenseOpts.synonyms.value)
-    val dice_ = Evaluator.compare(synonyms, truth)
+    //val synonyms = Evaluator.loadTruth(WordSenseOpts.synonyms.value)
+    //val dice_ = Evaluator.compare(synonyms, truth)
     printf("The result of what you have been working for for months: %s%n", dice)
-    printf("For reference, just the synonyms scores: %s%n", dice_)
+    //printf("For reference, just the synonyms scores: %s%n", dice_)
     //show_alignment(alignment, truth)
     Evaluator.plot_roc(alignment, truth, this.calc)
   }
@@ -41,7 +43,7 @@ object Normal_W2V {
     val o1 = model.getOntologies(0)
     val o2 = model.getOntologies(1)
     println("Building trees for aligning")
-    val synonyms = model.loadSynonyms()
+    val synonyms = mutable.HashMap[String, String]() //model.loadSynonyms()
 
     val nodes1 = o1.getNodes.map(model.getRootSynonym(_, synonyms)).toSet[String].toArray[String] // Don't grab all synonyms too
     val vectors1 : Array[Array[Double]] = nodes1.map(n => model.getVector(n))
@@ -69,6 +71,8 @@ object Normal_W2V {
   }
 
   def calc(node1: String, node2: String): Double = {
+    if (node1 == node2)
+      return -0.1
     val v1 = model.getVector(node1)
     val v2 = model.getVector(node2)
     val v = sqrt((v1 zip v2 map {case (x,y)=> (x - y) * (x - y)}).sum) // Euclidean vector distance
@@ -88,12 +92,11 @@ class SeparatedVocab() extends VocabBuilder(5e5.toInt, 3e6.toInt, 0.7) {
   }
 }
 
-class NormalEmbeddingModel() extends NodeEmbeddingModel {
+class NormalEmbeddingModel() extends SkipGramNodeEmbedding {
 
   this.vocab = new SeparatedVocab()
 
   override def loadEmbeddings(mapping: scala.collection.mutable.HashMap[String, String] = null) {
-    println("Loading embeddings")
     val in = new BufferedReader(new InputStreamReader(
       storeInBinary match {
         case true => new FileInputStream(WordSenseOpts.inputFilename.value)
@@ -117,7 +120,6 @@ class NormalEmbeddingModel() extends NodeEmbeddingModel {
     }
     this.weights = weights
     in.close()
-    println("Done loading embeddings")
   }
 
   override protected def buildVocabRDF(corpus: String, synonyms: scala.collection.mutable.HashMap[String, String], vocab_i: Int) = {
@@ -159,11 +161,11 @@ class NormalEmbeddingModel() extends NodeEmbeddingModel {
     println("Corpus Stat - Vocab Size :" + V + " Total words (effective) in corpus : " + train_nodes)
   }
 
-  def getVector(node: RDFNode) : Array[Double] = {
+  override def getVector(node: RDFNode) : Array[Double] = {
     getVector(ontology.toString(node))
   }
 
-  def getVector(index: Int) : Array[Double] = {
+  override def getVector(index: Int) : Array[Double] = {
     if (vocab == null) {
       this.buildVocab()
     }
@@ -173,7 +175,7 @@ class NormalEmbeddingModel() extends NodeEmbeddingModel {
     getVector(vocab.getWord(index))
   }
 
-  def getVector(name: String) : Array[Double] = {
+  override def getVector(name: String) : Array[Double] = {
     if (vocab == null) {
       this.buildVocab()
     }
@@ -193,7 +195,7 @@ class NormalEmbeddingModel() extends NodeEmbeddingModel {
   }
 
   // override this function in your Embedding Model like SkipGramEmbedding or CBOWEmbedding
-  override protected def process(doc: String): Int = {
+  override def process(doc: String): Int = {
     1
   }
 }

@@ -14,7 +14,7 @@ import scala.util.Try
 object Evaluator {
 
   val opts = WordSenseOpts
-  val model = new SkipGramNodeEmbedding()
+  var model: NodeEmbeddingModel = null
 
   def get_compare_stats(alignment: Alignment, truth: Alignment, calc: (String, String) => Double = this.calc): (Int, Int, Int) = {
     val alignmentset = alignment.alignments.asScala.toSet[(String, String, Double)].map { case (s: String, o: String, v: Double) => (s, o) }
@@ -51,8 +51,8 @@ object Evaluator {
 
   def obtain_name(subj: String, predicate: String) : String = {
     val (o, uri) = predicate.endsWith("1") match {
-      case true  => (model.getOntologies(0), "http://mouse.owl#")
-      case false => (model.getOntologies(1), "http://human.owl#")
+      case true  => (model.getOntologies(0), "http://" + WordSenseOpts.corpusses.value.split(";").head.split("/").last + "#")
+      case false => (model.getOntologies(1), "http://" + WordSenseOpts.corpusses.value.split(";")(1).split("/").last + "#")
     }
     o match {
       case ontology: RDFOntology =>
@@ -92,9 +92,10 @@ object Evaluator {
     val rs = new ArrayBuffer[Double]()
     var i = 0
     var correct = 0
-    val truthset = truth.alignments.asScala.map(t => (t._1, t._2)).toSet
+    val truthset_ = truth.alignments.asScala.map(t => (t._1, t._2)).toSet
+    val truthset = truthset_.filterNot(t => calc(t._1, t._2) >= 100000)
     val N = truthset.size
-    for (trip <- alignment.alignments.iterator().asScala) {
+    for (trip <- alignment.alignments.asScala.toList.sortWith((t, t_) => t._3 < t_._3)) {
       i += 1
       if (truthset.contains((trip._1, trip._2)) || truthset.contains((trip._2, trip._1)))
         correct += 1
@@ -104,15 +105,19 @@ object Evaluator {
 
     //var mx = 0.toDouble
     //val ps_ = ps.map(v => {mx = math.max(mx, v); mx})
+    val fs = ps zip rs map {case (p, r) => 2*p*r / (p + r)}
+    val order = fs.zipWithIndex.sortWith((t, t_) => t._1 < t_._1).map(t => t._2).reverse
+    val sorted = order.map(fs(_))
+    println(sorted.slice(0,10) zip order.map(rs(_)))
 
     Visualizer.scatter(rs, ps)
-    val cutoff = 2000
-    //println("AP: " + ps.slice(0, cutoff).sum/cutoff)
-    val F = ps zip rs map {case (p, r) => 2 * p * r / (p + r)}
-    println("F: " + F.max)
+    val cutoff = ps.size
+    println("AP: " + ps.slice(0, cutoff).sum/cutoff)
+    println("F: " + fs.max)
   }
 
   def main(args: Array[String]) {
+    model = new DeepWalkNodeEmbedding//new SkipGramNodeEmbedding()
     val write = false
     if (write) {
       val o1 = new RDFOntology(WordSenseOpts.corpusses.value.split(";").head)
@@ -141,34 +146,34 @@ object Evaluator {
 
       val file_ = new FileWriter(new File("edgemappings.csv"))
       for (pair <- hm.toList) {
-        file_.append(pair._1.toString + " " + pair._1.toString + "\n")
+        file_.append(pair._1.toString + " " + pair._2.toString + "\n")
       }
       file_.close()
     } else {
       println("Starting")
 
-      /*
       val file = io.Source.fromFile("edgemappings.csv")
       val hm = new mutable.HashMap[String, String]()
       for (line <- file.getLines()) {
         hm.put(line.split(" ").head, line.split(" ").last)
       }
-      */
 
-      loadTruth()
-      model.buildVocab()
-      model.learnEmbeddings()
+      //val truth = loadTruth()
 
-      val alignment = makeAlignment(alreadyloaded = true)
+      //model.buildVocab()
+      //model.learnEmbeddings()
+      //model.loadEmbeddings(hm)
+
+      val alignment = makeAlignment(alreadyloaded = false)
       dotherest(alignment)
     }
   }
 
     def dotherest(alignment: Alignment) {
-      Visualizer.hist_alignment(alignment)
-      //alignment.set_threshold(0.0075)
+      //Visualizer.hist_alignment(alignment)
+      alignment.set_threshold(-0.0075)
       val truth = loadTruth()
-      Visualizer.compare_hist(alignment, truth)
+      //Visualizer.compare_hist(alignment, truth)
       val dice = compare(alignment, truth)
       //val synonyms = loadTruth(WordSenseOpts.synonyms.value)
       //val dice_ = compare(synonyms, truth)
@@ -200,8 +205,10 @@ object Evaluator {
   }
 
   def calc(node1: String, node2: String): Double = {
-    val v1 = model.getVector(node1)
-    val v2 = model.getVector(node2)
+    if (node1 == node2)
+      return -0.1
+    val v1 = model.asInstanceOf[SkipGramNodeEmbedding].getVector(node1)
+    val v2 = model.asInstanceOf[SkipGramNodeEmbedding].getVector(node2)
     val v = sqrt((v1 zip v2 map {case (x,y)=> (x - y) * (x - y)}).sum) // Euclidean vector distance
     if (v.isNaN) {
       100000d
@@ -223,14 +230,14 @@ object Evaluator {
     val o1 = model.getOntologies(0)
     val o2 = model.getOntologies(1)
     println("Building trees for aligning")
-    val synonyms = model.loadSynonyms()
+    val synonyms = new mutable.HashMap[String, String]()// model.loadSynonyms()
 
     val nodes1 = o1.getNodes.map(model.getRootSynonym(_, synonyms)).toSet[String].toArray[String] // Don't grab all synonyms too
-    val vectors1 : Array[Array[Double]] = nodes1.map(n => model.getVector(n))
+    val vectors1 : Array[Array[Double]] = nodes1.map(n => model.asInstanceOf[SkipGramNodeEmbedding].getVector(n))
     val nv1 = vectors1.zip(nodes1).filterNot{case (v,_) => v(0).isNaN}.unzip
 
     val nodes2 = o2.getNodes.map(model.getRootSynonym(_, synonyms)).toSet[String].toArray[String]
-    val vectors2 : Array[Array[Double]] = nodes2.map(n => model.getVector(n))
+    val vectors2 : Array[Array[Double]] = nodes2.map(n => model.asInstanceOf[SkipGramNodeEmbedding].getVector(n))
     val nv2 = vectors2.zip(nodes2).filterNot{case (v,_) => v(0).isNaN}.unzip
 
     val tree1 = KDTree(nv1)
@@ -240,7 +247,7 @@ object Evaluator {
     println("Starting with aligning")
     val alignment = new Alignment
     for(n1 <- nv1._2) {
-      for(n2 <- tree2.knn(model.getVector(n1), 2)) {
+      for(n2 <- tree2.knn(model.asInstanceOf[SkipGramNodeEmbedding].getVector(n1), 2)) {
         val n2_ = n2.value
         if (!n1.contains("blank") && !n2_.contains("blank"))
           alignment.add(n1, n2.value, calc(n1, n2.value))
