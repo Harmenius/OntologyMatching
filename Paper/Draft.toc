@@ -53,7 +53,7 @@
 \contentsline {subsubsection}{\numberline {2.2.1}Example}{20}
 \contentsline {subsubsection}{\numberline {2.2.2}OWL}{22}
 \contentsline {paragraph}{}{22}
-\contentsline {subsubsection}{\numberline {2.2.3}Uses of Ontologies}{22}
+\contentsline {subsubsection}{\numberline {2.2.3}Uses of ontologies}{22}
 \contentsline {paragraph}{}{22}
 \contentsline {paragraph}{}{22}
 \contentsline {paragraph}{}{22}
@@ -134,7 +134,7 @@
 \contentsline {subsubsection}{\numberline {3.6.5}Example: DeepWalk sentences}{38}
 \contentsline {subsection}{\numberline {3.7}Evaluation}{39}
 \contentsline {subsubsection}{\numberline {3.7.1}Evaluation methods}{39}
-\contentsline {paragraph}{}{39}
+\contentsline {paragraph}{Jaccard similarity}{39}
 \contentsline {paragraph}{}{39}
 \contentsline {paragraph}{}{39}
 \contentsline {paragraph}{}{40}

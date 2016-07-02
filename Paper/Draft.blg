@@ -9,20 +9,6 @@ Warning--entry type for "git-factorie" isn't style-file defined
 --line 147 of file bibliography.bib
 Warning--entry type for "mccallumweblecture" isn't style-file defined
 --line 240 of file bibliography.bib
-I was expecting a `,' or a `}'---line 247 of file bibliography.bib
- : 
- : @article{overload,
-(Error may have been on previous line)
-I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 251 of file bibliography.bib
- : 
- : publisher={Research Gate}
-(Error may have been on previous line)
-I'm skipping whatever remains of this entry
-Warning--I didn't find a database entry for "univeralschema"
-Warning--I didn't find a database entry for "scala"
-Warning--I didn't find a database entry for "vowlview"
-Warning--I didn't find a database entry for "mice_ontology"
 Warning--empty journal in schreiber
 Warning--empty journal in byrne
 Warning--empty journal in complexity
@@ -30,46 +16,47 @@ Warning--empty year in complexity
 Warning--can't use both volume and number fields in levenshtein
 Warning--empty journal in multisense
 Warning--empty year in multisense
-Warning--empty journal in overload
-You've used 29 entries,
+Warning--empty institution in scala
+Warning--empty journal in universalschema
+You've used 34 entries,
             2118 wiz_defined-function locations,
-            658 strings with 8537 characters,
-and the built_in function-call counts, 10204 in all, are:
-= -- 982
-> -- 527
-< -- 10
-+ -- 212
-- -- 180
-* -- 696
-:= -- 1686
-add.period$ -- 88
-call.type$ -- 29
-change.case$ -- 171
+            677 strings with 9724 characters,
+and the built_in function-call counts, 12748 in all, are:
+= -- 1223
+> -- 707
+< -- 13
++ -- 284
+- -- 246
+* -- 889
+:= -- 2097
+add.period$ -- 105
+call.type$ -- 34
+change.case$ -- 219
 chr.to.int$ -- 0
-cite$ -- 37
-duplicate$ -- 396
-empty$ -- 772
-format.name$ -- 180
-if$ -- 2140
+cite$ -- 43
+duplicate$ -- 478
+empty$ -- 930
+format.name$ -- 246
+if$ -- 2675
 int.to.chr$ -- 0
-int.to.str$ -- 29
-missing$ -- 28
-newline$ -- 144
-num.names$ -- 58
-pop$ -- 209
+int.to.str$ -- 34
+missing$ -- 31
+newline$ -- 168
+num.names$ -- 68
+pop$ -- 270
 preamble$ -- 1
-purify$ -- 144
+purify$ -- 186
 quote$ -- 0
-skip$ -- 295
+skip$ -- 360
 stack$ -- 0
-substring$ -- 530
-swap$ -- 98
-text.length$ -- 10
+substring$ -- 647
+swap$ -- 130
+text.length$ -- 13
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 112
-warning$ -- 8
-while$ -- 96
-width$ -- 31
-write$ -- 305
-(There were 2 error messages)
+type$ -- 132
+warning$ -- 9
+while$ -- 115
+width$ -- 36
+write$ -- 359
+(There were 12 warnings)

@@ -32,14 +32,13 @@
  \section*{Summary}
  %TODO Definitions
  %TODO Word index
- %TODO Fix hoofdletters (bv ontology, kb)
  %TODO spelling (database dataset)
  %TODO volgorde bieb (APA?)
  %TODO Results interpretation: uitleg waarom hoger en lager
  %TODO Plaatje VOWL
  %TODO Verbeteringen discussieren
  %TODO Verwijder ensemble uit evaluation
- %TODO F-measure aan evluation
+ %TODO F-measure aan evaluation
  \tableofcontents
  \newpage
  
@@ -658,7 +657,7 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
   First, I obtained the number of edges from VOWLview\cite{vowlview}, an ontology graphing program, which looks like Figure \ref{vowlfig}. This was necessary since the creators of the data did not share how many edges were in the database. With the actual number of edges, obtained, it is possible to compare them with the number of edges found. If these match, the context extraction works.
   
   \begin{figure}
-  \includegraphics[width=0.7\textwidth]{vowlview}
+%  \includegraphics[width=0.7\textwidth]{vowlview}
   \caption[]{}
   \label{vowlfig}
   \end{figure}
@@ -766,11 +765,13 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
   \multirow{2}{*}{\textbf{Matcher}} & \multicolumn{2}{c}{\textbf{$F_1$-score}} \\
   & Anatomy & Medical\\
   \hline
-  Alternative & 0.6372 & 0.2494 \\
+  Label Match & 0.6926 & 0.4905 \\
+  Random & 0.6926 & 0.4905 \\
+  Generic & 0.6372 & 0.3874 \\
   Bidirectional & 0.8432 & 0.4946 \\
-  Label match + Random & 0.6926 & 0.3875 \\
-  Generic & 0.6372 & 0.2419 \\
-  \textbf{AML} & \textbf{0.94} & \textbf{0.81} \\ %http://disi.unitn.it/~pavel/om2015/
+  Deepwalk &  & 0.4906 \\
+  Alternative & 0.6372 & 0.4905 \\
+  \textbf{AML ensemble} & \textbf{0.94} & \textbf{0.81} \\ %http://disi.unitn.it/~pavel/om2015/
   %papers/om2015_proceedings.pdf#page=125
   \end{tabular}
   \end{table}

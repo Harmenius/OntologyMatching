@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.5.11)  1 JUL 2016 09:54
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.5.11)  2 JUL 2016 10:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -549,205 +549,135 @@ Overfull \hbox (19.48613pt too wide) in paragraph at lines 23--26
 File: plots/select_movies.jpg Graphic file (type jpg)
 
 <use plots/select_movies.jpg>
-Package pdftex.def Info: plots/select_movies.jpg used on input line 56.
+Package pdftex.def Info: plots/select_movies.jpg used on input line 55.
 (pdftex.def)             Requested size: 310.4979pt x 195.15578pt.
  [1 <./plots/select_movies.jpg>] [2]
-
-LaTeX Warning: Citation `mccallumweblecture' on page 3 undefined on input line 
-86.
-
 <plots/McCallum_matrix.png, id=31, 435.6275pt x 421.575pt>
 File: plots/McCallum_matrix.png Graphic file (type png)
 
 <use plots/McCallum_matrix.png>
-Package pdftex.def Info: plots/McCallum_matrix.png used on input line 90.
+Package pdftex.def Info: plots/McCallum_matrix.png used on input line 89.
 (pdftex.def)             Requested size: 155.68274pt x 150.66045pt.
 
 <plots/graaf1.jpg, id=32, 472.76625pt x 638.385pt>
 File: plots/graaf1.jpg Graphic file (type jpg)
  <use plots/graaf1.jpg>
-Package pdftex.def Info: plots/graaf1.jpg used on input line 93.
+Package pdftex.def Info: plots/graaf1.jpg used on input line 92.
 (pdftex.def)             Requested size: 155.68274pt x 210.2196pt.
-
-
-LaTeX Warning: Citation `universalschema' on page 3 undefined on input line 100
-.
 
 [3 <./plots/McCallum_matrix.png (PNG copy)> <./plots/graaf1.jpg>]
 <plots/McCallum_matrix2.png, id=36, 437.635pt x 430.60875pt>
 File: plots/McCallum_matrix2.png Graphic file (type png)
 
 <use plots/McCallum_matrix2.png>
-Package pdftex.def Info: plots/McCallum_matrix2.png used on input line 104.
+Package pdftex.def Info: plots/McCallum_matrix2.png used on input line 103.
 (pdftex.def)             Requested size: 155.68274pt x 153.18584pt.
 
 <plots/graaf2.jpg, id=37, 472.76625pt x 638.385pt>
 File: plots/graaf2.jpg Graphic file (type jpg)
  <use plots/graaf2.jpg>
-Package pdftex.def Info: plots/graaf2.jpg used on input line 107.
+Package pdftex.def Info: plots/graaf2.jpg used on input line 106.
 (pdftex.def)             Requested size: 155.68274pt x 210.2196pt.
 
 <plots/Skip-Gram.png, id=38, 555.07375pt x 322.20375pt>
 File: plots/Skip-Gram.png Graphic file (type png)
 
 <use plots/Skip-Gram.png>
-Package pdftex.def Info: plots/Skip-Gram.png used on input line 118.
+Package pdftex.def Info: plots/Skip-Gram.png used on input line 117.
 (pdftex.def)             Requested size: 276.00105pt x 160.2116pt.
- [4 <./plots/McCallum_matrix2.png (PNG copy)> <./plots/graaf2.jpg>]
-
-LaTeX Warning: Citation `w2v' on page 5 undefined on input line 123.
-
-
-LaTeX Warning: Citation `mccallumweblecture' on page 5 undefined on input line 
-123.
-
-<plots/graaf.jpg, id=43, 255.5949pt x 199.947pt>
+ [4 <./plots/McCallum_matrix2.png (PNG copy)> <./plots/graaf2.jpg>] <plots/graa
+f.jpg, id=43, 255.5949pt x 199.947pt>
 File: plots/graaf.jpg Graphic file (type jpg)
- <use plots/graaf.jpg>
-Package pdftex.def Info: plots/graaf.jpg used on input line 127.
+
+<use plots/graaf.jpg>
+Package pdftex.def Info: plots/graaf.jpg used on input line 126.
 (pdftex.def)             Requested size: 276.00105pt x 215.90903pt.
- [5 <./plots/Skip-Gram.png>]
-
-LaTeX Warning: Citation `overload' on page 6 undefined on input line 139.
-
-[6 <./plots/graaf.jpg>] [7]
-
-LaTeX Warning: Citation `fensel2001ontologies' on page 8 undefined on input lin
-e 156.
-
-
-LaTeX Warning: Citation `complexity' on page 8 undefined on input line 161.
-
-
-LaTeX Warning: Citation `multisense' on page 8 undefined on input line 168.
-
-[8] [9]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 207.
+ [5 <./plots/Skip-Gram.png>] [6 <./plots/graaf.jpg>]
+[7] [8] [9]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 206.
 
  (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 207.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 206.
  [10]
 <plots/pijl1.jpg, id=64, 457.4691pt x 99.7326pt>
 File: plots/pijl1.jpg Graphic file (type jpg)
  <use plots/pijl1.jpg>
-Package pdftex.def Info: plots/pijl1.jpg used on input line 229.
+Package pdftex.def Info: plots/pijl1.jpg used on input line 228.
 (pdftex.def)             Requested size: 276.00105pt x 60.1748pt.
 
 <plots/pijl2.jpg, id=65, 611.4042pt x 183.8067pt>
 File: plots/pijl2.jpg Graphic file (type jpg)
  <use plots/pijl2.jpg>
-Package pdftex.def Info: plots/pijl2.jpg used on input line 239.
+Package pdftex.def Info: plots/pijl2.jpg used on input line 238.
 (pdftex.def)             Requested size: 276.00105pt x 82.97588pt.
 
 [11 <./plots/pijl1.jpg>] <plots/pijl3.jpg, id=69, 638.8668pt x 438.1971pt>
 File: plots/pijl3.jpg Graphic file (type jpg)
 
 <use plots/pijl3.jpg>
-Package pdftex.def Info: plots/pijl3.jpg used on input line 249.
+Package pdftex.def Info: plots/pijl3.jpg used on input line 248.
 (pdftex.def)             Requested size: 276.00105pt x 189.31035pt.
  [12 <./plots/pijl2.jpg> <./plots/pijl3.jpg>] [13]
 <plots/SW.jpg, id=76, 548.7702pt x 637.9032pt>
 File: plots/SW.jpg Graphic file (type jpg)
  <use plots/SW.jpg>
-Package pdftex.def Info: plots/SW.jpg used on input line 272.
+Package pdftex.def Info: plots/SW.jpg used on input line 271.
 (pdftex.def)             Requested size: 276.00105pt x 320.83913pt.
  [14 <./plots/SW.jpg>] <plots/kb.jpg, id=80, 438.438pt x 388.3308pt>
 File: plots/kb.jpg Graphic file (type jpg)
  <use plots/kb.jpg>
-Package pdftex.def Info: plots/kb.jpg used on input line 281.
+Package pdftex.def Info: plots/kb.jpg used on input line 280.
 (pdftex.def)             Requested size: 172.5pt x 152.78754pt.
 
 <plots/combine.jpg, id=81, 1194.864pt x 758.835pt>
 File: plots/combine.jpg Graphic file (type jpg)
  <use plots/combine.jpg>
-Package pdftex.def Info: plots/combine.jpg used on input line 292.
+Package pdftex.def Info: plots/combine.jpg used on input line 291.
 (pdftex.def)             Requested size: 413.99895pt x 262.92151pt.
 
 [15 <./plots/kb.jpg>] <plots/kb1.jpg, id=85, 1194.864pt x 758.835pt>
 File: plots/kb1.jpg Graphic file (type jpg)
 
 <use plots/kb1.jpg>
-Package pdftex.def Info: plots/kb1.jpg used on input line 304.
+Package pdftex.def Info: plots/kb1.jpg used on input line 303.
 (pdftex.def)             Requested size: 413.99895pt x 262.92151pt.
  [16 <./plots/combine.jpg>]
-
-LaTeX Warning: Citation `whyontologies' on page 17 undefined on input line 311.
-
-
 <plots/vraag1.jpg, id=90, 1334.586pt x 276.3123pt>
 File: plots/vraag1.jpg Graphic file (type jpg)
  <use plots/vraag1.jpg>
-Package pdftex.def Info: plots/vraag1.jpg used on input line 317.
+Package pdftex.def Info: plots/vraag1.jpg used on input line 316.
 (pdftex.def)             Requested size: 413.99895pt x 85.71495pt.
 
 [17 <./plots/kb1.jpg>] <plots/vraag2.jpg, id=94, 1111.5126pt x 561.7788pt>
 File: plots/vraag2.jpg Graphic file (type jpg)
 
 <use plots/vraag2.jpg>
-Package pdftex.def Info: plots/vraag2.jpg used on input line 328.
+Package pdftex.def Info: plots/vraag2.jpg used on input line 327.
 (pdftex.def)             Requested size: 413.99895pt x 209.24356pt.
- [18 <./plots/vraag1.jpg> <./plots/vraag2.jpg>]
-
-LaTeX Warning: Citation `mika2015schema' on page 19 undefined on input line 341
-.
-
-
-LaTeX Warning: Citation `byrne' on page 19 undefined on input line 341.
-
-
-LaTeX Warning: Citation `le2002' on page 19 undefined on input line 341.
-
-
-LaTeX Warning: Citation `zhou2007' on page 19 undefined on input line 343.
-
-
-LaTeX Warning: Citation `rdf' on page 19 undefined on input line 345.
-
-
-LaTeX Warning: Citation `owl' on page 19 undefined on input line 345.
-
-
-LaTeX Warning: Citation `skos' on page 19 undefined on input line 345.
-
-
-LaTeX Warning: Citation `dbpedia' on page 19 undefined on input line 347.
-
-
-LaTeX Warning: Citation `lod' on page 19 undefined on input line 347.
-
-
-LaTeX Warning: Citation `schreiber' on page 19 undefined on input line 349.
-
-
-LaTeX Warning: Citation `future' on page 19 undefined on input line 349.
-
-[19]
-
-LaTeX Warning: Citation `ontologyGuru' on page 20 undefined on input line 359.
-
+ [18 <./plots/vraag1.jpg> <./plots/vraag2.jpg>] [19]
 <plots/muis1.jpg, id=101, 949.6278pt x 628.9899pt>
 File: plots/muis1.jpg Graphic file (type jpg)
  <use plots/muis1.jpg>
-Package pdftex.def Info: plots/muis1.jpg used on input line 377.
+Package pdftex.def Info: plots/muis1.jpg used on input line 376.
 (pdftex.def)             Requested size: 201.82173pt x 133.67537pt.
 
 <plots/man.jpg, id=102, 1639.62563pt x 2262.95438pt>
 File: plots/man.jpg Graphic file (type jpg)
  <use plots/man.jpg>
-Package pdftex.def Info: plots/man.jpg used on input line 395.
+Package pdftex.def Info: plots/man.jpg used on input line 394.
 (pdftex.def)             Requested size: 169.04852pt x 233.28372pt.
 
-Overfull \hbox (17.22221pt too wide) in paragraph at lines 383--400
+Overfull \hbox (17.22221pt too wide) in paragraph at lines 382--399
 []$[]$  $[]$ 
  []
 
 <plots/muisman.jpg, id=103, 790.8747pt x 734.5041pt>
 File: plots/muisman.jpg Graphic file (type jpg)
  <use plots/muisman.jpg>
-Package pdftex.def Info: plots/muisman.jpg used on input line 403.
+Package pdftex.def Info: plots/muisman.jpg used on input line 402.
 (pdftex.def)             Requested size: 241.49895pt x 224.2868pt.
 
 [20 <./plots/muis1.jpg>] [21 <./plots/man.jpg> <./plots/muisman.jpg>]
@@ -757,197 +687,115 @@ File: lstlang1.sty 2013/08/26 1.5b listings language file
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2013/08/26 1.5b (Carsten Heinz)
 )
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 416.
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 415.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 416.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 415.
 
-Overfull \hbox (9.0036pt too wide) in paragraph at lines 417--418
+Overfull \hbox (9.0036pt too wide) in paragraph at lines 416--417
 [][][][][][][][][][][][][][][][][][][] 
  []
 
-
-LaTeX Warning: Citation `09ontology' on page 22 undefined on input line 430.
-
-[22]
-
-LaTeX Warning: Citation `aristotleplato' on page 23 undefined on input line 434
-.
-
-
-LaTeX Warning: Citation `future' on page 23 undefined on input line 445.
-
-[23]
-
-LaTeX Warning: Citation `lin2008' on page 24 undefined on input line 447.
-
-
-LaTeX Warning: Citation `singh2014' on page 24 undefined on input line 449.
-
-
-LaTeX Warning: Citation `levenshtein' on page 24 undefined on input line 449.
-
-[24] [25]
-
-LaTeX Warning: Citation `w2v' on page 26 undefined on input line 481.
-
-[26]
-
-LaTeX Warning: Citation `ling2015' on page 27 undefined on input line 490.
-
-
-LaTeX Warning: Citation `multisense' on page 27 undefined on input line 494.
-
-
-LaTeX Warning: Citation `git-factorie' on page 27 undefined on input line 500.
-
-
-LaTeX Warning: Citation `w2v' on page 27 undefined on input line 500.
-
-[27]
-
-LaTeX Warning: Citation `scala' on page 28 undefined on input line 502.
-
-
-LaTeX Warning: Citation `jena' on page 28 undefined on input line 511.
-
+[22] [23] [24] [25] [26] [27]
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2013/08/26 1.5b listings language file
 ) [28] [29]
-[30]
-
-LaTeX Warning: Citation `euzenat2013ontology' on page 31 undefined on input lin
-e 558.
-
-[31] [32] [33]
-
-LaTeX Warning: Citation `multisensecode' on page 34 undefined on input line 600
-.
-
-[34] <plots/programdiagram.png, id=153, 615.29875pt x 338.26375pt>
+[30] [31] [32] [33] [34]
+<plots/programdiagram.png, id=153, 615.29875pt x 338.26375pt>
 File: plots/programdiagram.png Graphic file (type png)
 
 <use plots/programdiagram.png>
-Package pdftex.def Info: plots/programdiagram.png used on input line 631.
+Package pdftex.def Info: plots/programdiagram.png used on input line 630.
 (pdftex.def)             Requested size: 310.4979pt x 170.70053pt.
  [35] [36 <./plots/programdiagram.png>]
-
-LaTeX Warning: Citation `vowlview' on page 37 undefined on input line 658.
-
-
-LaTeX Warning: Reference `vowlfig' on page 37 undefined on input line 658.
-
-
-! LaTeX Error: File `vowlview' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.661 ...degraphics[width=0.7\textwidth]{vowlview}
-                                                  
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2,.eps
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
 <plots/thing_edges.png, id=161, 743.77875pt x 611.28375pt>
 File: plots/thing_edges.png Graphic file (type png)
 
 <use plots/thing_edges.png>
-Package pdftex.def Info: plots/thing_edges.png used on input line 683.
+Package pdftex.def Info: plots/thing_edges.png used on input line 682.
 (pdftex.def)             Requested size: 207.0021pt x 170.12294pt.
- [37] [38 <./plots/thing_edges.png>]
-
-LaTeX Warning: Citation `fisher1925statistical' on page 39 undefined on input l
-ine 712.
-
-[39] [40] <plots/untrained_ROC.png, id=177, 602.25pt x 401.5pt>
+ [37] [38 <./plots/thing_edges.png>] [39] [40]
+<plots/untrained_ROC.png, id=177, 602.25pt x 401.5pt>
 File: plots/untrained_ROC.png Graphic file (type png)
 
 <use plots/untrained_ROC.png>
-Package pdftex.def Info: plots/untrained_ROC.png used on input line 728.
+Package pdftex.def Info: plots/untrained_ROC.png used on input line 732.
 (pdftex.def)             Requested size: 345.0pt x 230.00912pt.
 
 <plots/Generic_ROC.png, id=178, 602.25pt x 401.5pt>
 File: plots/Generic_ROC.png Graphic file (type png)
 
 <use plots/Generic_ROC.png>
-Package pdftex.def Info: plots/Generic_ROC.png used on input line 735.
+Package pdftex.def Info: plots/Generic_ROC.png used on input line 739.
 (pdftex.def)             Requested size: 345.0pt x 230.00912pt.
  [41 <./plots/untrained_ROC.png>]
 <plots/trained_ROC.png, id=183, 602.25pt x 401.5pt>
 File: plots/trained_ROC.png Graphic file (type png)
 
 <use plots/trained_ROC.png>
-Package pdftex.def Info: plots/trained_ROC.png used on input line 742.
+Package pdftex.def Info: plots/trained_ROC.png used on input line 746.
 (pdftex.def)             Requested size: 345.0pt x 230.00912pt.
 
 <plots/Alternative_ROC.png, id=184, 602.25pt x 401.5pt>
 File: plots/Alternative_ROC.png Graphic file (type png)
 
 <use plots/Alternative_ROC.png>
-Package pdftex.def Info: plots/Alternative_ROC.png used on input line 749.
+Package pdftex.def Info: plots/Alternative_ROC.png used on input line 753.
 (pdftex.def)             Requested size: 345.0pt x 230.00912pt.
- [42 <./plots/Generic_ROC.png> <./plots/trained_ROC.png>]
-
-LaTeX Warning: Citation `oaei2015' on page 43 undefined on input line 758.
-
-
-LaTeX Warning: Citation `oaei2015' on page 43 undefined on input line 758.
-
-[43 <./plots/Alternative_ROC.png>] [44]
-
-LaTeX Warning: Citation `mccallumweblecture' on page 45 undefined on input line
- 825.
-
-[45] [46] (./Draft.lof)
+ [42 <./plots/Generic_ROC.png> <./plots/trained_ROC.png>] [43 <./plots/Alternat
+ive_ROC.png>] [44] [45] [46] (./Draft.lof)
 \tf@lof=\write4
 \openout4 = `Draft.lof'.
 
- (./Draft.lot)
+
+(./Draft.lot)
 \tf@lot=\write5
 \openout5 = `Draft.lot'.
 
- [47]
-No file Draft.bbl.
-[1] (./Draft.aux)
+ [47] (./Draft.bbl [48]
+Underfull \hbox (badness 4765) in paragraph at lines 122--127
+[]\OT1/cmr/m/n/10 Andrew Mc-Cal-lum.  Rep-re-sen-ta-tion and rea-son-ing with u
+ni-ver-
+ []
 
-LaTeX Warning: There were undefined references.
 
+Underfull \hbox (badness 2205) in paragraph at lines 122--127
+\OT1/cmr/m/n/10 sal schema em-bed-dings pre-sen-ta-tion.  $\OT1/cmtt/m/n/10 htt
+p : / / videolectures . net /
+ []
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+[49]) [50] [1] (./Draft.aux) ) 
 Here is how much of TeX's memory you used:
- 6375 strings out of 493304
- 91700 string characters out of 6139871
- 171416 words of memory out of 5000000
- 9678 multiletter control sequences out of 15000+600000
- 9728 words of font info for 35 fonts, out of 8000000 for 9000
+ 6371 strings out of 493304
+ 91715 string characters out of 6139871
+ 171519 words of memory out of 5000000
+ 9683 multiletter control sequences out of 15000+600000
+ 9896 words of font info for 36 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  38i,9n,75p,1079b,1295s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb></usr/share/te
-xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-r8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
-></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on Draft.pdf (51 pages, 8308471 bytes).
+</usr/share/texlive/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmbxti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
+i10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb
+></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/
+share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/t
+exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mtt10.pfb>
+Output written on Draft.pdf (54 pages, 8330830 bytes).
 PDF statistics:
- 259 PDF objects out of 1000 (max. 8388607)
- 158 compressed objects within 2 object streams
+ 272 PDF objects out of 1000 (max. 8388607)
+ 167 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  131 words of extra memory for PDF output out of 10000 (max. 10000000)
 

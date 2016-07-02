@@ -28,6 +28,14 @@ Jeremy~J Carroll, Ian Dickinson, Chris Dollin, Dave Reynolds, Andy Seaborne,
 Venkat Chandrasekaran, Nathan Srebro, and Prahladh Harsha.
 \newblock Complexity of inference in graphical models.
 
+\bibitem{oaei2015}
+Michelle Cheatham, Zlatan Dragisic, J{\'e}r{\^o}me Euzenat, Daniel Faria, Alfio
+  Ferrara, Giorgos Flouris, Irini Fundulaki, Roger Granada, Valentina Ivanova,
+  Ernesto Jim{\'e}nez-Ruiz, et~al.
+\newblock Results of the ontology alignment evaluation initiative 2015.
+\newblock In {\em 10th ISWC workshop on ontology matching (OM)}, pages 60--115.
+  No commercial editor., 2015.
+
 \bibitem{git-factorie}
 Andrew~McCallum et~al.
 \newblock Factorie github page, 2009.
@@ -94,6 +102,12 @@ Wang Ling, Chris Dyer, Alan Black, and Isabel Trancoso.
   Chapter of the Association for Computational Linguistics: Human Language
   Technologies}, pages 1299--1304, 2015.
 
+\bibitem{vowlview}
+Steffen Lohmann, Stefan Negru, Florian Haag, and Thomas Ertl.
+\newblock Vowl 2: user-oriented visualization of ontologies.
+\newblock In {\em International Conference on Knowledge Engineering and
+  Knowledge Management}, pages 266--281. Springer, 2014.
+
 \bibitem{aristotleplato}
 Alexander Maedche.
 \newblock {\em Ontology learning for the semantic web}, volume 665.
@@ -144,8 +158,26 @@ Arvind Neelakantan, Jeevan Shankar, Alexandre Passos, and Andrew McCallum.
 
 \bibitem{overload}
 Sibangiso Ngwenya and Khesani~Richard Chilumani.
-\newblock A semantic web solution for information overload.
-\newblock 2011.
+\newblock A semantic web solution for information overload, 2011.
+
+\bibitem{scala}
+Martin Odersky, Philippe Altherr, Vincent Cremet, Burak Emir, Sebastian Maneth,
+  St{\'e}phane Micheloud, Nikolay Mihaylov, Michel Schinz, Erik Stenman, and
+  Matthias Zenger.
+\newblock An overview of the scala programming language.
+\newblock Technical report, 2004.
+
+\bibitem{universalschema}
+Sebastian Riedel, Limin Yao, Andrew McCallum, and Benjamin~M Marlin.
+\newblock Relation extraction with matrix factorization and universal schemas.
+\newblock 2013.
+
+\bibitem{whyontologies}
+Mario Schlosser, Michael Sintek, Stefan Decker, and Wolfgang Nejdl.
+\newblock Hypercup—hypercubes, ontologies, and efficient search on
+  peer-to-peer networks.
+\newblock In {\em International Workshop on Agents and P2P Computing}, pages
+  112--124. Springer, 2002.
 
 \bibitem{future}
 Pavel Shvaiko and J{\'e}r{\^o}me Euzenat.
