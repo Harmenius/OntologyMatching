@@ -205,7 +205,6 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \begin{itemize}
  \item The algorithm uses distributed representations of concepts.
  \item The algorithm finds relationships between concepts in ontologies.
- \item The algorithm has been compared to the currently best matchers.
  \item The algorithm performs better.
  \end{itemize} 
  
@@ -332,6 +331,11 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  More complex question can be posed, although they do not need to be longer. If the question can be mapped to more parts of the Semantic Web, the answer will be longer. In this case all knowledge of Barack Obama is extracted, combined and converted into an answer.
  
  \subsubsection{Current state} %TODO This bit can use some work
+ Zijn alle losse technologien er al? Ja. Hoe? RDF en OWL worden al gebruikt. Google heeft al betere search door Knowledge gRaph (hummingbird) plaatje etc...
+ Door lack of adoption is het er niet.
+ 
+ 
+ 
  % Tip: google wie schreef Harry Potter
  Currently, people are not aware of the Semantic Web. Either websites and applications do not use any semantic information, or it is used on the back-end, hidden with other complex programs that users will not understand. So what is the Semantic Web used for nowadays, if at all? In this section, I will list a number of general ways people use Semantic Web technologies as well as specific applications. Note that these are Semantic Web technologies, i.e. technologies that came into existence through Semantic Web research and can eventually be used in the Semantic Web, but currently are not used for the Semantic Web since it does not exist yet.
  \paragraph{}
@@ -348,8 +352,6 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  Applications include improved web searching, question answering, product comparison, context merging, data integration, decision support, translation, all the way up to the intelligent softbot mentioned earlier. \cite{schreiber, future}
  \paragraph{}
  The many uses of ontology matching show that it is important to research all avenues that might improve ontology matching, as it will have a direct result in many other fields.
- \subsubsection{Technologies}
- %TODO Wil ik dit nog doen?
  
  \subsection{Ontologies}
  Earlier, ontologies were referred to as `a set of rules that determine what relations are allowed and required.' Now, the term will be defined more extensively, the standard format will be described and the uses of ontologies will be discussed.
@@ -418,7 +420,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \end{lstlisting}
  
  \subsubsection{Uses of ontologies}
- There are three main reasons ontologies are used. Firstly, it allows querying languages to optimize the search process. Secondly, it allows expansion of information on a node. Thirdly, it allows for consistency checking a knowledge base. Lastly, it allows merging of knowledge bases.
+ There are four main reasons ontologies are used. Firstly, it allows querying languages to optimize the search process. Secondly, it allows expansion of information on a node. Thirdly, it allows for consistency checking a knowledge base. Lastly, it allows merging of knowledge bases.
  \paragraph{}
  Search can be optimized by taking into account constraints the ontology provides. For example, no professor is a student, therefore no professor can be connected to a course with 'follows' predicate. This allows a search algorithm to skip all professors when looking for people that might follow a certain course.
  \paragraph{}
@@ -441,6 +443,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  Platonic ontologies are often used in areas where precision is important, like medicine, where lives depend on the information contained in the ontology and its knowledge base. Aristotelian ontologies are more common on the Semantic Web, where massive amounts of data need to be represented and queried.
  
  \subsection{Current alignment strategies} \label{strategies}
+ %TODO Meer voorbeelden meer plaatjes (uit hun papers). Eerst ga ik uitleggen..
  Many different alignment strategies have already been developed. All strategies follow the same two-step approach. The two steps are independent and as such different methods can be used interchangeably. The first step is to generate an initial correspondence set, where correspondences between nodes are found based on just their labels and meta-data. The second step is to use this initial set and the structure of the ontology to find more correspondences. These steps are called the terminological and the structural steps. Some strategies also use extra steps like the extensional and semantic steps, which use vector space models and inference, respectively\cite{future}.
  \paragraph{}
  Popular terminological strategies are WordNet comparison and edit distance. The former uses the popular WordNet hierarchy as a distance measure between two concepts, e.g. the number of edges between the concepts and their least general common superconcept\cite{lin2008}.
@@ -448,6 +451,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  Edit distance is a purely string-based similarity measure. The similarity is a (weighted) count of edits required to transform one word into another, where common edits are insertion, deletion and replacement. Similar methods include substring matching and n-gram matching, which compare parts of the strings to find similarities\cite{singh2014, levenshtein}.
  For example, arm and front paw have an edit distance of 8, since they have 1 character in sequence in common (either the a or the r) and thus 8 characters that are different.
  \subsubsection{Problems in ontology alignment}
+ %TODO Cite en in discussion of w2v dit kan helpen. Zo niet: weg
  How should the wildly differing demands the applications place on the ontology matching systems be satisfied by a single or just a few systems? When merging ontologies on one end of the Aristotle-Plato spectrum, often a completely different approach is required than an ontology on the other side. Sometimes the matching needs to be very fast, for example when the ontologies are used in a search query which the user expects to be done in milliseconds.
  \paragraph{}
  Online matching would allow for updates in a knowledge base to be represented in the alignments of that knowledge base. This would be required on any ontology that tracks changing knowledge, like stores, movie theatres and social media, for example.
@@ -461,6 +465,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  When these problems are solved, ontology matching has matured enough to be used in Semantic Web applications. Then it is merely the challenge to have the public adopt these technologies.
  
  \subsection{Word representation} \label{w2v}
+ % Meer McCallum noemen. 80 plaatjes %TODO
  An important area of research in Natural Language Processing is the representation of words. The most obvious representation is the collection of characters humans are used to. However, this is not useful for computers as these characters do not say anything about the meaning of the words, nor is it a representation that computers can quickly do calculations on.
  \paragraph{}
  Many different representations have been proposed. The main purpose of word representations in NLP is to represent the meaning of the word. One way to represent a word is the term frequency. This representation counts the number of occurrences of a word per document in a set of documents. The resulting vector of occurrence counts is then used to represent the words. Since the documents have a subject, there is some meaning embedded in the vector representation. However, the representation is very sparse and the semantics or meaning of the word are not captured very well. Also, the method requires many discrete documents to train on, which are not available in ontology matching.
@@ -496,7 +501,7 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  
  \subsection{Used technology}
  \subsubsection{Factorie} \label{factorie}
- Factorie is a toolkit that contains a number of tools which includes word-embedding models \cite{git-factorie}. \cite{w2v}.
+ Factorie is a toolkit that contains a number of tools which includes word-embedding models \cite{git-factorie, w2v}.
  \paragraph{}
  Factorie provides a number of utilities for writing an algorithm in the shape of abstract classes with existing functionality, namely IO, parallelisation, quick parsing and command line argument parsing. It also provides example implementations and programs. Factorie is written in scala, a language that has been gaining popularity recently and interfaces with java. See \cite{scala}. 
  \paragraph{}
@@ -526,6 +531,8 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \end{lstlisting}
  
  The ternary is to distinguish between blank and non-blank nodes. Blank nodes are a feature of ontologies and thus need to be taken into account. Blank nodes can be used to represent concepts with multiple representations, for example a label, a description and a known synonym. More advanced algorithms can take into account all these representations. Another use of a blank node is representing a complex relationship that cannot be represented by an object-predicate-subject triple. For example, if the relationship has a certain confidence or more than two concepts are involved.
+ 
+ %TODO AML toevoegen
  
  \newpage
  \section{Method} 
@@ -567,7 +574,9 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
  \subsubsection{Medical}
  The second data set is larger, boasting X and Y medical concepts with X and Y relations. There are Z correspondences between the two ontologies. This data set has N different edge labels.
  
- \subsection{Considered implementations}
+ \subsection{Algorithms}
+ %TODO Move sommige naar discussions
+ %TODO per algorithme uitleggen: hoe het werkt. Waarom gekozen. Plaatjes. Volgorde van kiezen (ik denk dat deze beter past) en bij resultaten bespreken of deze volgorde klopt.
  In this section, I will discuss the different implementations that were made of the algorithm. All implementations use the same basic algorithm in different ways by taking into account the context in different ways. All of these implementations were tested and the results can be found in Section \ref{results}. Some implementations extend others, but all implementations are covered to ensure completeness. This way, all improvements are recorded precisely.
  The explanations refer back to the example in Section \ref{example}.
   \subsubsection{Node vectorisation}
@@ -730,29 +739,32 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
   \begin{figure}[H]
    \centering
    \includegraphics[width=\textwidth]{plots/untrained_ROC}
-   \caption[Precision-recall curve untrained mice]{The precision and recall trade-off for the results of the untrained Node2vec. $AP = 0.04194$}
+   \caption[Precision-recall curve untrained mice]{The precision and recall trade-off for the results of the untrained Node2vec.}
    \label{ROC_untrained}
   \end{figure}
  
-  \begin{figure}[H]
-   \centering
-   \includegraphics[width=\textwidth]{plots/Generic_ROC}
-   \caption[Precision-recall curve pre-trained mice]{The precision and recall trade-off for the results of the Word2vec algorithm. $AP: 0.04636$}
-   \label{ROC_generic}
-  \end{figure}
  
   \begin{figure}[H]
+  
+ \begin{subfigure}{.3\textwidth}
+   \centering
+   \includegraphics[width=\textwidth]{plots/Generic_ROC}
+   \caption[Precision-recall curve pre-trained mice]{Pretrained Word2vec algorithm.}
+   \label{ROC_generic}
+   \end{subfigure}
+ \begin{subfigure}{.3\textwidth}
    \centering
    \includegraphics[width=\textwidth]{plots/trained_ROC}
-   \caption[Precision-recall curve trained mice model]{The precision and recall trade-off for the results of the bidirectional Node2vec. $AP = 0.04198$}
+   \caption[Precision-recall curve trained mice model]{bidirectional Node2vec.}
    \label{ROC_trained}
-  \end{figure}
-  
-  \begin{figure}[H]
+  \end{subfigure}
+ \begin{subfigure}{.3\textwidth}
    \centering
    \includegraphics[width=\textwidth]{plots/Alternative_ROC}
-   \caption[Precision-recall curve DeepWalk mice]{The precision and recall trade-off for the results of the alternative DeepWalk algorithm. $AP = 0.04193$}
+   \caption[Precision-recall curve DeepWalk mice]{Alternative DeepWalk algorithm.}
    \label{ROC_alternative}
+  \end{subfigure}
+  \caption{Precision-recall trade-off curve for the results of three more algorithms.}
   \end{figure}
    \subsubsection{Medical data}
    TBD
@@ -769,7 +781,7 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
   Random & 0.6926 & 0.4905 \\
   Generic & 0.6372 & 0.3874 \\
   Bidirectional & 0.8432 & 0.4946 \\
-  Deepwalk &  & 0.4906 \\
+  Deepwalk & 0.6926 & 0.4906 \\
   Alternative & 0.6372 & 0.4905 \\
   \textbf{AML ensemble} & \textbf{0.94} & \textbf{0.81} \\ %http://disi.unitn.it/~pavel/om2015/
   %papers/om2015_proceedings.pdf#page=125
@@ -797,25 +809,29 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
  The goal of this study was to answer the research question from Section \ref{researchquestion}:
  \begin{center}
  \textit{
- Can distributed representations of concepts be used to find relationships between concepts in ontologies better than existing matchers?
- }
+ Can distributed representations of concepts be used to find relationships between concepts in ontologies better than the best existing matcher?
+ } % Zelfde als sectie hypothese?
  \end{center}
  
- To answer this question I have examined the following points from Section \ref{hypotheses}:
+ To answer this question I have examined the following points from Section \ref{hypotheses} for every algorithm (Pre-trained Word2vec, DeepWalk, Node2vec):
  
-\paragraph{The algorithm uses distributed representations of concepts}
-\paragraph{The algorithm finds relationships between concepts in ontologies}
-\paragraph{The algorithm has been compared to the currently best matchers}
-\paragraph{The algorithm performs better}
- I performed empirical research where I made the algorithm, applied it to different datasets and compared the results with existing methods.
- 
+\paragraph{The algorithm uses distributed representations of concepts} %TODO In de uitleg van het algoritme duidelijk maken dat dit zo is.
 
- Because the last point is not true, the answer is not in agreement with my hypothesis from Section \ref{hypotheses}:
- 
- \begin{center}
- \textit{Matchers that use a distributed representation of concepts can find relationships between concepts in ontologies better than the best existing matchers.}
- \end{center}
- 
+Yes. They all use distributed representations since they all convert words into vectors:
+\begin{description} \item[pre-trained Word2vec] ... 
+\item[] ...
+\end{description}
+\paragraph{The algorithm finds relationships between concepts in ontologies} %TODO In de system check duidelijk maken.
+
+This is correct as the inputs are always two ontologies and the output is always a set relationships between the ontologies.
+\paragraph{The algorithm performs better}
+
+Not yet. 
+
+I compared the results of the algorithms with AML, the best existing matcher. All algorithms perform below AML. However, there is potential for better performance as we can see in Section \ref{discussion}.
+\paragraph{}
+ Because the last point is not true, the answer is not in agreement with my hypothesis from Section \ref{hypotheses}.
+ \paragraph{}
 The results from all the different evaluation measures are in agreement. From those results we can conclude the following:
 
  \begin{center}
@@ -824,8 +840,15 @@ The results from all the different evaluation measures are in agreement. From th
  }
  \end{center}
  
- \subsection{Discussion}
+ %TODO Arjen vragen dit te bekijken
+ 
+ \subsection{Discussion} \label{discussion}
  %TODO gooi weg wat niet meer waar is
+ 
+ 
+ 
+ 
+ 
   This study shows that the algorithm of McCallum et al as shown in \cite{mccallumweblecture} does not help improve the results of ontology alignment over the straightforward baseline of simply pairing labels based on their syntactic similarity in the area of ontology matching. 
 
   The results show that one assumption that was made by the developers of the Universal Schema was incorrect, namely the assumption that when combining knowledge bases matching labels refer to the same entity and vice versa. For example, Bill Gates is called Bill Gates in FreeBase as well as retrieved from unstructured text. In reality, there may be multiple entities named Bill Gates and the same entity may be labelled differently. 
@@ -833,9 +856,10 @@ The results from all the different evaluation measures are in agreement. From th
   This assumption will weaken further as an increasingly growing part of the Semantic Web is automatically generated and as such different labels can be assigned to the same entity. One of the goals of ontology matching is to link those differently labelled entities.
   
   %In de presentatie zegt hij ook dat hij niet gaat proberen dingen meteen op elkaar te matchen maar gewoon alles houdt zoals het gelezen is/in de KB staat. Toch haalt hij goede resultaten met rule discovery e.d.
- \subsection{Future research}
+  
+  % Het was wel gelukt als ik ... (wat eerst future research was)
  
- \subsection{Discarded implementations}
+ \subsection{Discarded algorithms}
 
   \subsubsection{Just context nodes}
   
