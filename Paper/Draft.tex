@@ -42,14 +42,6 @@
  The conclusion is that distributed word embeddings can be applied to ontology matching. The performance is not as good as the state-of-the-art methods yet. However, distributed word embeddings have potential to improve with more data as opposed to current methods which are hand-crafted.
  
  \section*{Summary}
- %TODO Definitions
- %TODO Word index
- %TODO spelling (database dataset)
- %TODO volgorde bieb (APA?)
- %TODO Results interpretation: uitleg waarom hoger en lager
- %TODO Verbeteringen discussieren
- %TODO Verwijder ensemble uit evaluation
- %TODO F-measure aan evaluation
  \tableofcontents
  \newpage
  
@@ -139,15 +131,12 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \caption[Ontology matching graph example]{Similar to how the embeddings are used to predict relations within an ontology, ontology matching can be done by predicting relations between two ontologies. For example, since Gates and Bill will have very similar sets of embeddings (as their contexts are very similar) the system will recognise they are the same entity.}
  \label{merge_graph}
  \end{figure}
-
- %TODO leg uit waarom intra implies inter
- %TODO maak duidelijk dat het \textit{mijn} idee was om inter te doen
  
  McCallum plans on using these embeddings to predict new intra-knowledge base relations. However, from the keynote it is clear that this technique should work with multiple knowledge bases as the Universal Schema is applied to a set of knowledge bases including Freebase, knowledge extracted from text and the TAC knowledge base population track dataset. This means that inter-knowledge base relations can also be predicted using the word embedding tensor factorisation technique.
  
- An example of an inter-knowledge base relation is shown in Figure \ref{merge_graph}. If these relations can be predicted, multiple knowledge bases can be aligned. Doing ontology alignment using these word embeddings is the goal of this work.
- \paragraph{}
- Currently, knowledge base and ontology alignment techniques do not make use of embeddings. Since embedding models have good performance on knowledge base reconstruction\cite{universalschema}, they should also work well on ontology alignment.
+ Applying the embedding tensor factorisation to inter-knowledge base relation finding (i.e. ontology aligning) makes it objective. This is because for ontology aligning there is a ground truth possible and available. There are also many projects on ontology aligning so it is possible to compare the results with the best methods available. This means ontology aligning is a good test for this algorithm.
+ 
+ An example of an inter-knowledge base relation is shown in Figure \ref{merge_graph}. If these relations can be predicted, multiple knowledge bases can be aligned. Testing if this word embedding algorithm is versatile enough to work in the field of ontology aligning is the goal of this work.
  
  \subsection{Justification} 
  This study is important to the future of the World Wide Web. The next goal of the Web is the Semantic Web, where computers can interact with web pages as humans do. It is necessary to build the Semantic Web as soon as possible, as the amount of information on the Web is growing so fast it will be infeasible for humans to handle\cite{overload}.
@@ -199,7 +188,6 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  }
 
   I will use distributed word representations to answer the above question, as McCallum suggested in his keynote. Distributed word representations, specifically multi-sense \emph{Word2vec}, should be used for this problem since multi-sense \emph{Word2vec} is specifically designed to combat homonymy while the neural networks in distributed word representations use the context to deal with ambiguity.
-  %TODO vraag Arjen of dit 'antwoord' in problem hoort
   
  \subsection{Research question} \label{researchquestion}
  The main question that I will answer with this work is the following research question:
@@ -220,8 +208,13 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  The answer is positive for distributed representations matching in general if it is positive for one distributed representation matcher.
  
  \subsection{Overview}
- This report is structured as follows: firstly, I will give all the required background information required to understand the context and the algorithms I will use. Then, I will describe the method, which includes the design of the algorithm and the evaluation method. The last two sections are the results and the joint conclusion and discussion, which interpret the results.
- %TODO dieper of weg
+ This report is structured as follows: firstly, I will give all the background information required to understand the context and the algorithms I will use. This includes the history and future of the Semantic Web, the roles of ontologies in the Semantic Web, ontology aligning and the recent developments in word embeddings.
+ 
+ Secondly, I will describe the method, which includes the design of the algorithm, the whole system and the evaluation method. Multiple algorithms will be described that all use word embeddings differently. 
+ 
+ Thirdly, the results. These show how the algorithms perform when applied to ontology aligning. The results will be compared to a baseline and the best performing system so far.
+ 
+ Lastly, the conclusion and discussion, which interpret the results and give recommendations for future research.
  
 \newpage
 \section{Background}
@@ -632,11 +625,6 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
   It is hard to classify the proposed algorithm in terms of the conventional ontology alignment method classes. It is not purely string matching, since it takes into account information from the context. However, it is also not structural, as it can work without a seed alignment and uses information other than the structure as well. It is not semantic (or logical) since it does not use inference. Nor is it terminological, which looks at dictionaries or other ontologies to find matches. However, it can use dictionaries and other ontologies to improve performance.
   The algorithm can find matches based purely on the given node and edge labels. However the algorithm might benefit from a hot start. Such a seed alignment might allow the algorithm to train with certain words that are known synonyms as if they were the same word, thus increasing the number of training samples per word (on known relevant words) and decreasing sparsity. This may help the model, improving performance. However, since some information from other algorithms is now used, it would not be fair to compare the results to the cold start algorithm results. For example, it may just add the results from the generic string matcher to its own results, improving performance, without learning any new relationships. A new testing method had to be designed for this algorithm. This method would have to compare it to the string matchers, to see if it improved over their results, rather than compare it to the cold start algorithm. However, if we compare the cold and hot algorithms with the generic string matchers, we may be able to compare them indirectly.
   An example of a hot start is that \emph{mouse torso} is already matched with \emph{human torso}. Then it is likely that their neighbours are also related. Since the \emph{front paws} and \emph{arms} are next to the \emph{torso}, they are more likely to be matched now. In the case of \emph{Node2vec} they are more likely to be matched, since their neighbourhoods are the same (the only neighbour of both \emph{arms} and \emph{paws} is \emph{connectedTo torso}).
-
- \subsection{Implementation}
- The foundation the algorithm has been build and tested on is Factorie, described in \ref{factorie}. Earlier work on a forked branch of factorie was done by \cite{multisensecode} to implement multi-sense \emph{Word2vec}.
- 
- % Hier de pipeline omschrijven zoals in discussie.system
  
  \subsection{System check}
  To ensure the results are valid, I ran a system check. The check is designed to detect the following conditions.
@@ -732,11 +720,11 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
  Below are some examples of sentences.
  \begin{figure}[H]
  \paragraph{}
- \textcolor{Plum}{incus} \textcolor{red}{auditory\_bone} \textcolor{Plum}{\underline{incus}} \textcolor{blue}{ auditory\_ossicle ear\_part cymba\_conchae}
+ 1) \textcolor{Plum}{incus} \textcolor{red}{auditory\_bone} \textcolor{Plum}{\underline{incus}} \textcolor{blue}{ auditory\_ossicle ear\_part cymba\_conchae}
  \paragraph{}
-  \textcolor{red}{brain\_nucleus brainstem\_nucleus red\_nucleus brainstem\_nucleus raphe\_pallidus\_nucleus brainstem\_nucleus trochlear\_iv\_nucleus brainstem\_nucleus nucleus\_of\_trapezoid\_body}
+ 2) \textcolor{red}{brain\_nucleus brainstem\_nucleus red\_nucleus brainstem\_nucleus raphe\_pallidus\_nucleus brainstem\_nucleus trochlear\_iv\_nucleus brainstem\_nucleus nucleus\_of\_trapezoid\_body}
   \paragraph{}
-  \textcolor{red}{hip\_joint hindlimb\_joint} \textcolor{Plum}{\underline{ankle\_joint}} \textcolor{blue}{joint\_by\_site cricoarytenoid\_joint}
+ 3) \textcolor{red}{hip\_joint hindlimb\_joint} \textcolor{Plum}{\underline{ankle\_joint}} \textcolor{blue}{joint\_by\_site cricoarytenoid\_joint}
   \label{jumpingsentence}
   \caption[Sentence that runs over both ontologies]{Example of a sentences that run over both ontologies. The words are color coded according to which ontology they occur in. Red is the mice ontology, blue the human ontology and purple words occur in both ontologies. Underlined words indicate a point at which the walker switches between the ontologies.}
  \end{figure}
@@ -774,17 +762,15 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
  \section{Results} \label{results}
  
  In this section I will show the objective results of the study. Firstly, I will show the precision-recall trade-off curve of all algorithms. Then I will go into detail of the results of the most promising algorithm.
- 
- %TODO F-pieken aanwijzen.
+
  \subsection{Precision versus recall}
   \subsubsection{Mice and men data}
   \begin{figure}[H]
    \centering
    \includegraphics[width=\textwidth]{plots/trained_ROC}
-   \caption[Precision-recall curve trained mice model]{bidirectional Node2vec.}
+   \caption[Precision-recall curve trained mice model]{Precision-recall trade-off curve for the results of bidirectional Node2vec. Red indicates the maximum $F_1$-score.}
    \label{ROC_trained}
   \end{figure}
- 
  
   \begin{figure}[H]
    \centering
@@ -809,7 +795,21 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
   \caption[Three more precision-recall curves]{Precision-recall trade-off curve for the results of three more algorithms.}
   \end{figure}
    \subsubsection{Medical data}
-   TBD
+   
+  \begin{figure}
+    \begin{subfigure}{.45\textwidth}
+   \centering\includegraphics[width=\textwidth]{plots/medical_generic_ROC}
+   \caption[Precision-recall curve pre-trained medical]{Pre-trained}
+   \label{ROC_pretrained_medical}
+  \end{subfigure}
+ \begin{subfigure}{.45\textwidth}
+   \centering
+   \includegraphics[width=\textwidth]{plots/medical_trained_ROC}
+   \caption[Precision-recall curve trained medical]{Bidirectional}
+   \label{ROC_trained_medical}
+  \end{subfigure}
+  \caption[Medical precision-recall curves]{Precision-recall trade-off curve for the results of two algorithms on the medical dataset.}
+  \end{figure}
   
   \subsection{F-score}
   \begin{table}[H]
@@ -821,30 +821,25 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
   \hline
   Label Match & 0.6926 & 0.4905 \\
   Random & 0.6926 & 0.4905 \\
-  Pre-trained & 0.6372 & 0.3874 \\
+  Pre-trained & 0.6926 & 0.3874 \\
   Bidirectional & 0.8432 & 0.4946 \\
   Multi-sense & 0.6926 & 0.4905 \\
   Deepwalk & 0.6926 & 0.4906 \\
-  Alternative DeepWalk & 0.6372 & 0.4905 \\
+  Alternative DeepWalk & 0.6926 & 0.4905 \\
   \textbf{AML ensemble} & \textbf{0.94} & \textbf{0.81} \\
   \end{tabular}
   \end{table}
-  
-  \subsection{Example }
-  (cortical\_layer\_iii,external\_pyramidal\_cell\_layer)
    
  \newpage
  \subsection{Interpretation}
  
- \subsubsection{Unexpected results}
- \subsubsection{Expected results}
+ 
   
  \newpage
  \section{Conclusion and discussion}
  In this section I will draw conclusions from the results, answer the research question and give a verdict on the hypothesis. In the second part of this section I will discuss these conclusions. In the third and last part of the section, I will describe a few avenues that might be interesting to explore further, including a number of implementations I did not consider and why.
  
  \subsection{Conclusions} \label{conclusions}
- %TODO conclusie: het werkt. Alleen niet beter dan de beste.
  The goal of this study was to answer the research question from Section \ref{researchquestion}:
 
  \begin{center}
@@ -865,44 +860,22 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
 \paragraph{The algorithm finds relationships between concepts in ontologies}
 This is correct as the inputs are always two ontologies and the output is always a set relationships between the ontologies.
 \paragraph{The algorithm performs well}
-%TODO ook bij hypotheses weghalen
  One of the algorithms finds new relations. Therefore we can conclude that the algorithm can be used for ontology matching.
 
  All algorithms perform worse than the full AML ensemble. However, as detailed further in Section \ref{discussion}, there is potential for embedding methods.
-\paragraph{}
- Because the last point is not true, the answer is not in agreement with my hypothesis from Section \ref{hypotheses}.
- \paragraph{}
-The results from all the different evaluation measures are in agreement. From those results we can conclude the following:
-
- \begin{center}
- \textit{
- The distributed word representations system is currently \textbf{not} able to find relationships between concepts in ontologies better than existing matchers.
- }
- \end{center}
- 
- %TODO Arjen vragen dit te bekijken
  
  \subsection{Discussion} \label{discussion}
- %TODO gooi weg wat niet meer waar is
-  %TODO Duidelijk maken waarom algoritme nog potentie heeft
- 
- 
- 
- 
-  This study shows that the algorithm of McCallum et al as shown in \cite{mccallumweblecture} does not help improve the results of ontology alignment over the straightforward baseline of simply pairing labels based on their syntactic similarity in the area of ontology matching. 
+  This study shows that the algorithm of McCallum et al as shown in \cite{mccallumweblecture} does not help improve the results of ontology alignment more than current methods already do.
 
-  The results show that one assumption that was made by the developers of the Universal Schema was incorrect, namely the assumption that when combining knowledge bases matching labels refer to the same entity and vice versa. For example, Bill Gates is called Bill Gates in FreeBase as well as retrieved from unstructured text. In reality, there may be multiple entities named Bill Gates and the same entity may be labelled differently. 
+  The results show that one assumption that was made by the developers of the Universal Schema was incorrect, namely the assumption that when combining knowledge bases matching labels refer to the same entity and vice versa. For example, the assumption that Bill Gates is called Bill Gates in FreeBase as well as in all unstructured text does not hold up. In reality, there may be multiple entities named Bill Gates and the same entity may be labelled differently. 
   
-  This assumption will weaken further as an increasingly growing part of the Semantic Web is automatically generated and as such different labels can be assigned to the same entity. One of the goals of ontology matching is to link those differently labelled entities.
+  This assumption become even weaker as an increasingly growing part of the Semantic Web is automatically generated and as such different labels can be assigned to the same entity. One of the goals of ontology matching is to link those differently labelled entities.
   
-  %In de presentatie zegt hij ook dat hij niet gaat proberen dingen meteen op elkaar te matchen maar gewoon alles houdt zoals het gelezen is/in de KB staat. Toch haalt hij goede resultaten met rule discovery e.d.
-  
-  % Het was wel gelukt als ik ... (wat eerst future research was)
+  In the following sections I will describe a number of extensions that might improve the algorithm further such that it may one day rival hand-crafted methods in their domain and be unparalleled in the big data domain.
  
  \subsection{Discarded algorithms}
-  %TODO (her)schrijf
   \subsubsection{Combine with neighbours}
-  To improve the model, we can add context information from the neighbours of a node. The most basic context adaptation would be to create a vector as the average of the context vectors. The resulting vector should be combined with the node vector of the node that is being investigated. This can be done by averaging or weighted averaging where the context is weighed more if there are more neighbours, though not necessarily linearly. These possibilities were also investigated.
+  To improve the model, context information from the neighbours of a node can be added. The most basic context adaptation would be to create a vector as the average of the context vectors. The resulting vector should be combined with the node vector of the node that is being investigated. This can be done by averaging or weighted averaging where the context is weighed more if there are more neighbours, though not necessarily linearly.
   For example, since the \emph{front paws} and \emph{arms} are both attached to the \emph{torso}, their context vectors will be similar as well.
   
   \subsubsection{Adding edge labels}
@@ -911,18 +884,12 @@ The results from all the different evaluation measures are in agreement. From th
 
   \subsubsection{Combining edges with nodes}
   As can be read in Section \ref{wordorder}, it is possible to drop the bag-of-words assumption that the context is sequence invariant.
-  This means we can for example have the context be (previous word, next word) and those words will be treated differently. Similarly we can separate the edge and node labels and treat them differently. This ensures that the model will find any relationship between the edge and the node if it exists and will take this into account. For example, \emph{isBelow} and \emph{torso} will combine into a vector that is similar to \emph{tail} whereas \emph{isAbove} and \emph{torso} combine into a vector that is similar to \emph{head} since the edge and node labels are combined in the model, rather than considered separately.
+  This means we can for example have the context be (previous word, next word) and those words will be treated differently. Similarly we can separate the edge and node labels and treat them differently. This ensures that the model will find any relationship between the edge and the node if it exists and will take this into account. For example, \emph{isBelow} and \emph{torso} will combine into a vector that is similar to \emph{tail} whereas \emph{isAbove} and \emph{torso} combine into a vector that is similar to \emph{head} since the edge and node labels are combined in the model, rather than considered separately. As the datasets used in this study did not provide any edge labels, the method could not be studied.
  
  \subsubsection{Training corpus}
-  Word embedding models need to be trained on a large corpus. These corpora need to cover the concepts that are contained in the ontology, but also need to be large enough to build good embeddings. Since the ontologies themselves do not necessarily contain enough examples to embed the concepts properly, I need to use ontologies that are likely to contain the concepts I want to align. In the case of the mice and men ontologies, anatomical or medical ontologies can be useful, since they may list more anatomical relationships or common relationships (for example \emph{whisker} and \emph{moustache} are related to \emph{hair}).
-  As a benchmark, I will use the WordNet and NELL ontologies. To check if adding the ontologies that are to be aligned helps, I will also train a model on an ontology consisting of WordNet, NELL and the two alignment candidates.
+  Word embedding models need to be trained on a large corpus. These corpora need to cover the concepts that are contained in the ontology, but also need to be large enough to build good embeddings. Since the ontologies themselves do not necessarily contain enough examples to embed the concepts properly, other ontologies that contain the same concepts can be useful. In the case of the mice and men ontologies, anatomical or medical ontologies may be used, since they may list more anatomical relationships or common relationships (for example \emph{whisker} and \emph{moustache} are related to \emph{hair}).
+  Since no such ontologies exist for the OAEI datasets, this extension could not be investigated.
   
-  \subsubsection{Just context nodes}
-  
-  \subsubsection{Just edges}
-  
-  \subsubsection{Context matrix representation}
- 
  \section{Lists of figures and tables}
  
  \newpage
