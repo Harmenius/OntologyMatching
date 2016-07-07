@@ -14,6 +14,8 @@
  \usepackage[dvipsnames]{xcolor}
  \usepackage[nottoc,numbib]{tocbibind}
 
+ \hfuzz=20pt % No more overfull hboxes!
+
  \title{Matching ontologies with distributed word embeddings}
  \author{Harmen Prins}
  
@@ -24,28 +26,38 @@
  \makebox[\textwidth][c]{
  \includegraphics[width=1.35\textwidth]{plots/miceman}
  }\footnote{Credit: Sanna Dinh}
+ 
  \newpage
  
  \pagenumbering{roman}
  \section*{Acknowledgements}
- Arjen de Vries, professor at the Radboud University of Nijmegen and my mentor, for his limitless pool of knowledge and enthusiasm. For getting me out of the mud when I was stuck and motivating me to push on. Suzan Verberne, professor at the Radboud University of Nijmegen, for co-reading 
+ I would like to thank the following people:
+ \paragraph{}
+ \paragraph{}
+ Arjen de Vries, professor at the Radboud University of Nijmegen and my mentor, for his limitless pool of knowledge and enthusiasm. For getting me out of the mud when I was stuck and motivating me to push on. 
+ \paragraph{}
+ Suzan Verberne, professor at the Radboud University of Nijmegen and co-reader, for helping me start and finish this thesis.
+ \paragraph{}
  Jeroen Vuurens, from Delft University of Technology, for helping me figure out Word2vec.
+ \paragraph{}
  Xander Wilcke, from the VU Amsterdam, for inspiring me to combine Machine Learning with the Semantic Web.
- Sanna Dinh, my partner, for spending countless hours in the night making this thesis readable and designing many of the images, making this thesis understandable.
- Marianne, my mother-in-law, for being available on Skype at the most unconventional times to advise and proof-read. Flynn, my pug - For the fresh air when I needed a minute to relax.
+ \paragraph{}
+ Sanna Dinh, my partner, for spending countless late hours making this thesis readable and designing many of the images, making this thesis understandable.
+ \paragraph{}
+ Marianne, my mother-in-law, for being available on Skype at the most unconventional times to advise and proof-read. 
+  \paragraph{}
+ Flynn, my pug, for the fresh air during our walks when I needed a minute to relax.
  
- \section*{Abstract}
+ \newpage 
+ \begin{abstract}
  McCallum proposed using distributed word embeddings for knowledge base completion, the problem of finding relations \textit{within} a knowledge base. In this study distributed word embeddings were used for ontology matching, the problem of finding relations \textit{between} knowledge bases. To test if distributed word embeddings also work on ontology matching, multiple algorithms that adapt these embeddings to ontology graphs were implemented.
  
  The conclusion is that distributed word embeddings can be applied to ontology matching. The performance is not as good as the state-of-the-art methods yet. However, distributed word embeddings have potential to improve with more data as opposed to current methods which are hand-crafted.
+ \end{abstract}
  
- \section*{Summary}
+ \newpage
  \tableofcontents
  \newpage
- 
- %Vragen
- % Hypothese waarom ik dat denk? Antwoord see Arjen notes
- % extra hypothese. Antwoord see Arjen notes (I think? otherwise its: don't add ensemble hypothesis)
  
  \pagenumbering{arabic}
  \section{Introduction} \label{intro}
@@ -340,8 +352,14 @@ The Universal Schema uses two steps. Firstly, the system learns embeddings of en
  \paragraph{}
  Applications include improved web searching, question answering, product comparison, context merging, data integration, decision support, translation, all the way up to the intelligent softbot mentioned earlier\cite{schreiber, future}.
  
- An example: since the Hummingbird update, when someone Googles "Who is Barack Obama" they will find a part of the Knowledge Graph, see Figure \ref{hummingbird}.. This system improves web searching by finding answers rather than pages. 
- \paragraph{}
+ An example: since the Hummingbird update, when someone Googles "How old is Barack Obama" they will find a part of the Knowledge Graph, see Figure \ref{hummingbird}. This system improves web searching by finding answers rather than pages. 
+ 
+ \begin{figure}
+ \includegraphics[width=\textwidth]{plots/hummingbird}
+ \caption[Hummingbird search]{A google search after the Hummingbird update returns a triple from Google's knowledge base, the Knowledge Graph.}
+ \label{hummingbird}
+ \end{figure}
+ 
  The many uses of ontology matching and its role in the Semantic Web show that it is important to research all avenues that might improve ontology matching, as it will have a direct result in many fields.
  
  \subsection{Ontologies}
@@ -611,9 +629,31 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
   This model was chosen because of its ease of implementation and to see if the graph-based context improves ontology matching over the text-based context.
   \subsubsection{DeepWalk}
   DeepWalk generates sentences by randomly walking through the ontology and processes those sentences using a normal word embedding model. This means it is possible to have a wide neighbourhood, as the neighbours of neighbours are also used as context, or even further neighbours depending on the scope of the algorithm. It also allows for weighting of edges to change the sampling rate of the random walk, which can be used to prioritize important nodes or highlight informative neighbours.
-  One adaptation over normal Deepwalk that was considered is switching between ontologies when on a concept from the correspondence set. For example, if both ontologies contain \textit{eye}, when the algorithm lands on the corresponding node, it will have a chance to switch to the other ontology. As such the sentence will contain concepts from both ontologies and they will move closer together. See \ref{sentences} for an example of the sentences generated by DeepWalk.
+  One adaptation over normal Deepwalk that was considered is switching between ontologies when on a concept from the correspondence set. For example, if both ontologies contain \textit{eye}, when the algorithm lands on the corresponding node, it will have a chance to switch to the other ontology. As such the sentence will contain concepts from both ontologies and they will move closer together. See Section \ref{sentences} for an example of the sentences generated by DeepWalk. See Figure \ref{embedding_alignment} for an example of two ontology graphs being mapped to the same space.
+  
+  \begin{figure}
+  \centering
+  \includegraphics[width=0.6\textwidth]{plots/embedding_alignment}
+  \caption[Two graphs embedded]{Two graphs with a few corresponding nodes are embedded into vector space. Because of the known correspondences the latent correspondences are also mapped close to each other.}
+  \label{embedding_alignment}
+  \end{figure}
+  
   \subsubsection{Node vectorisation}
-  The most basic \emph{Node2vec} model converts a node to a vector purely based on its own label. This method has one advantage over simple string matching: if no node is found in the other ontology that matches exactly, we can still find a node that is similar since it is close in the vector space. Therefore, this method should already be an improvement over the most basic string matching algorithms. It may even be competitive with more advanced string matchers (that look at substrings of labels). For example, \emph{whisker} and \emph{moustache} may be matched by a substring matcher, but are also semantically similar since they will often be mentioned in the same context.
+  The most basic \emph{Node2vec} model converts a node to a vector purely based on its own label. This method has one advantage over simple string matching: if no node is found in the other ontology that matches exactly, we can still find a node that is similar since it is close in the vector space. Therefore, this method should already be an improvement over the most basic string matching algorithms. It may even be competitive with more advanced string matchers (that look at substrings of labels). See Figure \ref{ontology_matrix}.
+  
+  \begin{figure}
+  \begin{subfigure}{0.45\textwidth}
+  \includegraphics[width=\textwidth]{plots/ontology_matching_matrix}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{plots/ontology_matching_matrix2}
+  \end{subfigure}
+  \caption[Tensor with multiple ontologies]{The ontologies represented as a tensor. The connections (in green) are only within the ontologies, not between. The embeddings are used to predict new connections between the ontologies (in light green)}
+  \label{ontology_matrix}
+  \end{figure}
+  
+  An example, \emph{whisker} and \emph{moustache} may be matched by a substring matcher, but are also semantically similar since they will often be mentioned in the same context.
   This method was chosen because it is the foundation of all other models that use the graph-context. It is required to see if the extensions improve results.
   \subsubsection{Bidirectional connections}
   More connections means bigger context. For neural networks more data is always a good things. Therefore it is likely that this will improve results somewhat.
@@ -819,7 +859,7 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
   \hline
   Label Match & 0.6926 & 0.4905 \\
   Random & 0.6926 & 0.4905 \\
-  Pre-trained & 0.6926 & 0.3874 \\
+  Pre-trained & 0.6926 & 0.4905 \\
   Bidirectional & 0.8432 & 0.4946 \\
   Multi-sense & 0.6926 & 0.4905 \\
   Deepwalk & 0.6926 & 0.4906 \\
@@ -827,10 +867,6 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
   \textbf{AML ensemble} & \textbf{0.94} & \textbf{0.81} \\
   \end{tabular}
   \end{table}
-   
- \newpage
- \subsection{Interpretation}
- %TODO interpretation
  
   
  \newpage
@@ -846,7 +882,7 @@ The goal of any ontology matcher is to find an alignment between two ontologies 
  }
  \end{center}
  
- To answer this question I have examined the following points from Section \ref{hypotheses} for every algorithm (Pre-trained Word2vec, DeepWalk, Node2vec):
+ To answer this question I have examined the following points from Section \ref{researchquestion} for every algorithm (Pre-trained Word2vec, DeepWalk, Node2vec):
  
 \paragraph{The algorithm uses distributed representations of concepts}
  From Section \ref{implementations} it is clear that every single algorithm uses distributed representations. To summarize:
@@ -895,7 +931,7 @@ This is correct as the inputs are always two ontologies and the output is always
  \listoftables
  
  \newpage
- \bibliographystyle{plain}
+ \bibliographystyle{unsrt}
  \bibliography{bibliography}{}
  
  
