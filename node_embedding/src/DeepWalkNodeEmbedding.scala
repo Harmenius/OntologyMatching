@@ -1,9 +1,9 @@
-import cc.factorie.app.nlp.embeddings.{SkipGramNegSamplingEmbeddingModel, SkipGramNegSamplingExample}
-import com.hp.hpl.jena.rdf.model.{RDFNode, Resource, Statement}
+import cc.factorie.{DenseTensor1, Example}
+import cc.factorie.app.nlp.embeddings.{TensorUtils}
+import cc.factorie.la.WeightsMapAccumulator
+import cc.factorie.util.DoubleAccumulator
+import com.hp.hpl.jena.rdf.model.{RDFNode}
 
-import scala.util.Random
-import scala.collection.JavaConverters._
-import scala.collection.immutable.{HashMap, List}
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
@@ -11,6 +11,12 @@ import scala.collection.mutable.ArrayBuffer
   * Created by harmen on 16-6-16.
   */
 class DeepWalkNodeEmbedding extends SkipGramNodeEmbedding {
+  var synonyms: mutable.HashMap[String, String] = null
+
+  def setOntology(ontology: SharedOntology) = {
+    this.ontology = ontology
+  }
+
 
   val URIs = Array("http://mouse.owl#",
                    "http://human.owl#")
@@ -102,7 +108,8 @@ class DeepWalkNodeEmbedding extends SkipGramNodeEmbedding {
           val weights = getWeights(neighbors)
           val i = getSample(weights)
           val w = neighbors(i)
-          if (vocab.asInstanceOf[MultiVocabBuilder].getVocab(other(curOnt)).getId(w) != -1) {
+          val w_ = if (synonyms == null) w else synonyms(w)
+          if (vocab.asInstanceOf[MultiVocabBuilder].getVocab(other(curOnt)).getId(w_) != -1) {
             // i.e. node is in other onto
             curOnt = maybeSwitch(curOnt)
           }
@@ -156,31 +163,75 @@ class DeepWalkNodeEmbedding extends SkipGramNodeEmbedding {
 
   override def process(doc: String): Int = {
     // given a document, below line splits by space and converts each word to Int (by vocab.getId) and filters out words not in vocab
-    var sen = doc.stripLineEnd.split(' ').map(word => vocab.getId(word)).filter(id => id != -1)
+    // id of a word is its freq-rank in the corpus
+    var sen = doc.stripLineEnd.split(' ').map(word => vocab.getId(word.toLowerCase())).filter(id => id != -1)
     val wordCount = sen.size
 
-    // subsampling -> speed increase
+    //
+    // subsampling the words : refer to Google's word2vec NIPS paper to understand this
+    //
     if (sample > 0)
       sen = sen.filter(id => subSample(id) != -1)
 
     val senLength = sen.size
     for (senPosition <- 0 until senLength) {
       val currWord = sen(senPosition)
-      val b = rng.nextInt(window)
+
+      //
+      // dynamic window-size as in word2vec.
+      //
+      val b =  rng.nextInt(window)
+
+      //
       // make the contexts
-      val contexts = new collection.mutable.ArrayBuffer[Int]
+      //
+      val contexts = new mutable.ArrayBuffer[Int]
       for (a <- b until window * 2 + 1 - b) if (a != window) {
         val c = senPosition - window + a
         if (c >= 0 && c < senLength)
           contexts += sen(c)
       }
-      // make the examples
+
+      // predict the sense of the word given the contexts. P(word-sense | word, contexts)
+      var rightSense = 0
+      rightSense  = cbow_predict_kmeans(currWord, contexts)
+
+      // make the examples. trainer is HogWild!
       contexts.foreach(context => {
-        trainer.processExample(new SkipGramNegSamplingExample(this, currWord, context, 1))
-        (0 until negative).foreach(neg => trainer.processExample(new SkipGramNegSamplingExample(this, currWord, vocab.getRandWordId, -1)))
+        // postive example
+        trainer.processExample(new MSCBOWSkipGramNegSamplingExample(this, currWord, rightSense, context, 1))
+        // for each POS example, make negative NEG examples.
+        //vocab.getRandWordId would get random word proportional (unigram-prob)^(0.75).
+        (0 until negative).foreach(neg => trainer.processExample(new MSCBOWSkipGramNegSamplingExample(this, currWord, rightSense, vocab.getRandWordId, -1)))
+
       })
     }
     return wordCount
+  }
+
+  val learnMultiVec = Array.fill[Boolean](V)(true)
+  val clusterCount  = Array.ofDim[Int](V, 3)
+  val clusterCenter = Array.ofDim[DenseTensor1](V, 3)
+  val sense_weights = (0 until V).map(v => (0 until 3).map(s => Weights(TensorUtils.setToRandom1(new DenseTensor1(D, 0)))))
+
+  def cbow_predict_kmeans(word: Int, contexts: Seq[Int]): Int = {
+    val contextsEmbedding = new DenseTensor1(D, 0)
+    contexts.foreach(context => contextsEmbedding.+=(weights(context).value))
+    var sense = 0
+
+    var minDist = Double.MaxValue
+    for (s <- 0 until 3) {
+      val mu = clusterCenter(word)(s)/(clusterCount(word)(s))
+      val dist = 1 - TensorUtils.cosineDistance(contextsEmbedding, mu)
+      if (dist < minDist) {
+        minDist = dist
+        sense = s
+      }
+    }
+    // update the cluster center
+    clusterCenter(word)(sense).+=(contextsEmbedding)
+    clusterCount(word)(sense) += 1
+    sense
   }
 
   def subSample(word: Int): Int = {
@@ -189,5 +240,44 @@ class DeepWalkNodeEmbedding extends SkipGramNodeEmbedding {
     if (prob < alpha) { return -1 }
     else return word
   }
+
+  def setSynonyms(synonyms: mutable.HashMap[String, String]): Unit = {
+    this.synonyms = synonyms
+  }
 }
 
+class MSCBOWSkipGramNegSamplingExample(model: DeepWalkNodeEmbedding, word: Int, sense : Int, context : Int, label: Int) extends Example {
+
+  // to understand the gradient and objective refer to : http://arxiv.org/pdf/1310.4546.pdf
+  def accumulateValueAndGradient(value: DoubleAccumulator, gradient: WeightsMapAccumulator): Unit = {
+
+    val wordEmbedding = model.sense_weights(word)(sense).value
+    val contextEmbedding = model.weights(context).value
+
+
+    val score: Double = wordEmbedding.dot(contextEmbedding)
+    val exp: Double = math.exp(-score) // TODO : pre-compute expTable similar to word2vec
+
+    var objective: Double = 0.0
+    var factor: Double = 0.0
+
+    // for POS Label
+    if (label == 1) {
+      objective = -math.log1p(exp) // log1p -> log(1+x)
+      factor = exp / (1 + exp)
+    }
+    // for NEG Label
+    if (label == -1) {
+      objective = -score - math.log1p(exp)
+      factor = -1 / (1 + exp)
+    }
+
+    if (value ne null) value.accumulate(objective)
+    if (gradient ne null) {
+      gradient.accumulate(model.sense_weights(word)(sense), contextEmbedding, factor)
+      // don;t update if global_weights is fixed.
+      gradient.accumulate(model.weights(context), wordEmbedding, factor)
+    }
+
+  }
+}

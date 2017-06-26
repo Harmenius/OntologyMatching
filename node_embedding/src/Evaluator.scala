@@ -24,7 +24,9 @@ object Evaluator {
     val M = truthset_.size
 
     val alignmentset_ = alignmentset.map(_.swap)
-    val count: Int = ((alignmentset union alignmentset_) intersect truthset_).size
+    val corrects = (alignmentset union alignmentset_) intersect truthset_
+    val new_corrects = corrects.filter(t => t._1 != t._2)
+    val count: Int = corrects.size
     (N, M, count)
   }
 
@@ -111,13 +113,13 @@ object Evaluator {
     println(sorted.slice(0,10) zip order.map(rs(_)))
 
     Visualizer.scatter(rs, ps)
-    val cutoff = ps.size
-    println("AP: " + ps.slice(0, cutoff).sum/cutoff)
+    val cutoff = 2000
+    //println("AP: " + ps.slice(0, cutoff).sum/cutoff)
     println("F: " + fs.max)
   }
 
   def main(args: Array[String]) {
-    model = new DeepWalkNodeEmbedding//new SkipGramNodeEmbedding()
+    model = new DeepWalkNodeEmbedding //new SkipGramNodeEmbedding() //
     val write = false
     if (write) {
       val o1 = new RDFOntology(WordSenseOpts.corpusses.value.split(";").head)
@@ -152,28 +154,30 @@ object Evaluator {
     } else {
       println("Starting")
 
+      /*
       val file = io.Source.fromFile("edgemappings.csv")
       val hm = new mutable.HashMap[String, String]()
       for (line <- file.getLines()) {
         hm.put(line.split(" ").head, line.split(" ").last)
       }
+      */
 
-      //val truth = loadTruth()
+      val truth = loadTruth()
 
       //model.buildVocab()
       //model.learnEmbeddings()
       //model.loadEmbeddings(hm)
 
-      val alignment = makeAlignment(alreadyloaded = false)
+      val alignment = makeAlignment(alreadyloaded =false)
       dotherest(alignment)
     }
   }
 
     def dotherest(alignment: Alignment) {
-      //Visualizer.hist_alignment(alignment)
-      alignment.set_threshold(-0.0075)
+      Visualizer.hist_alignment(alignment)
+      //alignment.set_threshold(0.0075)
       val truth = loadTruth()
-      //Visualizer.compare_hist(alignment, truth)
+      Visualizer.compare_hist(alignment, truth)
       val dice = compare(alignment, truth)
       //val synonyms = loadTruth(WordSenseOpts.synonyms.value)
       //val dice_ = compare(synonyms, truth)
@@ -206,7 +210,7 @@ object Evaluator {
 
   def calc(node1: String, node2: String): Double = {
     if (node1 == node2)
-      return -0.1
+      return -0.01
     val v1 = model.asInstanceOf[SkipGramNodeEmbedding].getVector(node1)
     val v2 = model.asInstanceOf[SkipGramNodeEmbedding].getVector(node2)
     val v = sqrt((v1 zip v2 map {case (x,y)=> (x - y) * (x - y)}).sum) // Euclidean vector distance
@@ -246,11 +250,18 @@ object Evaluator {
 
     println("Starting with aligning")
     val alignment = new Alignment
+
+    val ns2 = nodes2.toSet
+
     for(n1 <- nv1._2) {
-      for(n2 <- tree2.knn(model.asInstanceOf[SkipGramNodeEmbedding].getVector(n1), 2)) {
-        val n2_ = n2.value
-        if (!n1.contains("blank") && !n2_.contains("blank"))
-          alignment.add(n1, n2.value, calc(n1, n2.value))
+      if (ns2.contains(n1)) {
+        alignment.add(n1, n1, -0.01)
+      } else {
+        for (n2 <- tree2.knn(model.asInstanceOf[SkipGramNodeEmbedding].getVector(n1), 2)) {
+          val n2_ = n2.value
+          if (!n1.contains("blank") && !n2_.contains("blank"))
+            alignment.add(n1, n2.value, calc(n1, n2.value))
+        }
       }
     }
     println("Done aligning")

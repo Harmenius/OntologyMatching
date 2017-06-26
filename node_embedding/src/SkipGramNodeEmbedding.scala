@@ -24,8 +24,10 @@ class SkipGramNodeEmbedding() extends NodeEmbeddingModel {
     val words = doc.split(' ')
     var concepts = words.map(concept => vocab.getId(concept.toLowerCase))
 
-    if (concepts.length != 3)
+    if (concepts.length != 3) {
+      print("Weird context, continuing")
       return 0
+    }
 
     val conceptCount = concepts.length - (if (addEdges) 0 else 1)
 

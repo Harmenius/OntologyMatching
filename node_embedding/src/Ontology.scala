@@ -2,13 +2,14 @@ import cc.factorie.app.nlp.embeddings.FastLineReader
 import com.hp.hpl.jena.graph.Node_Literal
 import com.hp.hpl.jena.ontology.OntResource
 import com.hp.hpl.jena.ontology.impl.OntModelImpl
-import com.hp.hpl.jena.rdf.model._
+import com.hp.hpl.jena.rdf.model.{Model, RDFNode, Statement}
 import com.hp.hpl.jena.rdf.model.impl.LiteralImpl
 import com.hp.hpl.jena.util.FileManager
 import com.hp.hpl.jena.vocabulary.RDFS
 
 import scala.collection.JavaConverters._
 import scala.collection.immutable.HashMap
+import scala.collection.mutable
 
 abstract class Ontology {
   val LABEL_URI = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -107,13 +108,20 @@ class RDFOntology (filename: String, reference: Boolean = false) extends Ontolog
   }
 }
 
-class SharedOntology(filenames: String) extends Ontology {
-  val ontologies = new Array[Ontology](filenames.split(";").length)
-  val ontology_index = filenames.split(";").zipWithIndex.map{case (fn, i) => fn -> i}.toMap
+class SharedOntology() extends Ontology {
+  var ontologies: Array[Ontology] = null
+  var ontology_index: Map[String, Int] = null
 
-  init(filenames)
-  def init(filenames: String): Unit = {
+  def this(ontologies: Seq[Ontology]) {
+    this()
+    this.ontologies = ontologies.toArray
+  }
+
+  def this(filenames: String) {
+    this()
     printf("Building ontology from %s.%n", filenames)
+    ontologies = new Array[Ontology](filenames.split(";").length)
+    ontology_index = filenames.split(";").zipWithIndex.map{case (fn, i) => fn -> i}.toMap
     for ((filename, i) <- filenames.split(";").zipWithIndex) {
       if (filename.contains(".csv") || filename.contains(".tar.gz")) {
         ontologies.update(i, new CSVOntology(filename))
@@ -144,7 +152,7 @@ class SharedOntology(filenames: String) extends Ontology {
 
   def getOntologies = ontologies
   def getOntology(fn: String) = {
-    if (ontology_index.contains(fn))
+    if (ontology_index != null && ontology_index.contains(fn))
       ontologies(ontology_index(fn))
     else {
       println("Could not find ontology in shared ontology. Here's an empty one.")
@@ -156,7 +164,8 @@ class SharedOntology(filenames: String) extends Ontology {
 class CSVOntology(filename: String) extends Ontology {
 
   override def getNodes: Iterator[String] = {
-    new FastLineReader(filename).map[Array[String]](node => node.split(" ")).flatMap[String](a => Array(a(0), a(2)))
+    val nodes = new FastLineReader(filename).map[Array[String]](node => node.split(" "))
+    nodes.filter(e => e.size == 3).flatMap[String](a => Array(a(0), a(2)))
   }
 
   override def getEdges: Iterator[String] = {
@@ -174,3 +183,24 @@ class EmptyOntology() extends Ontology {
   }
 }
 
+class mutableOntology() extends Ontology {
+  val nodes = new mutable.HashSet[String]
+  val edges = new mutable.HashSet[(String, String)]
+
+  def getNodeset = nodes
+  def getEdgeset = nodes
+
+  override def getNodes: Iterator[String] = nodes.iterator
+
+  override def getEdges: Iterator[String] = edges.map(t => t._1 + " " + t._2).iterator
+  
+  def addNode(n: String): Unit = {
+    nodes.add(n)
+  }
+
+  def addEdge(a: String, b: String): Unit = {
+    nodes.add(a)
+    nodes.add(b)
+    edges.add((a,b))
+  }
+}

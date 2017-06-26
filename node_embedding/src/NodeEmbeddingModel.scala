@@ -31,7 +31,7 @@ abstract class NodeEmbeddingModel extends WordEmbeddingModel(WordSenseOpts) {
   protected var current_corpus = ""
 
   /**override**/ this.vocab = new MultiSynonymVocabBuilder()
-  protected val ontology : SharedOntology = new SharedOntology(corpusses)
+  protected var ontology : SharedOntology = new SharedOntology(corpusses)
   protected var train_nodes: Long = 0
 
   def getRootSynonym(w: String): String = {
@@ -190,7 +190,7 @@ abstract class NodeEmbeddingModel extends WordEmbeddingModel(WordSenseOpts) {
     for (it <- 0 until nIts) {
       println("Iteration: " + it)
       threadIds.par.foreach(workerThread(_, fileLen, 30))
-      //if (it % 10 == 0)
+      if (it % 5 == 0)
         store()
     }
     println("Done learning embeddings.")
